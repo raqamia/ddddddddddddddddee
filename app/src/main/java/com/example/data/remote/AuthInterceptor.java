@@ -16,6 +16,12 @@ public class AuthInterceptor implements Interceptor {
     private final SessionManager sessionManager;
     private static final String TAG = "AuthInterceptor";
 
+    // Reused across token refreshes so we don't allocate a new connection/thread pool each time.
+    private static final OkHttpClient REFRESH_CLIENT = new OkHttpClient.Builder()
+            .connectTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
+            .readTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
+            .build();
+
     public AuthInterceptor(SessionManager sessionManager) {
         this.sessionManager = sessionManager;
     }
@@ -78,10 +84,7 @@ public class AuthInterceptor implements Interceptor {
     }
 
     private void refreshAccessToken() throws Exception {
-        OkHttpClient refreshClient = new OkHttpClient.Builder()
-                .connectTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
-                .readTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
-                .build();
+        OkHttpClient refreshClient = REFRESH_CLIENT;
         JSONObject payload = new JSONObject();
         payload.put("refresh_token", sessionManager.getRefreshToken());
         RequestBody body = RequestBody.create(payload.toString(), MediaType.parse("application/json"));

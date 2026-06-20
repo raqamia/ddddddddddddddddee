@@ -24,7 +24,7 @@ public class AuthRepository {
         api.login(new LoginRequest(email, password)).enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
+                if (response.isSuccessful() && response.body() != null && response.body().getUser() != null) {
                     AuthResponse auth = response.body();
                     sessionManager.saveTokens(
                             auth.getAccessToken(),
@@ -51,7 +51,7 @@ public class AuthRepository {
         api.register(request).enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
+                if (response.isSuccessful() && response.body() != null && response.body().getUser() != null) {
                     AuthResponse auth = response.body();
                     sessionManager.saveTokens(
                             auth.getAccessToken(),
