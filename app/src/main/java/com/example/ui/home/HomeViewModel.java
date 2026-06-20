@@ -1,9 +1,11 @@
 package com.example.ui.home;
 
 import android.app.Application;
+import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import com.example.data.local.AppDatabase;
@@ -11,16 +13,21 @@ import com.example.data.local.entity.SubjectEntity;
 import com.example.data.prefs.AppPreferences;
 import com.example.data.prefs.SessionManager;
 import com.example.data.remote.SupabaseApiClient;
+import com.example.data.remote.dto.ProfileDto;
+import com.example.data.repository.ProfileRepository;
 import com.example.data.repository.SubjectRepository;
 
 public class HomeViewModel extends AndroidViewModel {
 
     private final SubjectRepository repository;
+    private final ProfileRepository profileRepository;
     private final AppPreferences prefs;
     private final SessionManager sessionManager;
-    private final MutableLiveData<String> greeting = new MutableLiveData<>("مرحباً يا بطل");
+    private final MutableLiveData<String> trackGreeting = new MutableLiveData<>("مرحباً يا بطل");
     private final MutableLiveData<String> currentTrack = new MutableLiveData<>();
     private final LiveData<java.util.List<SubjectEntity>> subjects;
+    private final LiveData<String> userName;
+    private final MediatorLiveData<String> greeting = new MediatorLiveData<>();
 
     public HomeViewModel(@NonNull Application application) {
         super(application);
@@ -31,11 +38,31 @@ public class HomeViewModel extends AndroidViewModel {
                 SupabaseApiClient.getApi(sessionManager),
                 db.subjectDao()
         );
+        profileRepository = new ProfileRepository(
+                SupabaseApiClient.getApi(sessionManager),
+                sessionManager
+        );
         subjects = Transformations.switchMap(currentTrack, track ->
                 repository.getSubjectsByTrackLive(track)
         );
-        // The hosting fragment triggers the initial load in onViewCreated, so there is no
-        // need to also load here (which caused a duplicate fetch / lost-first-emission race).
+        userName = Transformations.map(profileRepository.getProfile(),
+                p -> p != null ? p.getName() : null);
+
+        // Greet by name once the profile loads, otherwise fall back to the track label.
+        greeting.addSource(trackGreeting, g -> recomputeGreeting());
+        greeting.addSource(userName, n -> recomputeGreeting());
+
+        profileRepository.fetchProfile();
+        // The hosting fragment triggers the initial subjects load in onViewCreated.
+    }
+
+    private void recomputeGreeting() {
+        String name = userName.getValue();
+        if (!TextUtils.isEmpty(name)) {
+            greeting.setValue("مرحباً، " + name + " 👋");
+        } else {
+            greeting.setValue(trackGreeting.getValue());
+        }
     }
 
     public LiveData<java.util.List<SubjectEntity>> getSubjects() {
@@ -46,6 +73,10 @@ public class HomeViewModel extends AndroidViewModel {
         return greeting;
     }
 
+    public LiveData<ProfileDto> getProfile() {
+        return profileRepository.getProfile();
+    }
+
     public LiveData<Boolean> getNetworkError() {
         return repository.getNetworkError();
     }
@@ -53,11 +84,11 @@ public class HomeViewModel extends AndroidViewModel {
     public void loadSubjects(String track) {
         currentTrack.setValue(track);
         if ("scientific".equals(track)) {
-            greeting.setValue("مسار علمي");
+            trackGreeting.setValue("مسار علمي");
         } else if ("literary".equals(track)) {
-            greeting.setValue("مسار أدبي");
+            trackGreeting.setValue("مسار أدبي");
         } else {
-            greeting.setValue("اختر مسارك");
+            trackGreeting.setValue("اختر مسارك");
         }
         repository.fetchAndStoreSubjects(track);
     }

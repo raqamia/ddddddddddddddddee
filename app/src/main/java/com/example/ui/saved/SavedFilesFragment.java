@@ -18,8 +18,12 @@ import com.example.R;
 import com.example.data.local.AppDatabase;
 import com.example.data.prefs.SessionManager;
 import com.example.data.remote.SupabaseApiClient;
+import com.example.data.local.entity.FileEntity;
 import com.example.data.repository.DownloadRepository;
 import com.example.ui.subject.FileAdapter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class SavedFilesFragment extends Fragment {
 
@@ -53,15 +57,24 @@ public class SavedFilesFragment extends Fragment {
                 AppDatabase.getDatabase(appContext).downloadDao()
         );
 
-        adapter = new FileAdapter(file -> {
-            // The local path lives in the DB, so look it up off the main thread before navigating.
-            downloadRepo.getDownloadStatusAsync(file.id, download -> {
-                if (!isAdded()) return;
-                Bundle args = new Bundle();
-                args.putString("fileName", file.name);
-                if (download != null) args.putString("localPath", download.localPath);
-                Navigation.findNavController(view).navigate(R.id.action_global_pdfViewerFragment, args);
-            });
+        adapter = new FileAdapter(new FileAdapter.OnItemClickListener() {
+            @Override
+            public void onDownloadClick(FileEntity file) {
+                // The local path lives in the DB, so look it up off the main thread before navigating.
+                downloadRepo.getDownloadStatusAsync(file.id, download -> {
+                    if (!isAdded()) return;
+                    Bundle args = new Bundle();
+                    args.putString("fileName", file.name);
+                    if (download != null) args.putString("localPath", download.localPath);
+                    Navigation.findNavController(view).navigate(R.id.action_global_pdfViewerFragment, args);
+                });
+            }
+
+            @Override
+            public void onSaveToggle(FileEntity file, boolean save) {
+                // Everything here is already a favourite, so this removes it.
+                viewModel.toggleSave(file.id, save);
+            }
         });
         rvSavedFiles.setAdapter(adapter);
 
@@ -69,6 +82,9 @@ public class SavedFilesFragment extends Fragment {
             progressBar.setVisibility(View.GONE);
             if (files != null && !files.isEmpty()) {
                 adapter.setFiles(files);
+                Set<String> ids = new HashSet<>();
+                for (FileEntity f : files) ids.add(f.id);
+                adapter.setSavedIds(ids);
                 rvSavedFiles.setVisibility(View.VISIBLE);
                 emptyState.setVisibility(View.GONE);
             } else {

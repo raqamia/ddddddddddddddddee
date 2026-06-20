@@ -24,7 +24,11 @@ import com.example.data.prefs.SessionManager;
 import com.example.data.remote.SupabaseApiClient;
 import com.example.data.repository.DownloadRepository;
 import com.example.data.repository.FileDownloadRepository;
+import com.example.data.repository.SavedRepository;
 import com.example.util.ErrorMessages;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class SubjectFilesFragment extends Fragment {
 
@@ -42,6 +46,7 @@ public class SubjectFilesFragment extends Fragment {
     private ProgressBar progressBar;
     private DownloadRepository downloadRepo;
     private FileDownloadRepository fileDownloadRepo;
+    private SavedRepository savedRepo;
 
     public static SubjectFilesFragment newInstance(String subjectId, String category) {
         SubjectFilesFragment fragment = new SubjectFilesFragment();
@@ -95,19 +100,46 @@ public class SubjectFilesFragment extends Fragment {
                 sessionManager,
                 appContext
         );
+        savedRepo = new SavedRepository(
+                SupabaseApiClient.getApi(sessionManager),
+                AppDatabase.getDatabase(appContext).savedDao(),
+                AppDatabase.getDatabase(appContext).fileDao(),
+                sessionManager
+        );
 
-        adapter = new FileAdapter(file -> {
-            // Reading the download status touches the DB, so it must run off the main thread.
-            downloadRepo.getDownloadStatusAsync(file.id, existing -> {
-                if (!isAdded()) return;
-                if (existing != null && "COMPLETED".equals(existing.state) && existing.localPath != null) {
-                    openPdf(existing.localPath, file.name);
-                } else {
-                    startDownload(file);
-                }
-            });
+        adapter = new FileAdapter(new FileAdapter.OnItemClickListener() {
+            @Override
+            public void onDownloadClick(com.example.data.local.entity.FileEntity file) {
+                // Reading the download status touches the DB, so it must run off the main thread.
+                downloadRepo.getDownloadStatusAsync(file.id, existing -> {
+                    if (!isAdded()) return;
+                    if (existing != null && "COMPLETED".equals(existing.state) && existing.localPath != null) {
+                        openPdf(existing.localPath, file.name);
+                    } else {
+                        startDownload(file);
+                    }
+                });
+            }
+
+            @Override
+            public void onSaveToggle(com.example.data.local.entity.FileEntity file, boolean save) {
+                savedRepo.setSaved(file.id, save);
+                Toast.makeText(requireContext(),
+                        save ? "تم الحفظ في المفضلة" : "تمت الإزالة من المفضلة",
+                        Toast.LENGTH_SHORT).show();
+            }
         });
         rvFiles.setAdapter(adapter);
+
+        // Reflect the saved/bookmarked state on the file list and keep it in sync with the server.
+        savedRepo.getSavedLive().observe(getViewLifecycleOwner(), saved -> {
+            Set<String> ids = new HashSet<>();
+            if (saved != null) {
+                for (com.example.data.local.entity.SavedFileEntity s : saved) ids.add(s.fileId);
+            }
+            if (adapter != null) adapter.setSavedIds(ids);
+        });
+        savedRepo.syncFromServer();
 
         viewModel.getFiles().observe(getViewLifecycleOwner(), files -> {
             progressBar.setVisibility(View.GONE);

@@ -16,6 +16,9 @@ public interface FileDao {
     @Query("SELECT * FROM files")
     LiveData<List<FileEntity>> getAllFilesLive();
 
+    @Query("SELECT * FROM files WHERE id IN (:ids)")
+    LiveData<List<FileEntity>> getFilesByIdsLive(List<String> ids);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<FileEntity> files);
 

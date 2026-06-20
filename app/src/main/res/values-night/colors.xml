@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark theme overrides. Brand colours (navy/gold) are kept; only the neutral
+         surfaces and text colours are swapped so cards, backgrounds and body text
+         read correctly at night. -->
+
+    <!-- Backgrounds / surfaces -->
+    <color name="background">#1C1B1F</color>
+    <color name="surface">#2B2930</color>
+    <color name="border">#49454F</color>
+
+    <!-- Text -->
+    <color name="text_primary">#E6E1E5</color>
+    <color name="text_secondary">#CAC4D0</color>
+    <color name="text_muted">#938F99</color>
+</resources>

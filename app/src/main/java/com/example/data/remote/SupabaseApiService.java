@@ -32,7 +32,7 @@ public interface SupabaseApiService {
     Call<List<FileDto>> getFiles(@Query("subject_id") String subjectIdEq, @Query("category") String categoryEq, @Header("Authorization") String bearer);
 
     @GET("rest/v1/saved_files")
-    Call<List<SavedFileDto>> getSavedFiles(@Query("user_id") String userIdEq, @Header("Authorization") String bearer);
+    Call<List<SavedFileDto>> getSavedFiles(@Query("user_id") String userIdEq, @Query("select") String select, @Header("Authorization") String bearer);
 
     @POST("rest/v1/saved_files")
     Call<Void> saveFile(@Body Map<String, String> body, @Header("Authorization") String bearer);

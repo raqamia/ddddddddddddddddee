@@ -33,6 +33,10 @@ public class FileRepository {
         return dao.getAllFilesLive();
     }
 
+    public LiveData<List<FileEntity>> getFilesByIdsLive(List<String> ids) {
+        return dao.getFilesByIdsLive(ids);
+    }
+
     /** Emits {@code true} when the last refresh failed so the UI can show a message. */
     public LiveData<Boolean> getNetworkError() {
         return networkError;

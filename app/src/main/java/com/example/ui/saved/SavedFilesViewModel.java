@@ -6,12 +6,12 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 import com.example.data.local.AppDatabase;
-import com.example.data.local.entity.DownloadEntity;
 import com.example.data.local.entity.FileEntity;
+import com.example.data.local.entity.SavedFileEntity;
 import com.example.data.prefs.SessionManager;
 import com.example.data.remote.SupabaseApiClient;
-import com.example.data.repository.DownloadRepository;
 import com.example.data.repository.FileRepository;
+import com.example.data.repository.SavedRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
 public class SavedFilesViewModel extends AndroidViewModel {
 
     private final FileRepository fileRepository;
-    private final DownloadRepository downloadRepository;
+    private final SavedRepository savedRepository;
     private final LiveData<List<FileEntity>> savedFiles;
 
     public SavedFilesViewModel(@NonNull Application application) {
@@ -30,36 +30,36 @@ public class SavedFilesViewModel extends AndroidViewModel {
                 SupabaseApiClient.getApi(sessionManager),
                 db.fileDao()
         );
-        downloadRepository = new DownloadRepository(
+        savedRepository = new SavedRepository(
                 SupabaseApiClient.getApi(sessionManager),
-                db.downloadDao()
+                db.savedDao(),
+                db.fileDao(),
+                sessionManager
         );
 
-        LiveData<List<DownloadEntity>> downloads = downloadRepository.getCompletedDownloadsLive();
-        LiveData<List<FileEntity>> allFiles = fileRepository.getAllFilesLive();
-
-        this.savedFiles = Transformations.switchMap(downloads, dl ->
-            Transformations.map(allFiles, files -> {
-                if (dl == null || files == null) return new ArrayList<>();
-                List<String> downloadedFileIds = new ArrayList<>();
-                for (DownloadEntity d : dl) {
-                    downloadedFileIds.add(d.fileId);
-                }
-                List<FileEntity> result = new ArrayList<>();
-                for (FileEntity f : files) {
-                    if (downloadedFileIds.contains(f.id)) {
-                        result.add(f);
-                    }
-                }
-                return result;
-            })
-        );
+        // The favourites screen joins the locally cached saved-ids with the cached file metadata.
+        this.savedFiles = Transformations.switchMap(savedRepository.getSavedLive(), saved -> {
+            List<String> ids = new ArrayList<>();
+            if (saved != null) {
+                for (SavedFileEntity s : saved) ids.add(s.fileId);
+            }
+            return fileRepository.getFilesByIdsLive(ids);
+        });
     }
 
     public LiveData<List<FileEntity>> getSavedFiles() {
         return savedFiles;
     }
 
+    public LiveData<Boolean> getNetworkError() {
+        return savedRepository.getNetworkError();
+    }
+
+    public void toggleSave(String fileId, boolean save) {
+        savedRepository.setSaved(fileId, save);
+    }
+
     public void loadSavedFiles() {
+        savedRepository.syncFromServer();
     }
 }

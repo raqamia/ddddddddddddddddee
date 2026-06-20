@@ -29,7 +29,7 @@
         android:textColor="@color/text_primary"
         android:textSize="15sp"
         app:layout_constraintStart_toEndOf="@id/iv_file_icon"
-        app:layout_constraintEnd_toStartOf="@id/btn_action"
+        app:layout_constraintEnd_toStartOf="@id/btn_save"
         app:layout_constraintTop_toTopOf="@id/iv_file_icon" />
 
     <TextView
@@ -43,14 +43,27 @@
         android:textColor="@color/text_muted"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@id/iv_file_icon"
-        app:layout_constraintEnd_toStartOf="@id/btn_action"
+        app:layout_constraintEnd_toStartOf="@id/btn_save"
         app:layout_constraintTop_toBottomOf="@id/tv_file_name" />
+
+    <ImageButton
+        android:id="@+id/btn_save"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="حفظ"
+        android:src="@drawable/ic_bookmark_outline"
+        app:tint="@color/gold_light"
+        app:layout_constraintEnd_toStartOf="@id/btn_action"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <ImageButton
         android:id="@+id/btn_action"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="تحميل"
         android:src="@drawable/ic_cloud_download_outline"
         app:tint="@color/navy"
         app:layout_constraintEnd_toEndOf="parent"
