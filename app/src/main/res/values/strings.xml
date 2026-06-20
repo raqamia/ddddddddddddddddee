@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">منارة</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_title_1">كل مواد التوجيهي في مكان واحد</string>
+    <string name="onboarding_desc_1">دروس، امتحانات سابقة، وملخصات منظمة حسب مسارك التعليمي</string>
+    <string name="onboarding_title_2">بدون تشتيت، بدون دردشة</string>
+    <string name="onboarding_desc_2">تجربة قراءة هادئة تركز على ما يهمك: النجاح</string>
+    <string name="onboarding_title_3">حمّل واقرأ بدون إنترنت</string>
+    <string name="onboarding_desc_3">احفظ الملفات على جهازك وطالعها في أي وقت وأي مكان</string>
+    <string name="skip">تخطي</string>
+    <string name="next">التالي</string>
+    <string name="start">ابدأ الآن</string>
+
+    <!-- Auth -->
+    <string name="login">تسجيل الدخول</string>
+    <string name="register">إنشاء حساب</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="password">كلمة المرور</string>
+    <string name="confirm_password">تأكيد كلمة المرور</string>
+    <string name="full_name">الاسم الكامل</string>
+    <string name="agree_terms">أوافق على الشروط والأحكام</string>
+    <string name="no_account">ليس لديك حساب؟</string>
+    <string name="has_account">لديك حساب بالفعل؟</string>
+    <string name="login_error_invalid_grant">البريد الإلكتروني أو كلمة المرور غير صحيحة</string>
+    <string name="login_error_user_exists">هذا البريد الإلكتروني مسجّل مسبقاً</string>
+    <string name="login_error_email_not_confirmed">يرجى تأكيد بريدك الإلكتروني أولاً</string>
+    <string name="login_error_weak_password">كلمة المرور يجب أن تكون ٨ أحرف على الأقل</string>
+    <string name="login_error_network">تحقق من اتصالك بالإنترنت</string>
+    <string name="login_error_token_expired">انتهت جلستك، يرجى تسجيل الدخول مجدداً</string>
+    <string name="login_error_default">حدث خطأ، حاول مرة أخرى</string>
+
+    <!-- Track Selection -->
+    <string name="choose_track">اختر مسارك الدراسي</string>
+    <string name="track_scientific">علمي</string>
+    <string name="track_literary">أدبي</string>
+    <string name="track_scientific_desc">رياضيات، فيزياء، كيمياء، أحياء</string>
+    <string name="track_literary_desc">تاريخ، جغرافيا، لغة عربية، تربية إسلامية</string>
+    <string name="confirm">تأكيد</string>
+
+    <!-- Home -->
+    <string name="greeting_default">مرحباً يا بطل</string>
+    <string name="greeting_scientific">مسار علمي</string>
+    <string name="greeting_literary">مسار أدبي</string>
+    <string name="greeting_no_track">اختر مسارك</string>
+    <string name="subjects">المواد</string>
+
+    <!-- Subject Detail -->
+    <string name="tab_books">الكتب</string>
+    <string name="tab_exams">امتحانات سابقة</string>
+    <string name="tab_summaries">ملخصات</string>
+    <string name="filter">تصفية</string>
+
+    <!-- Files -->
+    <string name="download">تحميل</string>
+    <string name="downloading">جارٍ التحميل…</string>
+    <string name="downloaded">تم التحميل</string>
+    <string name="failed">فشل التحميل</string>
+    <string name="megabyte">ميغابايت</string>
+    <string name="pages">صفحة</string>
+    <string name="file_not_found">الملف غير موجود على الجهاز</string>
+    <string name="pdf_render_error">حدث خطأ أثناء فتح الملف</string>
+
+    <!-- Saved -->
+    <string name="saved_files">الملفات المحفوظة</string>
+    <string name="no_saved_files">لا توجد ملفات محفوظة بعد</string>
+    <string name="no_saved_files_desc">حمّل ملفاتك من المواد لتظهر هنا</string>
+
+    <!-- Settings -->
+    <string name="settings">الإعدادات</string>
+    <string name="change_track">تغيير المسار الدراسي</string>
+    <string name="change_track_desc">اختر مساراً دراسياً آخر</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="logout_desc">إنهاء الجلسة الحالية</string>
+    <string name="logout_confirm">هل أنت متأكد من تسجيل الخروج؟</string>
+    <string name="cancel">إلغاء</string>
+
+    <!-- PDF Viewer -->
+    <string name="page_of">من</string>
+
+    <!-- General -->
+    <string name="loading">جارٍ التحميل…</string>
+    <string name="error_occurred">حدث خطأ، حاول مرة أخرى</string>
+    <string name="retry">إعادة المحاولة</string>
+    <string name="ok">حسناً</string>
+</resources>

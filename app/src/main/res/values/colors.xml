@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand (Mapped to Clean Minimalism M3 Purple/Lilac) -->
+    <color name="navy">#6750A4</color>
+    <color name="navy_light">#21005D</color>
+    <color name="gold">#EADDFF</color>
+    <color name="gold_light">#D0BCFF</color>
+
+    <!-- Backgrounds -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="background">#FEF7FF</color>
+    <color name="surface">#F7F2FA</color>
+    <color name="border">#CAC4D0</color>
+
+    <!-- Text -->
+    <color name="text_primary">#1D1B20</color>
+    <color name="text_secondary">#49454F</color>
+    <color name="text_muted">#79747E</color>
+    <color name="text_light">#FFFFFF</color>
+
+    <!-- Status -->
+    <color name="success">#38A169</color>
+    <color name="warning">#D69E2E</color>
+    <color name="error">#E53E3E</color>
+    <color name="info">#3182CE</color>
+
+    <!-- Overlay tints for navy header -->
+    <color name="white_5">#0DFFFFFF</color>
+    <color name="white_8">#14FFFFFF</color>
+    <color name="white_10">#1AFFFFFF</color>
+    <color name="white_25">#40FFFFFF</color>
+    <color name="white_35">#59FFFFFF</color>
+    <color name="white_45">#73FFFFFF</color>
+    <color name="gold_15">#26EADDFF</color>
+    <color name="gold_20">#33D0BCFF</color>
+
+    <!-- Subjects -->
+    <color name="subject_math">#6B48FF</color>
+    <color name="subject_math_bg">#F0EEFF</color>
+    <color name="subject_physics">#1A6B9A</color>
+    <color name="subject_physics_bg">#E8F4FF</color>
+    <color name="subject_chemistry">#E53E3E</color>
+    <color name="subject_chemistry_bg">#FFF0F0</color>
+    <color name="subject_biology">#38A169</color>
+    <color name="subject_biology_bg">#EDFAF3</color>
+    <color name="subject_arabic">#D69E2E</color>
+    <color name="subject_arabic_bg">#FFFBEB</color>
+    <color name="subject_english">#3182CE</color>
+    <color name="subject_english_bg">#EBF4FF</color>
+    <color name="subject_islamic">#744210</color>
+    <color name="subject_islamic_bg">#FFF8F0</color>
+    <color name="subject_history">#805AD5</color>
+    <color name="subject_history_bg">#F3EEFF</color>
+    <color name="subject_geography">#2F855A</color>
+    <color name="subject_geography_bg">#E6FAF0</color>
+    <color name="subject_sociology">#C05621</color>
+    <color name="subject_sociology_bg">#FFF3EE</color>
+    <color name="subject_economics">#2C7A7B</color>
+    <color name="subject_economics_bg">#E6FAFA</color>
+    <color name="subject_math_lit">#9F7AEA</color>
+    <color name="subject_math_lit_bg">#F5F0FF</color>
+</resources>

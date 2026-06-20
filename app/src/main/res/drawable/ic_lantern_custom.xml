@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- خلفية كحلية -->
+    <path
+        android:fillColor="#21005D"
+        android:pathData="M0,0h108v108h-108z" />
+    <!-- الفانوس - الجسم العلوي -->
+    <path
+        android:fillColor="#EADDFF"
+        android:fillAlpha="0.95"
+        android:pathData="M54,30 L62,38 L62,50 C62,56 58,62 54,64 C50,62 46,56 46,50 L46,38 Z" />
+    <!-- الفانوس - القاعدة -->
+    <path
+        android:fillColor="#EADDFF"
+        android:fillAlpha="0.7"
+        android:pathData="M48,64 L60,64 L58,70 L50,70 Z" />
+    <!-- الفانوس - الحلقة العلوية -->
+    <path
+        android:fillColor="#D0BCFF"
+        android:pathData="M54,26 C55.5,26 56.5,27 56.5,28 L51.5,28 C51.5,27 52.5,26 54,26 Z" />
+    <!-- الضوء الأصفر -->
+    <path
+        android:fillColor="#FFD54F"
+        android:fillAlpha="0.4"
+        android:pathData="M50,42 C50,38 58,38 58,42 L58,52 C58,56 50,56 50,52 Z" />
+    <!-- الضوء المتوهج -->
+    <path
+        android:fillColor="#FFE082"
+        android:fillAlpha="0.2"
+        android:pathData="M46,36 C46,30 62,30 62,36 L62,58 C62,64 46,64 46,58 Z" />
+    <!-- نجمة صغيرة -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.8"
+        android:pathData="M72,28 L73,31 L76,31 L73.5,33 L74.5,36 L72,34 L69.5,36 L70.5,33 L68,31 L71,31 Z" />
+    <!-- نجمة صغيرة -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.6"
+        android:pathData="M38,22 L38.8,24.5 L41,24.5 L39.2,26 L40,28.5 L38,27 L36,28.5 L36.8,26 L35,24.5 L37.2,24.5 Z" />
+</vector>
