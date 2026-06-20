@@ -78,14 +78,39 @@ CREATE POLICY "allow_insert_for_own_user" ON public.saved_files
     FOR INSERT WITH CHECK (auth.uid() = user_id);
 ```
 
-### متغيرات البيئة
+### إعداد Supabase (URL والمفتاح)
 
-أنشئ ملف `.env` في مجلد المشروع:
+قيم `SUPABASE_URL` و`SUPABASE_ANON_KEY` معرّفة مباشرةً في `app/build.gradle.kts`
+عبر `buildConfigField` وتُقرأ في الكود من `BuildConfig`. مفتاح `anon` مفتاح عام
+بطبيعته (محمي بسياسات RLS على الخادم) فلا مشكلة في تضمينه داخل التطبيق.
+
+لتغيير المشروع، عدّل القيمتين في `app/build.gradle.kts`:
+
+```kotlin
+buildConfigField("String", "SUPABASE_URL", "\"https://your-project.supabase.co\"")
+buildConfigField("String", "SUPABASE_ANON_KEY", "\"your-anon-key\"")
+```
+
+> ملاحظة: لا تضع مفتاح `service_role` أبدًا داخل التطبيق.
+
+### تفعيل RLS (مطلوب قبل النشر)
+
+الأمان يعتمد كليًا على تفعيل Row Level Security وسياساتها لكل الجداول، بما فيها
+`saved_files` و`profiles`. راجع كتل `CREATE POLICY` أعلاه وتأكد من تطبيقها في
+لوحة تحكم Supabase.
+
+## التوقيع للإصدار (Release)
+
+توقيع نسخة الإصدار يقرأ المسار وكلمات المرور من متغيرات البيئة (لا يُخزَّن المفتاح
+في المستودع):
 
 ```
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_ANON_KEY=your-anon-key
+KEYSTORE_PATH=/path/to/my-upload-key.jks
+STORE_PASSWORD=********
+KEY_PASSWORD=********
 ```
+
+ثم: `./gradlew assembleRelease`
 
 ## التشغيل
 
