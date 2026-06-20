@@ -125,4 +125,16 @@ public class RegisterFragment extends Fragment {
             authViewModel.register(name, email, password);
         });
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        etName = null;
+        etEmail = null;
+        etPassword = null;
+        etConfirmPassword = null;
+        cbTerms = null;
+        btnRegister = null;
+        progressBar = null;
+    }
 }

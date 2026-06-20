@@ -78,14 +78,17 @@ public class PdfViewerFragment extends Fragment {
                 .enableDoubletap(true)
                 .defaultPage(0)
                 .onLoad(nbPages -> {
-                    progressBar.setVisibility(View.GONE);
+                    // The PDF library decodes asynchronously; the view may already be destroyed.
+                    if (!isAdded() || pdfView == null) return;
+                    if (progressBar != null) progressBar.setVisibility(View.GONE);
                     updatePageCount(pdfView.getCurrentPage(), nbPages);
                 })
                 .onPageChange((page, pageCount) -> updatePageCount(page, pageCount))
                 .onError(t -> {
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(requireContext(), ErrorMessages.get("pdf_render_error"), Toast.LENGTH_LONG).show();
                     Log.e("PdfViewer", "Error loading PDF", t);
+                    if (!isAdded()) return;
+                    if (progressBar != null) progressBar.setVisibility(View.GONE);
+                    Toast.makeText(requireContext(), ErrorMessages.get("pdf_render_error"), Toast.LENGTH_LONG).show();
                 })
                 .enableAnnotationRendering(true)
                 .password(null)
@@ -96,6 +99,7 @@ public class PdfViewerFragment extends Fragment {
     }
 
     private void updatePageCount(int currentPage, int totalPages) {
+        if (tvPageCount == null) return;
         tvPageCount.setText((currentPage + 1) + " / " + totalPages);
     }
 
