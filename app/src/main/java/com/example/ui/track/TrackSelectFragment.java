@@ -17,6 +17,7 @@ import com.example.data.prefs.AppPreferences;
 
 public class TrackSelectFragment extends Fragment {
 
+    private static final String STATE_SELECTED_TRACK = "selected_track";
     private String selectedTrack = null;
 
     @Nullable
@@ -59,23 +60,26 @@ public class TrackSelectFragment extends Fragment {
 
         Button btnConfirm = view.findViewById(R.id.btn_confirm);
 
+        if (savedInstanceState != null) {
+            selectedTrack = savedInstanceState.getString(STATE_SELECTED_TRACK);
+        }
+
         cardScientific.setOnClickListener(v -> {
             selectedTrack = "scientific";
-            rbScientific.setChecked(true);
-            rbLiterary.setChecked(false);
-            btnConfirm.setEnabled(true);
-            cardScientific.setBackgroundResource(R.drawable.bg_card_selected);
-            cardLiterary.setBackgroundResource(R.drawable.bg_card);
+            applySelection(cardScientific, cardLiterary, rbScientific, rbLiterary, btnConfirm);
         });
 
         cardLiterary.setOnClickListener(v -> {
             selectedTrack = "literary";
-            rbScientific.setChecked(false);
-            rbLiterary.setChecked(true);
-            btnConfirm.setEnabled(true);
-            cardLiterary.setBackgroundResource(R.drawable.bg_card_selected);
-            cardScientific.setBackgroundResource(R.drawable.bg_card);
+            applySelection(cardLiterary, cardScientific, rbLiterary, rbScientific, btnConfirm);
         });
+
+        // Restore the visual selection after a configuration change (e.g. rotation).
+        if ("scientific".equals(selectedTrack)) {
+            applySelection(cardScientific, cardLiterary, rbScientific, rbLiterary, btnConfirm);
+        } else if ("literary".equals(selectedTrack)) {
+            applySelection(cardLiterary, cardScientific, rbLiterary, rbScientific, btnConfirm);
+        }
 
         btnConfirm.setOnClickListener(v -> {
             if (selectedTrack != null) {
@@ -84,5 +88,20 @@ public class TrackSelectFragment extends Fragment {
                 Navigation.findNavController(view).navigate(R.id.action_trackSelectFragment_to_homeFragment);
             }
         });
+    }
+
+    private void applySelection(View selectedCard, View otherCard,
+                                RadioButton selectedRadio, RadioButton otherRadio, Button btnConfirm) {
+        selectedRadio.setChecked(true);
+        otherRadio.setChecked(false);
+        btnConfirm.setEnabled(true);
+        selectedCard.setBackgroundResource(R.drawable.bg_card_selected);
+        otherCard.setBackgroundResource(R.drawable.bg_card);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(STATE_SELECTED_TRACK, selectedTrack);
     }
 }

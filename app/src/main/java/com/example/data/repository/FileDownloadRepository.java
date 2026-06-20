@@ -5,12 +5,12 @@ import com.example.data.local.dao.DownloadDao;
 import com.example.data.local.entity.DownloadEntity;
 import com.example.data.prefs.SessionManager;
 import com.example.data.remote.SupabaseApiService;
+import com.example.util.AppExecutors;
 import com.example.util.Constants;
 import com.example.util.FileDownloadManager;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -20,7 +20,7 @@ public class FileDownloadRepository {
     private final DownloadDao downloadDao;
     private final SessionManager sessionManager;
     private final Context context;
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final ExecutorService executor = AppExecutors.io();
 
     public FileDownloadRepository(SupabaseApiService api, DownloadDao downloadDao, SessionManager sessionManager, Context context) {
         this.api = api;

@@ -2,9 +2,10 @@ package com.example.data.prefs;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 import android.util.Log;
 import androidx.security.crypto.EncryptedSharedPreferences;
-import androidx.security.crypto.MasterKeys;
+import androidx.security.crypto.MasterKey;
 import com.example.util.Constants;
 
 public class SessionManager {
@@ -13,11 +14,13 @@ public class SessionManager {
 
     public SessionManager(Context context) {
         try {
-            String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
+            MasterKey masterKey = new MasterKey.Builder(context.getApplicationContext())
+                    .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                    .build();
             prefs = EncryptedSharedPreferences.create(
+                    context.getApplicationContext(),
                     Constants.PREFS_NAME,
-                    masterKeyAlias,
-                    context,
+                    masterKey,
                     EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
@@ -28,7 +31,7 @@ public class SessionManager {
     }
 
     public void saveTokens(String accessToken, String refreshToken, String userId, long expiresIn) {
-        if (accessToken == null || refreshToken == null || userId == null) return;
+        if (TextUtils.isEmpty(accessToken) || TextUtils.isEmpty(refreshToken) || TextUtils.isEmpty(userId)) return;
         prefs.edit()
                 .putString(Constants.KEY_ACCESS_TOKEN, accessToken)
                 .putString(Constants.KEY_REFRESH_TOKEN, refreshToken)

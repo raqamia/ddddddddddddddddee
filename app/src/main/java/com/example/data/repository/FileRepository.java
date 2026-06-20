@@ -4,11 +4,12 @@ import com.example.data.local.dao.FileDao;
 import com.example.data.local.entity.FileEntity;
 import com.example.data.remote.SupabaseApiService;
 import com.example.data.remote.dto.FileDto;
+import com.example.util.AppExecutors;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -16,7 +17,8 @@ import retrofit2.Response;
 public class FileRepository {
     private final SupabaseApiService api;
     private final FileDao dao;
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final ExecutorService executor = AppExecutors.io();
+    private final MutableLiveData<Boolean> networkError = new MutableLiveData<>();
 
     public FileRepository(SupabaseApiService api, FileDao dao) {
         this.api = api;
@@ -31,8 +33,13 @@ public class FileRepository {
         return dao.getAllFilesLive();
     }
 
+    /** Emits {@code true} when the last refresh failed so the UI can show a message. */
+    public LiveData<Boolean> getNetworkError() {
+        return networkError;
+    }
+
     public void fetchAndStoreFiles(String subjectId, String category) {
-        if (api == null) return;
+        if (api == null || subjectId == null || category == null) return;
         Call<List<FileDto>> call = api.getFiles("eq." + subjectId, "eq." + category, null);
         call.enqueue(new Callback<List<FileDto>>() {
             @Override
@@ -55,11 +62,15 @@ public class FileRepository {
                         dao.deleteBySubject(subjectId);
                         dao.insertAll(entities);
                     });
+                    networkError.postValue(false);
+                } else {
+                    networkError.postValue(true);
                 }
             }
 
             @Override
             public void onFailure(Call<List<FileDto>> call, Throwable t) {
+                networkError.postValue(true);
             }
         });
     }

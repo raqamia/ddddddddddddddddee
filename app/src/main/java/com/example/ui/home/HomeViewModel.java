@@ -34,10 +34,8 @@ public class HomeViewModel extends AndroidViewModel {
         subjects = Transformations.switchMap(currentTrack, track ->
                 repository.getSubjectsByTrackLive(track)
         );
-        String savedTrack = prefs.getUserTrack();
-        if (savedTrack != null) {
-            loadSubjects(savedTrack);
-        }
+        // The hosting fragment triggers the initial load in onViewCreated, so there is no
+        // need to also load here (which caused a duplicate fetch / lost-first-emission race).
     }
 
     public LiveData<java.util.List<SubjectEntity>> getSubjects() {
@@ -46,6 +44,10 @@ public class HomeViewModel extends AndroidViewModel {
 
     public LiveData<String> getGreeting() {
         return greeting;
+    }
+
+    public LiveData<Boolean> getNetworkError() {
+        return repository.getNetworkError();
     }
 
     public void loadSubjects(String track) {

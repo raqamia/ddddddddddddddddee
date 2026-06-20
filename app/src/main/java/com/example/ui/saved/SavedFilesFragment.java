@@ -79,4 +79,12 @@ public class SavedFilesFragment extends Fragment {
 
         viewModel.loadSavedFiles();
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        emptyState = null;
+        progressBar = null;
+        adapter = null;
+    }
 }

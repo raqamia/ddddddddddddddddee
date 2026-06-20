@@ -33,15 +33,17 @@ public class SubjectDetailFragment extends Fragment {
         TabLayout tabLayout = view.findViewById(R.id.tab_layout);
         ViewPager2 viewPager = view.findViewById(R.id.view_pager);
 
-        String subjectId = "1";
-        String subjectName = "المادة";
+        String subjectId = getArguments() != null ? getArguments().getString("subjectId") : null;
+        String subjectName = getArguments() != null ? getArguments().getString("subjectName") : null;
 
-        if (getArguments() != null) {
-            subjectId = getArguments().getString("subjectId");
-            subjectName = getArguments().getString("subjectName");
+        // A missing subject id means we were navigated to without the required args; there is
+        // nothing meaningful to show, so go back instead of loading an arbitrary subject.
+        if (subjectId == null) {
+            Navigation.findNavController(view).popBackStack();
+            return;
         }
 
-        tvTitle.setText(subjectName);
+        tvTitle.setText(subjectName != null ? subjectName : "المادة");
 
         btnBack.setOnClickListener(v -> Navigation.findNavController(view).popBackStack());
 

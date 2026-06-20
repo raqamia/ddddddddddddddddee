@@ -3,9 +3,9 @@ package com.example.data.repository;
 import com.example.data.local.dao.DownloadDao;
 import com.example.data.local.entity.DownloadEntity;
 import com.example.data.remote.SupabaseApiService;
+import com.example.util.AppExecutors;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import android.os.Handler;
 import android.os.Looper;
 import androidx.lifecycle.LiveData;
@@ -13,7 +13,7 @@ import androidx.lifecycle.LiveData;
 public class DownloadRepository {
     private final SupabaseApiService api;
     private final DownloadDao dao;
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final ExecutorService executor = AppExecutors.io();
 
     public DownloadRepository(SupabaseApiService api, DownloadDao dao) {
         this.api = api;

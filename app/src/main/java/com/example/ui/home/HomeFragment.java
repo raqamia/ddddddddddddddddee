@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.R;
 import com.example.data.prefs.AppPreferences;
+import com.example.util.ErrorMessages;
 
 public class HomeFragment extends Fragment {
 
@@ -64,6 +66,13 @@ public class HomeFragment extends Fragment {
             tvTrackName.setText(greeting);
         });
 
+        viewModel.getNetworkError().observe(getViewLifecycleOwner(), hasError -> {
+            swipeRefresh.setRefreshing(false);
+            if (Boolean.TRUE.equals(hasError)) {
+                Toast.makeText(requireContext(), ErrorMessages.get("network_error"), Toast.LENGTH_LONG).show();
+            }
+        });
+
         swipeRefresh.setOnRefreshListener(() -> {
             AppPreferences prefs = new AppPreferences(requireContext());
             viewModel.loadSubjects(prefs.getUserTrack());
@@ -71,5 +80,12 @@ public class HomeFragment extends Fragment {
 
         AppPreferences prefs = new AppPreferences(requireContext());
         viewModel.loadSubjects(prefs.getUserTrack());
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        swipeRefresh = null;
+        adapter = null;
     }
 }

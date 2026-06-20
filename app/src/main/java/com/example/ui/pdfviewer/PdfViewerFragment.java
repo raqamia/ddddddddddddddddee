@@ -98,4 +98,17 @@ public class PdfViewerFragment extends Fragment {
     private void updatePageCount(int currentPage, int totalPages) {
         tvPageCount.setText((currentPage + 1) + " / " + totalPages);
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // PDFView holds rendered bitmaps; release them and drop view references to avoid leaks.
+        if (pdfView != null) {
+            pdfView.recycle();
+            pdfView = null;
+        }
+        tvPageCount = null;
+        tvTitle = null;
+        progressBar = null;
+    }
 }

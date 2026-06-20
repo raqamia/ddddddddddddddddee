@@ -69,6 +69,15 @@ public class OnboardingFragment extends Fragment {
         tvSkip.setOnClickListener(v -> finishOnboarding());
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        viewPager = null;
+        dotsContainer = null;
+        btnNext = null;
+        tvSkip = null;
+    }
+
     private void setupDots(int count) {
         dotsContainer.removeAllViews();
         for (int i = 0; i < count; i++) {

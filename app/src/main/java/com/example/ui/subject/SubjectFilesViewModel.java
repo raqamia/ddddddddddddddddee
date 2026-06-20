@@ -49,6 +49,10 @@ public class SubjectFilesViewModel extends AndroidViewModel {
         });
     }
 
+    public LiveData<Boolean> getNetworkError() {
+        return repository.getNetworkError();
+    }
+
     public void loadFiles(String subjectId, String category) {
         currentCategory = category;
         currentSubjectId.setValue(subjectId);

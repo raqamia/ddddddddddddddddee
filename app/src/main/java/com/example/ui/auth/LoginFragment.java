@@ -2,6 +2,7 @@ package com.example.ui.auth;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,6 +86,10 @@ public class LoginFragment extends Fragment {
             String password = etPassword.getText().toString().trim();
             if (TextUtils.isEmpty(email)) {
                 etEmail.setError("البريد الإلكتروني مطلوب");
+                return;
+            }
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                etEmail.setError("صيغة البريد الإلكتروني غير صحيحة");
                 return;
             }
             if (TextUtils.isEmpty(password)) {

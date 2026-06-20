@@ -123,6 +123,15 @@ public class SubjectFilesFragment extends Fragment {
             }
         });
 
+        viewModel.getNetworkError().observe(getViewLifecycleOwner(), hasError -> {
+            progressBar.setVisibility(View.GONE);
+            if (Boolean.TRUE.equals(hasError) && (adapter == null || adapter.getItemCount() == 0)) {
+                tvError.setText(ErrorMessages.get("network_error"));
+                tvError.setVisibility(View.VISIBLE);
+                emptyState.setVisibility(View.GONE);
+            }
+        });
+
         btnRetry.setOnClickListener(v -> {
             progressBar.setVisibility(View.VISIBLE);
             tvError.setVisibility(View.GONE);
@@ -169,5 +178,15 @@ public class SubjectFilesFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        emptyState = null;
+        tvError = null;
+        btnRetry = null;
+        progressBar = null;
+        adapter = null;
     }
 }
