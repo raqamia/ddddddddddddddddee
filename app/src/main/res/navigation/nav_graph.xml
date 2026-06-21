@@ -96,7 +96,16 @@
         <action
             android:id="@+id/action_homeFragment_to_subjectDetailFragment"
             app:destination="@id/subjectDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.example.ui.notifications.NotificationsFragment"
+        android:label="Notifications"
+        tools:layout="@layout/fragment_notifications" />
 
     <fragment
         android:id="@+id/savedFilesFragment"

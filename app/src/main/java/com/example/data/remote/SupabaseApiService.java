@@ -42,4 +42,10 @@ public interface SupabaseApiService {
 
     @POST("storage/v1/object/sign/{bucket}/{path}")
     Call<SignedUrlResponse> getSignedUrl(@Path("bucket") String bucket, @Path(value = "path", encoded = true) String path, @Body Map<String, Integer> expiresIn, @Header("Authorization") String bearer);
+
+    @GET("rest/v1/notifications")
+    Call<List<NotificationDto>> getNotifications(@Query("order") String order);
+
+    @POST("rest/v1/rpc/touch_last_seen")
+    Call<Void> touchLastSeen(@Body Map<String, String> body);
 }

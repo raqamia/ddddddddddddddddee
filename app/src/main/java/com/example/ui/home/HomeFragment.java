@@ -40,6 +40,12 @@ public class HomeFragment extends Fragment {
         swipeRefresh = view.findViewById(R.id.swipe_refresh);
         View emptyState = view.findViewById(R.id.empty_state);
 
+        View btnNotifications = view.findViewById(R.id.btn_notifications);
+        if (btnNotifications != null) {
+            btnNotifications.setOnClickListener(v ->
+                    Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_notificationsFragment));
+        }
+
         rvSubjects.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
         adapter = new SubjectAdapter(subject -> {

@@ -53,6 +53,7 @@ public class HomeViewModel extends AndroidViewModel {
         greeting.addSource(userName, n -> recomputeGreeting());
 
         profileRepository.fetchProfile();
+        profileRepository.markActive(); // updates last_seen for the admin "active users" metric
         // The hosting fragment triggers the initial subjects load in onViewCreated.
     }
 
