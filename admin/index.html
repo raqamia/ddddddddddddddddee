@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>منارة — لوحة التحكم</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --primary:#6750A4;--primary-light:#7E68C8;--deep:#21005D;
+    --gold:#EADDFF;--gold-2:#D0BCFF;--bg:#F5F3FA;--surface:#fff;--border:#E7E0EC;
+    --text:#1D1B20;--text-2:#49454F;--muted:#79747E;
+    --green:#38A169;--red:#E53E3E;--amber:#D69E2E;--blue:#3182CE;
+    --shadow:0 8px 30px rgba(33,0,93,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Cairo',system-ui,sans-serif;background:var(--bg);color:var(--text)}
+  button{font-family:inherit;cursor:pointer}
+  input,select,textarea{font-family:inherit;width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:11px;font-size:14px;background:#fff;outline:none}
+  input:focus,select:focus,textarea:focus{border-color:var(--primary)}
+  label{display:block;font-weight:700;font-size:13px;margin:0 0 6px;color:var(--text-2)}
+  .field{margin-bottom:14px}
+  .btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:11px;padding:11px 20px;font-weight:800;font-size:14px;background:var(--primary);color:#fff;transition:.2s}
+  .btn:hover{filter:brightness(1.08)}
+  .btn.sm{padding:7px 13px;font-size:13px;border-radius:9px}
+  .btn.ghost{background:var(--gold);color:var(--primary)}
+  .btn.danger{background:#FDECEC;color:var(--red)}
+  .btn.outline{background:#fff;border:1.5px solid var(--border);color:var(--text-2)}
+  .hide{display:none!important}
+
+  /* LOGIN */
+  #login{min-height:100vh;display:grid;place-items:center;background:linear-gradient(150deg,var(--primary-light),var(--primary) 45%,var(--deep))}
+  .login-card{background:#fff;border-radius:24px;padding:38px;width:min(420px,92vw);box-shadow:0 30px 70px rgba(0,0,0,.3)}
+  .login-card .logo{width:62px;height:62px;border-radius:18px;background:linear-gradient(135deg,var(--primary-light),var(--deep));display:grid;place-items:center;margin:0 auto 16px}
+  .login-card h1{text-align:center;font-size:23px;font-weight:900}
+  .login-card .sub{text-align:center;color:var(--muted);font-size:14px;margin-bottom:24px}
+  details.cfg{margin-top:14px;font-size:13px;color:var(--muted)}
+  details.cfg summary{cursor:pointer;font-weight:700}
+
+  /* SHELL */
+  #app{display:grid;grid-template-columns:248px 1fr;min-height:100vh}
+  aside{background:linear-gradient(180deg,var(--deep),var(--primary));color:#fff;padding:22px 16px;position:sticky;top:0;height:100vh}
+  aside .brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:20px;margin-bottom:26px;padding:0 6px}
+  aside .brand .logo{width:38px;height:38px;border-radius:11px;background:rgba(255,255,255,.14);display:grid;place-items:center}
+  nav.menu a{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;color:rgba(255,255,255,.82);font-weight:700;font-size:15px;margin-bottom:4px;transition:.2s}
+  nav.menu a:hover{background:rgba(255,255,255,.1);color:#fff}
+  nav.menu a.active{background:#fff;color:var(--primary)}
+  aside .bottom{position:absolute;bottom:20px;left:16px;right:16px}
+  .who{font-size:12px;color:rgba(255,255,255,.7);padding:0 6px 10px}
+  main{padding:26px 30px;overflow:auto;height:100vh}
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+  .topbar h2{font-size:25px;font-weight:900}
+  .topbar p{color:var(--muted);font-size:14px}
+
+  /* CARDS / STATS */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:26px}
+  .stat{background:#fff;border-radius:18px;padding:20px;box-shadow:var(--shadow);border:1px solid var(--border)}
+  .stat .ic{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-size:22px;background:var(--gold);margin-bottom:12px}
+  .stat .n{font-size:30px;font-weight:900;line-height:1}
+  .stat .l{color:var(--muted);font-size:14px;margin-top:5px}
+
+  .panel{background:#fff;border-radius:18px;box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;margin-bottom:22px}
+  .panel .ph{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
+  .panel .ph h3{font-size:17px;font-weight:800}
+  table{width:100%;border-collapse:collapse}
+  th,td{text-align:right;padding:13px 20px;font-size:14px;border-bottom:1px solid var(--border)}
+  th{color:var(--muted);font-weight:800;font-size:13px;background:#FAF8FD}
+  tr:last-child td{border-bottom:0}
+  tbody tr:hover{background:#FAF8FD}
+  .pill{display:inline-block;padding:4px 11px;border-radius:999px;font-size:12px;font-weight:800}
+  .pill.g{background:#E7F6EE;color:var(--green)} .pill.b{background:#E9F2FB;color:var(--blue)}
+  .pill.a{background:#FCF3E2;color:var(--amber)} .pill.p{background:var(--gold);color:var(--primary)}
+  .row-actions{display:flex;gap:8px}
+  .empty{padding:40px;text-align:center;color:var(--muted)}
+  .muted{color:var(--muted);font-size:13px}
+
+  /* MODAL */
+  .modal-bg{position:fixed;inset:0;background:rgba(33,0,93,.45);display:grid;place-items:center;z-index:100;padding:20px}
+  .modal{background:#fff;border-radius:20px;width:min(520px,96vw);max-height:92vh;overflow:auto;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+  .modal .mh{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border)}
+  .modal .mh h3{font-size:19px;font-weight:900}
+  .modal .mb{padding:22px}
+  .modal .mf{display:flex;gap:10px;justify-content:flex-start;padding:0 22px 22px}
+  .x{background:none;border:0;font-size:22px;color:var(--muted)}
+
+  /* TOAST */
+  #toast{position:fixed;bottom:24px;left:24px;z-index:200;display:flex;flex-direction:column;gap:10px}
+  .toast{background:#1D1B20;color:#fff;padding:13px 20px;border-radius:12px;font-weight:700;font-size:14px;box-shadow:0 10px 30px rgba(0,0,0,.3);animation:slideIn .25s}
+  .toast.ok{background:var(--green)} .toast.err{background:var(--red)}
+  @keyframes slideIn{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
+  .spin{width:18px;height:18px;border:3px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;display:inline-block;animation:r .7s linear infinite}
+  @keyframes r{to{transform:rotate(360deg)}}
+  @media(max-width:760px){#app{grid-template-columns:1fr}aside{display:none}}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<div id="login">
+  <div class="login-card">
+    <div class="logo">
+      <svg width="34" height="34" viewBox="0 0 24 24"><rect x="8.6" y="8.2" width="6.8" height="9" rx="1.2" fill="#EADDFF"/><rect x="9.8" y="9.4" width="4.4" height="6.6" rx=".8" fill="#FFCA28"/><path d="M9.6 6.2h4.8l1.4 2H8.2z" fill="#EADDFF"/><path d="M9.5 5.5c0-1.6 5-1.6 5 0" stroke="#EADDFF" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>
+    </div>
+    <h1>لوحة تحكم منارة</h1>
+    <div class="sub">سجّل دخولك بحساب المشرف (Admin)</div>
+    <div class="field"><label>البريد الإلكتروني</label><input id="email" type="email" placeholder="admin@email.com" /></div>
+    <div class="field"><label>كلمة المرور</label><input id="password" type="password" placeholder="••••••••" /></div>
+    <button class="btn" style="width:100%;justify-content:center" id="loginBtn">دخول</button>
+    <div id="loginErr" class="muted" style="color:var(--red);margin-top:10px;text-align:center"></div>
+    <details class="cfg">
+      <summary>⚙️ إعدادات الاتصال بـ Supabase</summary>
+      <div class="field" style="margin-top:10px"><label>Supabase URL</label><input id="cfgUrl" /></div>
+      <div class="field"><label>Anon Key</label><input id="cfgKey" /></div>
+      <button class="btn outline sm" id="saveCfg">حفظ الإعدادات</button>
+    </details>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app" class="hide">
+  <aside>
+    <div class="brand"><span class="logo"><svg width="22" height="22" viewBox="0 0 24 24"><rect x="8.6" y="8.2" width="6.8" height="9" rx="1.2" fill="#EADDFF"/><rect x="9.8" y="9.4" width="4.4" height="6.6" rx=".8" fill="#FFCA28"/></svg></span> منارة</div>
+    <nav class="menu" id="menu">
+      <a data-view="dashboard" class="active">📊 لوحة المعلومات</a>
+      <a data-view="subjects">📚 المواد</a>
+      <a data-view="files">📄 الملفات والكتب</a>
+      <a data-view="users">👥 المستخدمون</a>
+      <a data-view="notifications">🔔 الإشعارات</a>
+    </nav>
+    <div class="bottom">
+      <div class="who" id="who"></div>
+      <button class="btn outline sm" style="width:100%;justify-content:center;background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.3)" id="logoutBtn">تسجيل الخروج</button>
+    </div>
+  </aside>
+  <main id="content"></main>
+</div>
+
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ---------- config ---------- */
+const DEFAULTS = {
+  url: localStorage.getItem('mn_url') || 'https://vdqrcshhnkqnqwrldjos.supabase.co',
+  key: localStorage.getItem('mn_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZkcXJjc2hobmtxbnF3cmxkam9zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzNTE0MTUsImV4cCI6MjA5NjkyNzQxNX0.reAiDOnDFuWGFC2GSAzlDMJl1JN_woBkRWAOtqzTKZI'
+};
+const CATS = { books:'كتب', exams:'امتحانات سابقة', summaries:'ملخصات' };
+const TRACKS = { scientific:'علمي', literary:'أدبي', both:'مشترك' };
+let sb, me;
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => (s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function toast(msg, type){ const t=document.createElement('div'); t.className='toast '+(type||''); t.textContent=msg; $('#toast').appendChild(t); setTimeout(()=>t.remove(),3200); }
+function fmtBytes(b){ if(!b) return '—'; const u=['B','KB','MB','GB']; let i=0,n=b; while(n>=1024&&i<3){n/=1024;i++} return n.toFixed(1)+' '+u[i]; }
+function fmtDate(d){ if(!d) return '—'; return new Date(d).toLocaleDateString('ar-EG',{year:'numeric',month:'short',day:'numeric'}); }
+
+/* ---------- init / auth ---------- */
+$('#cfgUrl').value = DEFAULTS.url; $('#cfgKey').value = DEFAULTS.key;
+$('#saveCfg').onclick = () => { localStorage.setItem('mn_url',$('#cfgUrl').value.trim()); localStorage.setItem('mn_key',$('#cfgKey').value.trim()); toast('تم حفظ الإعدادات، أعد تحميل الصفحة','ok'); };
+
+function initClient(){ sb = supabase.createClient($('#cfgUrl').value.trim()||DEFAULTS.url, $('#cfgKey').value.trim()||DEFAULTS.key); }
+initClient();
+
+$('#loginBtn').onclick = async () => {
+  const email=$('#email').value.trim(), password=$('#password').value;
+  $('#loginErr').textContent=''; const btn=$('#loginBtn'); btn.innerHTML='<span class="spin"></span>'; btn.disabled=true;
+  try{
+    initClient();
+    const { data, error } = await sb.auth.signInWithPassword({ email, password });
+    if(error) throw error;
+    // verify admin
+    const { data: prof, error: pe } = await sb.from('profiles').select('id,email,name,is_admin').eq('id', data.user.id).single();
+    if(pe) throw new Error('تعذّر قراءة الملف الشخصي. تأكد من تطبيق SETUP.sql');
+    if(!prof || !prof.is_admin){ await sb.auth.signOut(); throw new Error('هذا الحساب ليس مشرفًا (is_admin = false)'); }
+    me = prof; enterApp();
+  }catch(e){ $('#loginErr').textContent = e.message || 'فشل تسجيل الدخول'; }
+  finally{ btn.innerHTML='دخول'; btn.disabled=false; }
+};
+$('#logoutBtn').onclick = async () => { await sb.auth.signOut(); location.reload(); };
+
+async function tryRestore(){
+  initClient();
+  const { data } = await sb.auth.getSession();
+  if(data.session){
+    const { data: prof } = await sb.from('profiles').select('id,email,name,is_admin').eq('id', data.session.user.id).single();
+    if(prof && prof.is_admin){ me=prof; enterApp(); }
+  }
+}
+tryRestore();
+
+function enterApp(){
+  $('#login').classList.add('hide'); $('#app').classList.remove('hide');
+  $('#who').textContent = (me.name||me.email||'مشرف');
+  document.querySelectorAll('#menu a').forEach(a=>a.onclick=()=>route(a.dataset.view));
+  route('dashboard');
+}
+function route(view){
+  document.querySelectorAll('#menu a').forEach(a=>a.classList.toggle('active',a.dataset.view===view));
+  ({dashboard:viewDashboard,subjects:viewSubjects,files:viewFiles,users:viewUsers,notifications:viewNotifications}[view])();
+}
+
+/* ---------- count helper ---------- */
+async function count(table){ const { count, error } = await sb.from(table).select('*',{count:'exact',head:true}); return error?null:count; }
+
+/* ========== DASHBOARD ========== */
+async function viewDashboard(){
+  const c = $('#content');
+  c.innerHTML = `<div class="topbar"><div><h2>لوحة المعلومات</h2><p>نظرة عامة على التطبيق</p></div></div>
+    <div class="stats" id="stats">${Array(5).fill('<div class="stat"><div class="n">…</div></div>').join('')}</div>
+    <div class="panel"><div class="ph"><h3>أحدث الملفات المضافة</h3></div><div id="recent" class="empty">جارٍ التحميل…</div></div>`;
+  const [users, subjects, files, saved] = await Promise.all([count('profiles'),count('subjects'),count('files'),count('saved_files')]);
+  let active = null;
+  try{ const since=new Date(Date.now()-7*864e5).toISOString();
+    const r = await sb.from('profiles').select('*',{count:'exact',head:true}).gte('last_seen',since); if(!r.error) active=r.count; }catch(e){}
+  $('#stats').innerHTML = [
+    ['👥', users??'—', 'إجمالي المستخدمين'],
+    ['🟢', active??'غير مُفعّل', 'نشطون (٧ أيام)'],
+    ['📚', subjects??'—', 'المواد'],
+    ['📄', files??'—', 'الملفات والكتب'],
+    ['🔖', saved??'—', 'مرات الحفظ'],
+  ].map(([i,n,l])=>`<div class="stat"><div class="ic">${i}</div><div class="n">${n}</div><div class="l">${l}</div></div>`).join('');
+  const { data } = await sb.from('files').select('id,name,category,uploaded_at').order('uploaded_at',{ascending:false}).limit(6);
+  $('#recent').outerHTML = `<div id="recent">${(data&&data.length)? `<table><thead><tr><th>الاسم</th><th>القسم</th><th>التاريخ</th></tr></thead><tbody>${data.map(f=>`<tr><td>${esc(f.name)}</td><td><span class="pill b">${CATS[f.category]||f.category}</span></td><td class="muted">${fmtDate(f.uploaded_at)}</td></tr>`).join('')}</tbody></table>` : '<div class="empty">لا توجد ملفات بعد</div>'}</div>`;
+}
+
+/* ========== SUBJECTS ========== */
+async function viewSubjects(){
+  const c=$('#content');
+  c.innerHTML = `<div class="topbar"><div><h2>المواد</h2><p>إدارة المواد الدراسية</p></div><button class="btn" id="addSub">➕ إضافة مادة</button></div>
+    <div class="panel"><div id="subsBody" class="empty">جارٍ التحميل…</div></div>`;
+  $('#addSub').onclick=()=>subjectModal();
+  const { data, error } = await sb.from('subjects').select('*').order('order_index',{ascending:true});
+  if(error){ $('#subsBody').innerHTML=`<div class="empty">خطأ: ${esc(error.message)}</div>`; return; }
+  $('#subsBody').outerHTML = `<div id="subsBody">${data.length? `<table><thead><tr><th>المادة</th><th>المسار</th><th>الترتيب</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody>${data.map(s=>`<tr>
+    <td><b>${esc(s.name)}</b></td>
+    <td><span class="pill p">${TRACKS[s.track]||s.track}</span></td>
+    <td>${s.order_index??0}</td>
+    <td>${s.is_active?'<span class="pill g">مفعّلة</span>':'<span class="pill a">مخفية</span>'}</td>
+    <td><div class="row-actions"><button class="btn sm outline" onclick='editSub(${JSON.stringify(s)})'>تعديل</button><button class="btn sm danger" onclick="delSub('${s.id}','${esc(s.name)}')">حذف</button></div></td>
+  </tr>`).join('')}</tbody></table>` : '<div class="empty">لا توجد مواد. أضف أول مادة.</div>'}</div>`;
+}
+window.editSub = s => subjectModal(s);
+function subjectModal(s){
+  s=s||{}; const editing=!!s.id;
+  openModal(editing?'تعديل مادة':'إضافة مادة', `
+    <div class="field"><label>اسم المادة</label><input id="f_name" value="${esc(s.name||'')}" placeholder="مثال: الفيزياء"/></div>
+    <div class="field"><label>المسار</label><select id="f_track">${Object.entries(TRACKS).map(([k,v])=>`<option value="${k}" ${s.track===k?'selected':''}>${v}</option>`).join('')}</select></div>
+    <div class="field"><label>ترتيب العرض</label><input id="f_order" type="number" value="${s.order_index??0}"/></div>
+    <div class="field"><label><input type="checkbox" id="f_active" ${s.is_active!==false?'checked':''} style="width:auto;margin-left:8px"/> مفعّلة (تظهر للطلاب)</label></div>`,
+    async ()=>{
+      const payload={ name:$('#f_name').value.trim(), track:$('#f_track').value, order_index:+$('#f_order').value||0, is_active:$('#f_active').checked };
+      if(!payload.name) return toast('أدخل اسم المادة','err');
+      const q = editing ? sb.from('subjects').update(payload).eq('id',s.id) : sb.from('subjects').insert(payload);
+      const { error } = await q; if(error) return toast(error.message,'err');
+      closeModal(); toast(editing?'تم التعديل':'تمت الإضافة','ok'); viewSubjects();
+    });
+}
+window.delSub = async (id,name)=>{ if(!confirm(`حذف المادة "${name}"؟ سيتم حذف ملفاتها المرتبطة أيضًا.`))return;
+  const { error } = await sb.from('subjects').delete().eq('id',id); if(error)return toast(error.message,'err'); toast('تم الحذف','ok'); viewSubjects(); };
+
+/* ========== FILES ========== */
+let SUBJECTS_CACHE=[];
+async function viewFiles(){
+  const c=$('#content');
+  c.innerHTML = `<div class="topbar"><div><h2>الملفات والكتب</h2><p>رفع وإدارة ملفات الـ PDF</p></div><button class="btn" id="addFile">⬆️ رفع ملف جديد</button></div>
+    <div class="panel"><div id="filesBody" class="empty">جارٍ التحميل…</div></div>`;
+  const { data: subs } = await sb.from('subjects').select('id,name'); SUBJECTS_CACHE=subs||[];
+  const map={}; SUBJECTS_CACHE.forEach(s=>map[s.id]=s.name);
+  $('#addFile').onclick=()=>fileModal();
+  const { data, error } = await sb.from('files').select('*').order('uploaded_at',{ascending:false});
+  if(error){ $('#filesBody').innerHTML=`<div class="empty">خطأ: ${esc(error.message)}</div>`; return; }
+  $('#filesBody').outerHTML = `<div id="filesBody">${data.length? `<table><thead><tr><th>الاسم</th><th>المادة</th><th>القسم</th><th>الحجم</th><th>الصفحات</th><th>إجراءات</th></tr></thead><tbody>${data.map(f=>`<tr>
+    <td><b>${esc(f.name)}</b></td>
+    <td>${esc(map[f.subject_id]||'—')}</td>
+    <td><span class="pill b">${CATS[f.category]||f.category}</span></td>
+    <td class="muted">${fmtBytes(f.size_bytes)}</td>
+    <td class="muted">${f.page_count||'—'}</td>
+    <td><button class="btn sm danger" onclick="delFile('${f.id}','${esc((f.storage_path||'').replace(/'/g,''))}','${esc(f.name)}')">حذف</button></td>
+  </tr>`).join('')}</tbody></table>` : '<div class="empty">لا توجد ملفات. ارفع أول ملف.</div>'}</div>`;
+}
+function fileModal(){
+  if(!SUBJECTS_CACHE.length) return toast('أضف مادة واحدة على الأقل أولاً','err');
+  openModal('رفع ملف جديد', `
+    <div class="field"><label>المادة</label><select id="f_sub">${SUBJECTS_CACHE.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}</select></div>
+    <div class="field"><label>القسم</label><select id="f_cat">${Object.entries(CATS).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></div>
+    <div class="field"><label>اسم الملف (يظهر للطالب)</label><input id="f_fname" placeholder="مثال: كتاب الفيزياء - الوحدة الأولى"/></div>
+    <div class="field"><label>عدد الصفحات (اختياري)</label><input id="f_pages" type="number" value="0"/></div>
+    <div class="field"><label>ملف الـ PDF</label><input id="f_pdf" type="file" accept="application/pdf"/></div>
+    <div class="muted" id="upInfo"></div>`,
+    async ()=>{
+      const subject_id=$('#f_sub').value, category=$('#f_cat').value, name=$('#f_fname').value.trim();
+      const pages=+$('#f_pages').value||0, file=$('#f_pdf').files[0];
+      if(!name) return toast('أدخل اسم الملف','err');
+      if(!file) return toast('اختر ملف PDF','err');
+      const safe=(file.name||'file').replace(/[^a-zA-Z0-9_.-]/g,'_');
+      const path=`${subject_id}/${category}/${Date.now()}_${safe}`;
+      $('#upInfo').innerHTML='<span class="spin" style="border-color:#ccc;border-top-color:var(--primary)"></span> جارٍ الرفع…';
+      const up = await sb.storage.from('pdfs').upload(path, file, { contentType:'application/pdf', upsert:false });
+      if(up.error){ $('#upInfo').textContent=''; return toast('فشل الرفع: '+up.error.message,'err'); }
+      const { error } = await sb.from('files').insert({ subject_id, category, name, storage_path:path, size_bytes:file.size, page_count:pages });
+      if(error){ await sb.storage.from('pdfs').remove([path]); $('#upInfo').textContent=''; return toast(error.message,'err'); }
+      closeModal(); toast('تم رفع الملف بنجاح','ok'); viewFiles();
+    }, 'رفع');
+}
+window.delFile = async (id,path,name)=>{ if(!confirm(`حذف الملف "${name}"؟`))return;
+  if(path){ await sb.storage.from('pdfs').remove([path]); }
+  const { error } = await sb.from('files').delete().eq('id',id); if(error)return toast(error.message,'err'); toast('تم الحذف','ok'); viewFiles(); };
+
+/* ========== USERS ========== */
+async function viewUsers(){
+  const c=$('#content');
+  c.innerHTML = `<div class="topbar"><div><h2>المستخدمون</h2><p>قائمة الطلاب المسجّلين</p></div></div>
+    <div class="panel"><div id="usersBody" class="empty">جارٍ التحميل…</div></div>`;
+  const { data, error } = await sb.from('profiles').select('id,name,email,track,is_admin,last_seen').order('name',{ascending:true});
+  if(error){ $('#usersBody').innerHTML=`<div class="empty">خطأ: ${esc(error.message)}</div>`; return; }
+  $('#usersBody').outerHTML = `<div id="usersBody">${data.length? `<table><thead><tr><th>الاسم</th><th>البريد</th><th>المسار</th><th>آخر ظهور</th><th>النوع</th></tr></thead><tbody>${data.map(u=>`<tr>
+    <td><b>${esc(u.name||'—')}</b></td><td class="muted">${esc(u.email||'—')}</td>
+    <td>${u.track?`<span class="pill p">${TRACKS[u.track]||u.track}</span>`:'—'}</td>
+    <td class="muted">${u.last_seen?fmtDate(u.last_seen):'—'}</td>
+    <td>${u.is_admin?'<span class="pill a">مشرف</span>':'<span class="pill g">طالب</span>'}</td>
+  </tr>`).join('')}</tbody></table>` : '<div class="empty">لا يوجد مستخدمون بعد</div>'}</div>`;
+}
+
+/* ========== NOTIFICATIONS ========== */
+async function viewNotifications(){
+  const c=$('#content');
+  c.innerHTML = `<div class="topbar"><div><h2>الإشعارات</h2><p>إرسال إعلانات لكل المستخدمين</p></div><button class="btn" id="addNotif">➕ إشعار جديد</button></div>
+    <div class="panel"><div id="notifBody" class="empty">جارٍ التحميل…</div></div>`;
+  $('#addNotif').onclick=()=>notifModal();
+  const { data, error } = await sb.from('notifications').select('*').order('created_at',{ascending:false});
+  if(error){ $('#notifBody').innerHTML=`<div class="empty">الجدول غير موجود؟ طبّق SETUP.sql.<br>${esc(error.message)}</div>`; return; }
+  $('#notifBody').outerHTML = `<div id="notifBody">${data.length? `<table><thead><tr><th>العنوان</th><th>النص</th><th>التاريخ</th><th></th></tr></thead><tbody>${data.map(n=>`<tr>
+    <td><b>${esc(n.title)}</b></td><td class="muted">${esc(n.body)}</td><td class="muted">${fmtDate(n.created_at)}</td>
+    <td><button class="btn sm danger" onclick="delNotif('${n.id}')">حذف</button></td>
+  </tr>`).join('')}</tbody></table>` : '<div class="empty">لا توجد إشعارات بعد</div>'}</div>`;
+}
+function notifModal(){
+  openModal('إشعار جديد', `
+    <div class="field"><label>العنوان</label><input id="n_title" placeholder="مثال: تم إضافة ملخصات جديدة 🎉"/></div>
+    <div class="field"><label>النص</label><textarea id="n_body" rows="4" placeholder="نص الإشعار الذي سيصل للطلاب"></textarea></div>
+    <div class="muted">سيظهر هذا الإعلان لكل الطلاب داخل التطبيق.</div>`,
+    async ()=>{
+      const title=$('#n_title').value.trim(), body=$('#n_body').value.trim();
+      if(!title||!body) return toast('أدخل العنوان والنص','err');
+      const { error } = await sb.from('notifications').insert({ title, body }); if(error)return toast(error.message,'err');
+      closeModal(); toast('تم إرسال الإشعار','ok'); viewNotifications();
+    },'إرسال');
+}
+window.delNotif = async id=>{ if(!confirm('حذف هذا الإشعار؟'))return; const { error } = await sb.from('notifications').delete().eq('id',id); if(error)return toast(error.message,'err'); toast('تم الحذف','ok'); viewNotifications(); };
+
+/* ========== MODAL ENGINE ========== */
+function openModal(title, bodyHtml, onSave, saveLabel){
+  const bg=document.createElement('div'); bg.className='modal-bg'; bg.id='modalBg';
+  bg.innerHTML=`<div class="modal"><div class="mh"><h3>${title}</h3><button class="x" id="mClose">×</button></div><div class="mb">${bodyHtml}</div><div class="mf"><button class="btn" id="mSave">${saveLabel||'حفظ'}</button><button class="btn outline" id="mCancel">إلغاء</button></div></div>`;
+  document.body.appendChild(bg);
+  $('#mClose').onclick=$('#mCancel').onclick=closeModal;
+  bg.onclick=e=>{ if(e.target===bg) closeModal(); };
+  $('#mSave').onclick=async()=>{ const b=$('#mSave'); const o=b.innerHTML; b.innerHTML='<span class="spin"></span>'; b.disabled=true; try{ await onSave(); }finally{ if($('#mSave')){b.innerHTML=o;b.disabled=false;} } };
+}
+function closeModal(){ const m=$('#modalBg'); if(m)m.remove(); }
+</script>
+</body>
+</html>
