@@ -150,7 +150,7 @@ let sb, me;
 
 /* ---------- helpers ---------- */
 const $ = s => document.querySelector(s);
-const esc = s => (s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const esc = s => (s==null?'':String(s)).replace(/[&<>"'`]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;'}[c]));
 function toast(msg, type){ const t=document.createElement('div'); t.className='toast '+(type||''); t.textContent=msg; $('#toast').appendChild(t); setTimeout(()=>t.remove(),3200); }
 function fmtBytes(b){ if(!b) return '—'; const u=['B','KB','MB','GB']; let i=0,n=b; while(n>=1024&&i<3){n/=1024;i++} return n.toFixed(1)+' '+u[i]; }
 function fmtDate(d){ if(!d) return '—'; return new Date(d).toLocaleDateString('ar-EG',{year:'numeric',month:'short',day:'numeric'}); }
@@ -232,15 +232,20 @@ async function viewSubjects(){
   $('#addSub').onclick=()=>subjectModal();
   const { data, error } = await sb.from('subjects').select('*').order('order_index',{ascending:true});
   if(error){ $('#subsBody').innerHTML=`<div class="empty">خطأ: ${esc(error.message)}</div>`; return; }
+  SUBS_ROWS = data||[];
   $('#subsBody').outerHTML = `<div id="subsBody">${data.length? `<table><thead><tr><th>المادة</th><th>المسار</th><th>الترتيب</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody>${data.map(s=>`<tr>
     <td><b>${esc(s.name)}</b></td>
     <td><span class="pill p">${TRACKS[s.track]||s.track}</span></td>
     <td>${s.order_index??0}</td>
     <td>${s.is_active?'<span class="pill g">مفعّلة</span>':'<span class="pill a">مخفية</span>'}</td>
-    <td><div class="row-actions"><button class="btn sm outline" onclick='editSub(${JSON.stringify(s)})'>تعديل</button><button class="btn sm danger" onclick="delSub('${s.id}','${esc(s.name)}')">حذف</button></div></td>
+    <td><div class="row-actions"><button class="btn sm outline" data-act="editSub" data-id="${esc(s.id)}">تعديل</button><button class="btn sm danger" data-act="delSub" data-id="${esc(s.id)}">حذف</button></div></td>
   </tr>`).join('')}</tbody></table>` : '<div class="empty">لا توجد مواد. أضف أول مادة.</div>'}</div>`;
 }
-window.editSub = s => subjectModal(s);
+let SUBS_ROWS=[];
+function editSub(id){ const s=SUBS_ROWS.find(x=>x.id===id); if(s) subjectModal(s); }
+async function delSub(id){ const s=SUBS_ROWS.find(x=>x.id===id); if(!s)return;
+  if(!confirm(`حذف المادة "${s.name}"؟ سيتم حذف ملفاتها المرتبطة أيضًا.`))return;
+  const { error } = await sb.from('subjects').delete().eq('id',id); if(error)return toast(error.message,'err'); toast('تم الحذف','ok'); viewSubjects(); }
 function subjectModal(s){
   s=s||{}; const editing=!!s.id;
   openModal(editing?'تعديل مادة':'إضافة مادة', `
@@ -256,8 +261,6 @@ function subjectModal(s){
       closeModal(); toast(editing?'تم التعديل':'تمت الإضافة','ok'); viewSubjects();
     });
 }
-window.delSub = async (id,name)=>{ if(!confirm(`حذف المادة "${name}"؟ سيتم حذف ملفاتها المرتبطة أيضًا.`))return;
-  const { error } = await sb.from('subjects').delete().eq('id',id); if(error)return toast(error.message,'err'); toast('تم الحذف','ok'); viewSubjects(); };
 
 /* ========== FILES ========== */
 let SUBJECTS_CACHE=[];
@@ -270,15 +273,17 @@ async function viewFiles(){
   $('#addFile').onclick=()=>fileModal();
   const { data, error } = await sb.from('files').select('*').order('uploaded_at',{ascending:false});
   if(error){ $('#filesBody').innerHTML=`<div class="empty">خطأ: ${esc(error.message)}</div>`; return; }
+  FILES_ROWS = data||[];
   $('#filesBody').outerHTML = `<div id="filesBody">${data.length? `<table><thead><tr><th>الاسم</th><th>المادة</th><th>القسم</th><th>الحجم</th><th>الصفحات</th><th>إجراءات</th></tr></thead><tbody>${data.map(f=>`<tr>
     <td><b>${esc(f.name)}</b></td>
     <td>${esc(map[f.subject_id]||'—')}</td>
     <td><span class="pill b">${CATS[f.category]||f.category}</span></td>
     <td class="muted">${fmtBytes(f.size_bytes)}</td>
     <td class="muted">${f.page_count||'—'}</td>
-    <td><button class="btn sm danger" onclick="delFile('${f.id}','${esc((f.storage_path||'').replace(/'/g,''))}','${esc(f.name)}')">حذف</button></td>
+    <td><button class="btn sm danger" data-act="delFile" data-id="${esc(f.id)}">حذف</button></td>
   </tr>`).join('')}</tbody></table>` : '<div class="empty">لا توجد ملفات. ارفع أول ملف.</div>'}</div>`;
 }
+let FILES_ROWS=[];
 function fileModal(){
   if(!SUBJECTS_CACHE.length) return toast('أضف مادة واحدة على الأقل أولاً','err');
   openModal('رفع ملف جديد', `
@@ -303,9 +308,10 @@ function fileModal(){
       closeModal(); toast('تم رفع الملف بنجاح','ok'); viewFiles();
     }, 'رفع');
 }
-window.delFile = async (id,path,name)=>{ if(!confirm(`حذف الملف "${name}"؟`))return;
-  if(path){ await sb.storage.from('pdfs').remove([path]); }
-  const { error } = await sb.from('files').delete().eq('id',id); if(error)return toast(error.message,'err'); toast('تم الحذف','ok'); viewFiles(); };
+async function delFile(id){ const f=FILES_ROWS.find(x=>x.id===id); if(!f)return;
+  if(!confirm(`حذف الملف "${f.name}"؟`))return;
+  if(f.storage_path){ await sb.storage.from('pdfs').remove([f.storage_path]); }
+  const { error } = await sb.from('files').delete().eq('id',id); if(error)return toast(error.message,'err'); toast('تم الحذف','ok'); viewFiles(); }
 
 /* ========== USERS ========== */
 async function viewUsers(){
@@ -332,7 +338,7 @@ async function viewNotifications(){
   if(error){ $('#notifBody').innerHTML=`<div class="empty">الجدول غير موجود؟ طبّق SETUP.sql.<br>${esc(error.message)}</div>`; return; }
   $('#notifBody').outerHTML = `<div id="notifBody">${data.length? `<table><thead><tr><th>العنوان</th><th>النص</th><th>التاريخ</th><th></th></tr></thead><tbody>${data.map(n=>`<tr>
     <td><b>${esc(n.title)}</b></td><td class="muted">${esc(n.body)}</td><td class="muted">${fmtDate(n.created_at)}</td>
-    <td><button class="btn sm danger" onclick="delNotif('${n.id}')">حذف</button></td>
+    <td><button class="btn sm danger" data-act="delNotif" data-id="${esc(n.id)}">حذف</button></td>
   </tr>`).join('')}</tbody></table>` : '<div class="empty">لا توجد إشعارات بعد</div>'}</div>`;
 }
 function notifModal(){
@@ -347,7 +353,14 @@ function notifModal(){
       closeModal(); toast('تم إرسال الإشعار','ok'); viewNotifications();
     },'إرسال');
 }
-window.delNotif = async id=>{ if(!confirm('حذف هذا الإشعار؟'))return; const { error } = await sb.from('notifications').delete().eq('id',id); if(error)return toast(error.message,'err'); toast('تم الحذف','ok'); viewNotifications(); };
+async function delNotif(id){ if(!confirm('حذف هذا الإشعار؟'))return; const { error } = await sb.from('notifications').delete().eq('id',id); if(error)return toast(error.message,'err'); toast('تم الحذف','ok'); viewNotifications(); }
+
+/* ---------- safe event delegation (no inline JS / no interpolated data) ---------- */
+const ACTIONS = { editSub, delSub, delFile, delNotif };
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]'); if(!el) return;
+  const fn = ACTIONS[el.dataset.act]; if(fn) fn(el.dataset.id);
+});
 
 /* ========== MODAL ENGINE ========== */
 function openModal(title, bodyHtml, onSave, saveLabel){

@@ -51,6 +51,19 @@ drop policy if exists "admin_write_notifications" on public.notifications;
 create policy "admin_write_notifications" on public.notifications
   for all using (public.is_admin()) with check (public.is_admin());
 
+-- 4b) saved_files: each user manages ONLY their own rows -------
+alter table public.saved_files enable row level security;
+drop policy if exists "saved_select_own" on public.saved_files;
+create policy "saved_select_own" on public.saved_files
+  for select using (auth.uid() = user_id);
+drop policy if exists "saved_insert_own" on public.saved_files;
+create policy "saved_insert_own" on public.saved_files
+  for insert with check (auth.uid() = user_id);
+-- DELETE policy is REQUIRED for the app's "unsave" to work under RLS:
+drop policy if exists "saved_delete_own" on public.saved_files;
+create policy "saved_delete_own" on public.saved_files
+  for delete using (auth.uid() = user_id);
+
 -- 5) Storage bucket "pdfs" policies ---------------------------
 -- create the bucket named "pdfs" (Private) from the dashboard first, then:
 insert into storage.buckets (id, name, public) values ('pdfs','pdfs', false)

@@ -38,6 +38,9 @@ public class SupabaseApiClient {
 
     private static OkHttpClient createHttpClient(SessionManager sessionManager) {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        // Never print auth secrets to Logcat, even in debug header logging.
+        logging.redactHeader("Authorization");
+        logging.redactHeader("apikey");
         logging.setLevel(BuildConfig.DEBUG
                 ? HttpLoggingInterceptor.Level.HEADERS
                 : HttpLoggingInterceptor.Level.NONE);
