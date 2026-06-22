@@ -6,14 +6,16 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import com.example.data.local.dao.DownloadDao;
 import com.example.data.local.dao.FileDao;
+import com.example.data.local.dao.RecentDao;
 import com.example.data.local.dao.SavedDao;
 import com.example.data.local.dao.SubjectDao;
 import com.example.data.local.entity.DownloadEntity;
 import com.example.data.local.entity.FileEntity;
+import com.example.data.local.entity.RecentEntity;
 import com.example.data.local.entity.SavedFileEntity;
 import com.example.data.local.entity.SubjectEntity;
 
-@Database(entities = {SubjectEntity.class, FileEntity.class, DownloadEntity.class, SavedFileEntity.class}, version = 2, exportSchema = false)
+@Database(entities = {SubjectEntity.class, FileEntity.class, DownloadEntity.class, SavedFileEntity.class, RecentEntity.class}, version = 3, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static volatile AppDatabase INSTANCE;
 
@@ -21,6 +23,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract FileDao fileDao();
     public abstract DownloadDao downloadDao();
     public abstract SavedDao savedDao();
+    public abstract RecentDao recentDao();
 
     public static AppDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {

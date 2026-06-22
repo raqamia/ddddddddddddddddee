@@ -20,6 +20,7 @@ import com.example.data.prefs.SessionManager;
 import com.example.data.remote.SupabaseApiClient;
 import com.example.data.local.entity.FileEntity;
 import com.example.data.repository.DownloadRepository;
+import com.example.data.repository.RecentRepository;
 import com.example.ui.subject.FileAdapter;
 
 import java.util.HashSet;
@@ -32,6 +33,7 @@ public class SavedFilesFragment extends Fragment {
     private View emptyState;
     private ProgressBar progressBar;
     private DownloadRepository downloadRepo;
+    private RecentRepository recentRepo;
 
     @Nullable
     @Override
@@ -56,6 +58,7 @@ public class SavedFilesFragment extends Fragment {
                 SupabaseApiClient.getApi(new SessionManager(appContext)),
                 AppDatabase.getDatabase(appContext).downloadDao()
         );
+        recentRepo = new RecentRepository(AppDatabase.getDatabase(appContext).recentDao());
 
         adapter = new FileAdapter(new FileAdapter.OnItemClickListener() {
             @Override
@@ -63,9 +66,11 @@ public class SavedFilesFragment extends Fragment {
                 // The local path lives in the DB, so look it up off the main thread before navigating.
                 downloadRepo.getDownloadStatusAsync(file.id, download -> {
                     if (!isAdded()) return;
+                    String localPath = download != null ? download.localPath : null;
+                    recentRepo.record(file.id, file.name, localPath);
                     Bundle args = new Bundle();
                     args.putString("fileName", file.name);
-                    if (download != null) args.putString("localPath", download.localPath);
+                    if (localPath != null) args.putString("localPath", localPath);
                     Navigation.findNavController(view).navigate(R.id.action_global_pdfViewerFragment, args);
                 });
             }

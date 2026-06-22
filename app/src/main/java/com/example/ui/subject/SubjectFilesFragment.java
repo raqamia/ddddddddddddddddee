@@ -24,6 +24,7 @@ import com.example.data.prefs.SessionManager;
 import com.example.data.remote.SupabaseApiClient;
 import com.example.data.repository.DownloadRepository;
 import com.example.data.repository.FileDownloadRepository;
+import com.example.data.repository.RecentRepository;
 import com.example.data.repository.SavedRepository;
 import com.example.util.ErrorMessages;
 
@@ -47,6 +48,7 @@ public class SubjectFilesFragment extends Fragment {
     private DownloadRepository downloadRepo;
     private FileDownloadRepository fileDownloadRepo;
     private SavedRepository savedRepo;
+    private RecentRepository recentRepo;
 
     public static SubjectFilesFragment newInstance(String subjectId, String category) {
         SubjectFilesFragment fragment = new SubjectFilesFragment();
@@ -106,6 +108,7 @@ public class SubjectFilesFragment extends Fragment {
                 AppDatabase.getDatabase(appContext).fileDao(),
                 sessionManager
         );
+        recentRepo = new RecentRepository(AppDatabase.getDatabase(appContext).recentDao());
 
         adapter = new FileAdapter(new FileAdapter.OnItemClickListener() {
             @Override
@@ -114,7 +117,7 @@ public class SubjectFilesFragment extends Fragment {
                 downloadRepo.getDownloadStatusAsync(file.id, existing -> {
                     if (!isAdded()) return;
                     if (existing != null && "COMPLETED".equals(existing.state) && existing.localPath != null) {
-                        openPdf(existing.localPath, file.name);
+                        openPdf(file.id, existing.localPath, file.name);
                     } else {
                         startDownload(file);
                     }
@@ -172,8 +175,9 @@ public class SubjectFilesFragment extends Fragment {
         viewModel.loadFiles(subjectId, category);
     }
 
-    private void openPdf(String localPath, String fileName) {
+    private void openPdf(String fileId, String localPath, String fileName) {
         if (!isAdded()) return;
+        if (recentRepo != null) recentRepo.record(fileId, fileName, localPath);
         Bundle args = new Bundle();
         args.putString("localPath", localPath);
         args.putString("fileName", fileName);
@@ -194,7 +198,7 @@ public class SubjectFilesFragment extends Fragment {
                     requireActivity().runOnUiThread(() -> {
                         if (!isAdded()) return;
                         Toast.makeText(requireContext(), "تم التحميل", Toast.LENGTH_SHORT).show();
-                        openPdf(localPath, file.name);
+                        openPdf(file.id, localPath, file.name);
                     });
                 }
             }

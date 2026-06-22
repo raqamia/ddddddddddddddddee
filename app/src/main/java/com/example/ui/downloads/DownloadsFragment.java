@@ -22,6 +22,7 @@ import com.example.data.local.entity.SavedFileEntity;
 import com.example.data.prefs.SessionManager;
 import com.example.data.remote.SupabaseApiClient;
 import com.example.data.repository.DownloadRepository;
+import com.example.data.repository.RecentRepository;
 import com.example.data.repository.SavedRepository;
 import com.example.ui.subject.FileAdapter;
 
@@ -36,6 +37,7 @@ public class DownloadsFragment extends Fragment {
     private ProgressBar progressBar;
     private DownloadRepository downloadRepo;
     private SavedRepository savedRepo;
+    private RecentRepository recentRepo;
 
     @Nullable
     @Override
@@ -66,6 +68,7 @@ public class DownloadsFragment extends Fragment {
                 AppDatabase.getDatabase(appContext).savedDao(),
                 AppDatabase.getDatabase(appContext).fileDao(),
                 sessionManager);
+        recentRepo = new RecentRepository(AppDatabase.getDatabase(appContext).recentDao());
 
         rv.setLayoutManager(new LinearLayoutManager(requireContext()));
         adapter = new FileAdapter(new FileAdapter.OnItemClickListener() {
@@ -73,9 +76,11 @@ public class DownloadsFragment extends Fragment {
             public void onDownloadClick(FileEntity file) {
                 downloadRepo.getDownloadStatusAsync(file.id, download -> {
                     if (!isAdded()) return;
+                    String localPath = download != null ? download.localPath : null;
+                    recentRepo.record(file.id, file.name, localPath);
                     Bundle args = new Bundle();
                     args.putString("fileName", file.name);
-                    if (download != null) args.putString("localPath", download.localPath);
+                    if (localPath != null) args.putString("localPath", localPath);
                     Navigation.findNavController(view).navigate(R.id.action_global_pdfViewerFragment, args);
                 });
             }

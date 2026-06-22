@@ -10,11 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.R;
 import com.example.data.local.entity.SubjectEntity;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectViewHolder> {
 
     private List<SubjectEntity> subjects = new ArrayList<>();
+    private final Map<String, Integer> downloadedPerSubject = new HashMap<>();
     private final OnItemClickListener listener;
 
     public interface OnItemClickListener {
@@ -27,6 +30,13 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
 
     public void setSubjects(List<SubjectEntity> subjects) {
         this.subjects = subjects;
+        notifyDataSetChanged();
+    }
+
+    /** Sets the number of downloaded files per subject id (for the progress label on each card). */
+    public void setDownloadedPerSubject(Map<String, Integer> map) {
+        downloadedPerSubject.clear();
+        if (map != null) downloadedPerSubject.putAll(map);
         notifyDataSetChanged();
     }
 
@@ -51,6 +61,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
     class SubjectViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvName;
         private final TextView tvTrackBadge;
+        private final TextView tvProgress;
         private final View cardBg;
         private final ImageView ivIcon;
 
@@ -58,6 +69,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
             super(itemView);
             tvName = itemView.findViewById(R.id.tv_name);
             tvTrackBadge = itemView.findViewById(R.id.tv_track_badge);
+            tvProgress = itemView.findViewById(R.id.tv_progress);
             cardBg = itemView.findViewById(R.id.card_bg);
             ivIcon = itemView.findViewById(R.id.iv_icon);
 
@@ -72,6 +84,14 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
         public void bind(SubjectEntity subject) {
             tvName.setText(subject.name);
             tvTrackBadge.setText("scientific".equals(subject.track) ? "علمي" : ("literary".equals(subject.track) ? "أدبي" : "مشترك"));
+
+            Integer dl = downloadedPerSubject.get(subject.id);
+            if (dl != null && dl > 0) {
+                tvProgress.setText("⬇ " + dl + " ملف محمّل");
+                tvProgress.setVisibility(View.VISIBLE);
+            } else {
+                tvProgress.setVisibility(View.GONE);
+            }
             
             // Assign some placeholder colours based on subject length to make it look dynamic without images right now
             int colorResInfoBg = R.color.subject_math_bg;

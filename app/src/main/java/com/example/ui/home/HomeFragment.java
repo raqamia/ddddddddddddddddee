@@ -15,14 +15,17 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.R;
+import com.example.data.local.AppDatabase;
 import com.example.data.local.entity.SubjectEntity;
 import com.example.data.prefs.AppPreferences;
 import com.example.data.prefs.SessionManager;
 import com.example.data.remote.SupabaseApiClient;
 import com.example.data.repository.NotificationsRepository;
+import com.example.data.repository.RecentRepository;
 import com.example.util.Constants;
 import com.example.util.ErrorMessages;
 
@@ -87,6 +90,25 @@ public class HomeFragment extends Fragment {
         });
         notifRepo.fetch();
 
+        // Continue-reading section: the files the user most recently opened.
+        View recentSection = view.findViewById(R.id.recent_section);
+        RecyclerView rvRecent = view.findViewById(R.id.rv_recent);
+        rvRecent.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        RecentAdapter recentAdapter = new RecentAdapter(item -> {
+            Bundle args = new Bundle();
+            args.putString("fileName", item.name);
+            if (item.localPath != null) args.putString("localPath", item.localPath);
+            Navigation.findNavController(view).navigate(R.id.action_global_pdfViewerFragment, args);
+        });
+        rvRecent.setAdapter(recentAdapter);
+        RecentRepository recentRepo = new RecentRepository(
+                AppDatabase.getDatabase(requireContext().getApplicationContext()).recentDao());
+        recentRepo.getRecentLive().observe(getViewLifecycleOwner(), items -> {
+            boolean has = items != null && !items.isEmpty();
+            recentSection.setVisibility(has ? View.VISIBLE : View.GONE);
+            recentAdapter.setItems(items);
+        });
+
         rvSubjects.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
         adapter = new SubjectAdapter(subject -> {
@@ -111,6 +133,10 @@ public class HomeFragment extends Fragment {
             allSubjects.clear();
             if (subjects != null) allSubjects.addAll(subjects);
             applyFilter();
+        });
+
+        viewModel.getDownloadedPerSubject().observe(getViewLifecycleOwner(), map -> {
+            if (adapter != null) adapter.setDownloadedPerSubject(map);
         });
 
         viewModel.getGreeting().observe(getViewLifecycleOwner(), greeting -> tvTrackName.setText(greeting));
