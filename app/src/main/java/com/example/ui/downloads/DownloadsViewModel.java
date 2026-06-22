@@ -4,6 +4,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import com.example.data.local.AppDatabase;
 import com.example.data.local.entity.DownloadEntity;
@@ -33,6 +34,8 @@ public class DownloadsViewModel extends AndroidViewModel {
         this.downloads = Transformations.switchMap(downloadRepository.getCompletedDownloadsLive(), dls -> {
             List<String> ids = new ArrayList<>();
             if (dls != null) for (DownloadEntity d : dls) ids.add(d.fileId);
+            // Guard against an empty IN () query, which SQLite rejects.
+            if (ids.isEmpty()) return new MutableLiveData<>(new ArrayList<>());
             return fileRepository.getFilesByIdsLive(ids);
         });
     }

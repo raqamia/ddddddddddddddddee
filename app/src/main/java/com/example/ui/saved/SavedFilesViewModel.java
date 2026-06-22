@@ -4,6 +4,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import com.example.data.local.AppDatabase;
 import com.example.data.local.entity.FileEntity;
@@ -43,6 +44,8 @@ public class SavedFilesViewModel extends AndroidViewModel {
             if (saved != null) {
                 for (SavedFileEntity s : saved) ids.add(s.fileId);
             }
+            // Guard against an empty IN () query, which SQLite rejects.
+            if (ids.isEmpty()) return new MutableLiveData<>(new ArrayList<>());
             return fileRepository.getFilesByIdsLive(ids);
         });
     }

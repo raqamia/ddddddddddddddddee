@@ -137,8 +137,12 @@
 
 <div id="toast"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"
+        integrity="sha384-GFr3yTh5lJznCbZfpTtXnwboFsxqtTQoeTZCRHhE0579KrRmlCzen5AA8ohaB5ug"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"
+        integrity="sha384-/1qUCSGwTur9vjf/z9lmu/eCUYbpOTgSjmpbMQZ1/CtX2v/WcAIKqRv+U1DUCG6e"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
   if (window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
   // Counts the pages of a selected PDF (best-effort) so the admin doesn't enter it by hand.
@@ -166,7 +170,13 @@ function fmtDate(d){ if(!d) return '—'; return new Date(d).toLocaleDateString(
 
 /* ---------- init / auth ---------- */
 $('#cfgUrl').value = DEFAULTS.url; $('#cfgKey').value = DEFAULTS.key;
-$('#saveCfg').onclick = () => { localStorage.setItem('mn_url',$('#cfgUrl').value.trim()); localStorage.setItem('mn_key',$('#cfgKey').value.trim()); toast('تم حفظ الإعدادات، أعد تحميل الصفحة','ok'); };
+$('#saveCfg').onclick = () => {
+  const url = $('#cfgUrl').value.trim(), key = $('#cfgKey').value.trim();
+  let u; try { u = new URL(url); } catch(e) { return toast('رابط غير صالح','err'); }
+  if (u.protocol !== 'https:') return toast('يجب أن يبدأ الرابط بـ https','err');
+  localStorage.setItem('mn_url', url); localStorage.setItem('mn_key', key);
+  toast('تم حفظ الإعدادات، أعد تحميل الصفحة','ok');
+};
 
 function initClient(){ sb = supabase.createClient($('#cfgUrl').value.trim()||DEFAULTS.url, $('#cfgKey').value.trim()||DEFAULTS.key); }
 initClient();
@@ -383,7 +393,7 @@ document.addEventListener('click', e => {
 /* ========== MODAL ENGINE ========== */
 function openModal(title, bodyHtml, onSave, saveLabel){
   const bg=document.createElement('div'); bg.className='modal-bg'; bg.id='modalBg';
-  bg.innerHTML=`<div class="modal"><div class="mh"><h3>${title}</h3><button class="x" id="mClose">×</button></div><div class="mb">${bodyHtml}</div><div class="mf"><button class="btn" id="mSave">${saveLabel||'حفظ'}</button><button class="btn outline" id="mCancel">إلغاء</button></div></div>`;
+  bg.innerHTML=`<div class="modal"><div class="mh"><h3>${esc(title)}</h3><button class="x" id="mClose">×</button></div><div class="mb">${bodyHtml}</div><div class="mf"><button class="btn" id="mSave">${esc(saveLabel||'حفظ')}</button><button class="btn outline" id="mCancel">إلغاء</button></div></div>`;
   document.body.appendChild(bg);
   $('#mClose').onclick=$('#mCancel').onclick=closeModal;
   bg.onclick=e=>{ if(e.target===bg) closeModal(); };

@@ -55,13 +55,6 @@ public class DownloadsFragment extends Fragment {
         RecyclerView rv = view.findViewById(R.id.rv_downloads);
         emptyState = view.findViewById(R.id.empty_state);
         progressBar = view.findViewById(R.id.progress_bar);
-        androidx.swiperefreshlayout.widget.SwipeRefreshLayout swipe = view.findViewById(R.id.swipe_refresh_downloads);
-        swipe.setOnRefreshListener(() -> {
-            savedRepo.syncFromServer();
-            new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
-                if (isAdded()) swipe.setRefreshing(false);
-            }, 600);
-        });
 
         btnBack.setOnClickListener(v -> Navigation.findNavController(view).popBackStack());
 
@@ -76,6 +69,14 @@ public class DownloadsFragment extends Fragment {
                 AppDatabase.getDatabase(appContext).fileDao(),
                 sessionManager);
         recentRepo = new RecentRepository(AppDatabase.getDatabase(appContext).recentDao());
+
+        androidx.swiperefreshlayout.widget.SwipeRefreshLayout swipe = view.findViewById(R.id.swipe_refresh_downloads);
+        swipe.setOnRefreshListener(() -> {
+            savedRepo.syncFromServer();
+            new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
+                if (isAdded()) swipe.setRefreshing(false);
+            }, 600);
+        });
 
         rv.setLayoutManager(new LinearLayoutManager(requireContext()));
         adapter = new FileAdapter(new FileAdapter.OnItemClickListener() {
