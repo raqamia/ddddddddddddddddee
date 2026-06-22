@@ -13,13 +13,46 @@ import java.io.File;
 
 public class FileDownloadManager {
 
+    private static final String DIR_NAME = "ManaraFiles";
+
+    /** The directory where downloaded PDFs are stored. */
+    public static File getDownloadsDir(Context context) {
+        return new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), DIR_NAME);
+    }
+
+    /** Total size in bytes of all downloaded files. */
+    public static long getDownloadsSize(Context context) {
+        File dir = getDownloadsDir(context);
+        long total = 0;
+        File[] files = dir.listFiles();
+        if (files != null) for (File f : files) total += f.isFile() ? f.length() : 0;
+        return total;
+    }
+
+    /** Deletes all downloaded files from disk. Returns the number of files removed. */
+    public static int clearDownloads(Context context) {
+        File dir = getDownloadsDir(context);
+        int n = 0;
+        File[] files = dir.listFiles();
+        if (files != null) for (File f : files) { if (f.isFile() && f.delete()) n++; }
+        return n;
+    }
+
+    /** Formats a byte count into a human-readable string. */
+    public static String formatSize(long bytes) {
+        if (bytes <= 0) return "0 MB";
+        String[] u = {"B", "KB", "MB", "GB"};
+        int i = 0; double n = bytes;
+        while (n >= 1024 && i < u.length - 1) { n /= 1024; i++; }
+        return String.format(java.util.Locale.US, "%.1f %s", n, u[i]);
+    }
+
     public static String downloadPdf(Context context, String fileId, String fileName, String signedUrl) {
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         if (downloadManager == null) return null;
 
         Uri uri = Uri.parse(signedUrl);
-        String dirName = "ManaraFiles";
-        File dir = new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), dirName);
+        File dir = getDownloadsDir(context);
         if (!dir.exists()) dir.mkdirs();
 
         String safeName = fileId + "_" + fileName.replaceAll("[^a-zA-Z0-9_.\\-]", "_") + ".pdf";

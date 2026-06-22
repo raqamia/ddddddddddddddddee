@@ -34,6 +34,14 @@ public class AppPreferences {
         prefs.edit().putLong("last_seen_notif", timeMillis).apply();
     }
 
+    public float getFontScale() {
+        return prefs.getFloat("font_scale", 1.0f);
+    }
+
+    public void setFontScale(float scale) {
+        prefs.edit().putFloat("font_scale", scale).apply();
+    }
+
     public boolean isNightMode() {
         return prefs.getBoolean("night_mode", false);
     }

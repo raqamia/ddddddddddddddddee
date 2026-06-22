@@ -51,6 +51,31 @@ public class ProfileRepository {
         });
     }
 
+    public interface UpdateCallback {
+        void onDone(boolean ok);
+    }
+
+    /** Updates the user's display name in the profiles table. */
+    public void updateName(String name, UpdateCallback cb) {
+        String userId = sessionManager.getUserId();
+        String token = sessionManager.getAccessToken();
+        if (api == null || userId == null || token == null) { cb.onDone(false); return; }
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("name", name);
+        api.updateProfile("eq." + userId, updates, "Bearer " + token).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                cb.onDone(response.isSuccessful());
+                if (response.isSuccessful()) fetchProfile();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                cb.onDone(false);
+            }
+        });
+    }
+
     /** Marks the user as active (updates profiles.last_seen) for the admin "active users" metric. */
     public void markActive() {
         String token = sessionManager.getAccessToken();

@@ -1,59 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
-
-    <LinearLayout
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="20dp"
-        android:gravity="center_vertical"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            style="@style/Text.Black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="الإعدادات"
-            android:textColor="@color/navy"
-            android:textSize="24sp" />
-    </LinearLayout>
+    android:background="@color/background"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@id/header">
+        android:paddingBottom="24dp">
 
-        <!-- Profile card -->
+        <TextView
+            style="@style/Text.Black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="الإعدادات"
+            android:textColor="@color/navy"
+            android:textSize="24sp" />
+
+        <!-- Profile card (tap to edit name) -->
         <LinearLayout
             android:id="@+id/profile_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
+            android:layout_marginHorizontal="16dp"
             android:background="@drawable/bg_card"
-            android:padding="16dp"
-            android:layout_marginBottom="16dp">
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
 
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/ic_person"
                 android:background="@drawable/bg_circle_navy_10"
                 android:padding="10dp"
+                android:src="@drawable/ic_person"
                 app:tint="@color/navy" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="12dp"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
@@ -71,122 +64,193 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text=""
                     android:textColor="@color/text_muted"
                     android:textSize="13sp" />
             </LinearLayout>
+
+            <TextView
+                style="@style/Text.SemiBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="تعديل"
+                android:textColor="@color/navy"
+                android:textSize="13sp" />
         </LinearLayout>
 
-        <!-- Dark mode toggle -->
+        <!-- Section: App -->
+        <TextView
+            style="@style/Text.SemiBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="4dp"
+            android:text="التطبيق"
+            android:textColor="@color/text_muted"
+            android:textSize="13sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingVertical="12dp"
-            android:paddingHorizontal="4dp">
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:paddingHorizontal="12dp">
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_lantern"
-                app:tint="@color/text_primary" />
-
-            <TextView
-                style="@style/Text.Regular"
-                android:layout_width="0dp"
+            <!-- Dark mode -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="16dp"
-                android:text="الوضع الليلي"
-                android:textColor="@color/text_primary"
-                android:textSize="16sp" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp">
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switch_night_mode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_lantern" app:tint="@color/text_primary" />
+                <TextView style="@style/Text.Regular" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="الوضع الليلي" android:textColor="@color/text_primary" android:textSize="15sp" />
+                <com.google.android.material.switchmaterial.SwitchMaterial android:id="@+id/switch_night_mode" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/border" />
+
+            <!-- Font size -->
+            <LinearLayout
+                android:id="@+id/row_font_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp">
+
+                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_description" app:tint="@color/text_primary" />
+                <TextView style="@style/Text.Regular" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="حجم الخط" android:textColor="@color/text_primary" android:textSize="15sp" />
+                <TextView android:id="@+id/tv_font_value" style="@style/Text.Regular" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="عادي" android:textColor="@color/text_muted" android:textSize="13sp" />
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/border" />
+
+            <!-- Change track -->
+            <LinearLayout
+                android:id="@+id/btn_change_track"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp">
+
+                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_school_outline" app:tint="@color/text_primary" />
+                <TextView style="@style/Text.Regular" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="تغيير المسار" android:textColor="@color/text_primary" android:textSize="15sp" />
+            </LinearLayout>
         </LinearLayout>
 
-        <!-- Spacer -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/border"
-            android:layout_marginVertical="8dp" />
+        <!-- Section: Storage -->
+        <TextView
+            style="@style/Text.SemiBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="4dp"
+            android:text="التخزين"
+            android:textColor="@color/text_muted"
+            android:textSize="13sp" />
 
-        <!-- Change Track -->
-        <FrameLayout
-            android:id="@+id/btn_change_track"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:paddingVertical="16dp"
-            android:paddingHorizontal="4dp">
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/bg_card"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
 
-            <LinearLayout
+            <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_cloud_download_outline" app:tint="@color/text_primary" />
+
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:orientation="vertical">
+                <TextView style="@style/Text.Regular" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="المساحة المستخدمة" android:textColor="@color/text_primary" android:textSize="15sp" />
+                <TextView android:id="@+id/tv_storage" style="@style/Text.Regular" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="@color/text_muted" android:textSize="13sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/btn_clear_downloads"
+                style="@style/Text.SemiBold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="8dp"
+                android:text="حذف الكل"
+                android:textColor="@color/error"
+                android:textSize="14sp" />
+        </LinearLayout>
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_description"
-                    app:tint="@color/text_primary" />
+        <!-- Section: Other -->
+        <TextView
+            style="@style/Text.SemiBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="4dp"
+            android:text="أخرى"
+            android:textColor="@color/text_muted"
+            android:textSize="13sp" />
 
-                <TextView
-                    style="@style/Text.Regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="تغيير المسار"
-                    android:textColor="@color/text_primary"
-                    android:textSize="16sp" />
-            </LinearLayout>
-        </FrameLayout>
-
-        <!-- Spacer -->
-        <View
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/border"
-            android:layout_marginVertical="8dp" />
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:paddingHorizontal="12dp">
+
+            <LinearLayout android:id="@+id/row_share" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingVertical="14dp">
+                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_arrow_forward" app:tint="@color/text_primary" />
+                <TextView style="@style/Text.Regular" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="شارك التطبيق" android:textColor="@color/text_primary" android:textSize="15sp" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/border" />
+
+            <LinearLayout android:id="@+id/row_rate" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingVertical="14dp">
+                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_lantern" app:tint="@color/text_primary" />
+                <TextView style="@style/Text.Regular" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="قيّمنا على المتجر" android:textColor="@color/text_primary" android:textSize="15sp" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/border" />
+
+            <LinearLayout android:id="@+id/row_help" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingVertical="14dp">
+                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_notifications" app:tint="@color/text_primary" />
+                <TextView style="@style/Text.Regular" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="مساعدة" android:textColor="@color/text_primary" android:textSize="15sp" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/border" />
+
+            <LinearLayout android:id="@+id/row_about" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingVertical="14dp">
+                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_description" app:tint="@color/text_primary" />
+                <TextView style="@style/Text.Regular" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="عن التطبيق" android:textColor="@color/text_primary" android:textSize="15sp" />
+            </LinearLayout>
+        </LinearLayout>
 
         <!-- Logout -->
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/btn_logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:paddingVertical="16dp"
-            android:paddingHorizontal="4dp">
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/bg_card"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_arrow_forward"
-                    android:rotation="180"
-                    app:tint="@color/error" />
-
-                <TextView
-                    style="@style/Text.Regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="تسجيل الخروج"
-                    android:textColor="@color/error"
-                    android:textSize="16sp" />
-            </LinearLayout>
-        </FrameLayout>
+            <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_arrow_forward" android:rotation="180" app:tint="@color/error" />
+            <TextView style="@style/Text.SemiBold" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="تسجيل الخروج" android:textColor="@color/error" android:textSize="15sp" />
+        </LinearLayout>
 
     </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
