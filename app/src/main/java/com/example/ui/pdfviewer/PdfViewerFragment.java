@@ -14,19 +14,20 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import com.example.R;
+import com.example.data.local.AppDatabase;
+import com.example.data.repository.RecentRepository;
 import com.example.util.ErrorMessages;
 import com.github.barteksc.pdfviewer.PDFView;
-import com.github.barteksc.pdfviewer.listener.OnErrorListener;
-import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
-import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 
 import java.io.File;
 
 public class PdfViewerFragment extends Fragment {
-    
+
     private PDFView pdfView;
     private TextView tvPageCount, tvTitle;
     private ProgressBar progressBar;
+    private RecentRepository recentRepo;
+    private String fileId;
 
     @Nullable
     @Override
@@ -46,11 +47,15 @@ public class PdfViewerFragment extends Fragment {
 
         btnBack.setOnClickListener(v -> Navigation.findNavController(view).popBackStack());
 
+        recentRepo = new RecentRepository(
+                AppDatabase.getDatabase(requireContext().getApplicationContext()).recentDao());
+
         String localPath = null;
         String fileName = "";
         if (getArguments() != null) {
             localPath = getArguments().getString("localPath");
             fileName = getArguments().getString("fileName", "ملف PDF");
+            fileId = getArguments().getString("fileId");
         }
 
         tvTitle.setText(fileName);
@@ -67,23 +72,31 @@ public class PdfViewerFragment extends Fragment {
             return;
         }
 
-        loadPdf(pdfFile);
+        // Resume from the last page the user reached (if any).
+        if (fileId != null) {
+            recentRepo.getLastPageAsync(fileId, page -> { if (isAdded() && pdfView != null) loadPdf(pdfFile, page); });
+        } else {
+            loadPdf(pdfFile, 0);
+        }
     }
 
-    private void loadPdf(File file) {
+    private void loadPdf(File file, int startPage) {
         progressBar.setVisibility(View.VISIBLE);
         pdfView.fromFile(file)
                 .enableSwipe(true)
                 .swipeHorizontal(false)
                 .enableDoubletap(true)
-                .defaultPage(0)
+                .defaultPage(startPage)
                 .onLoad(nbPages -> {
                     // The PDF library decodes asynchronously; the view may already be destroyed.
                     if (!isAdded() || pdfView == null) return;
                     if (progressBar != null) progressBar.setVisibility(View.GONE);
                     updatePageCount(pdfView.getCurrentPage(), nbPages);
                 })
-                .onPageChange((page, pageCount) -> updatePageCount(page, pageCount))
+                .onPageChange((page, pageCount) -> {
+                    updatePageCount(page, pageCount);
+                    if (fileId != null && recentRepo != null) recentRepo.saveLastPage(fileId, page);
+                })
                 .onError(t -> {
                     Log.e("PdfViewer", "Error loading PDF", t);
                     if (!isAdded()) return;

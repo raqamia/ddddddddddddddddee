@@ -16,6 +16,12 @@ public interface RecentDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void upsert(RecentEntity recent);
 
+    @Query("UPDATE recent SET lastPage = :page WHERE fileId = :fileId")
+    void setLastPage(String fileId, int page);
+
+    @Query("SELECT lastPage FROM recent WHERE fileId = :fileId LIMIT 1")
+    Integer getLastPage(String fileId);
+
     @Query("DELETE FROM recent WHERE fileId = :fileId")
     void delete(String fileId);
 }

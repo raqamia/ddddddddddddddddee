@@ -23,14 +23,20 @@
             android:textSize="24sp" />
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_saved_files"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_saved"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingHorizontal="16dp"
-        android:clipToPadding="false"
         app:layout_constraintTop_toBottomOf="@id/header"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_saved_files"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="16dp"
+            android:clipToPadding="false" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -54,19 +60,30 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:alpha="0.45"
             android:src="@drawable/ic_bookmark_outline"
             app:tint="@color/text_muted" />
+
+        <TextView
+            style="@style/Text.SemiBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="لا توجد ملفات في المفضلة"
+            android:textColor="@color/text_secondary"
+            android:textSize="16sp" />
 
         <TextView
             style="@style/Text.Regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="لا توجد ملفات محفوظة بعد"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:text="اضغط على 🔖 بجانب أي ملف لحفظه هنا"
             android:textColor="@color/text_muted"
-            android:textSize="14sp" />
+            android:textSize="13sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

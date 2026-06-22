@@ -55,6 +55,13 @@ public class DownloadsFragment extends Fragment {
         RecyclerView rv = view.findViewById(R.id.rv_downloads);
         emptyState = view.findViewById(R.id.empty_state);
         progressBar = view.findViewById(R.id.progress_bar);
+        androidx.swiperefreshlayout.widget.SwipeRefreshLayout swipe = view.findViewById(R.id.swipe_refresh_downloads);
+        swipe.setOnRefreshListener(() -> {
+            savedRepo.syncFromServer();
+            new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
+                if (isAdded()) swipe.setRefreshing(false);
+            }, 600);
+        });
 
         btnBack.setOnClickListener(v -> Navigation.findNavController(view).popBackStack());
 
@@ -79,6 +86,7 @@ public class DownloadsFragment extends Fragment {
                     String localPath = download != null ? download.localPath : null;
                     recentRepo.record(file.id, file.name, localPath);
                     Bundle args = new Bundle();
+                    args.putString("fileId", file.id);
                     args.putString("fileName", file.name);
                     if (localPath != null) args.putString("localPath", localPath);
                     Navigation.findNavController(view).navigate(R.id.action_global_pdfViewerFragment, args);
@@ -102,7 +110,12 @@ public class DownloadsFragment extends Fragment {
         viewModel.getDownloads().observe(getViewLifecycleOwner(), files -> {
             progressBar.setVisibility(View.GONE);
             boolean has = files != null && !files.isEmpty();
-            if (has) adapter.setFiles(files);
+            if (has) {
+                adapter.setFiles(files);
+                Set<String> ids = new HashSet<>();
+                for (FileEntity f : files) ids.add(f.id);
+                adapter.setDownloadedIds(ids); // everything here is downloaded
+            }
             rv.setVisibility(has ? View.VISIBLE : View.GONE);
             emptyState.setVisibility(has ? View.GONE : View.VISIBLE);
         });

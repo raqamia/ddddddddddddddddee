@@ -14,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import com.google.android.material.snackbar.Snackbar;
 import com.example.R;
 import com.example.data.local.AppDatabase;
 import com.example.data.prefs.SessionManager;
@@ -32,6 +34,7 @@ public class SavedFilesFragment extends Fragment {
     private FileAdapter adapter;
     private View emptyState;
     private ProgressBar progressBar;
+    private SwipeRefreshLayout swipeRefresh;
     private DownloadRepository downloadRepo;
     private RecentRepository recentRepo;
 
@@ -50,6 +53,8 @@ public class SavedFilesFragment extends Fragment {
         RecyclerView rvSavedFiles = view.findViewById(R.id.rv_saved_files);
         emptyState = view.findViewById(R.id.empty_state);
         progressBar = view.findViewById(R.id.progress_bar);
+        swipeRefresh = view.findViewById(R.id.swipe_refresh_saved);
+        swipeRefresh.setOnRefreshListener(() -> viewModel.loadSavedFiles());
 
         rvSavedFiles.setLayoutManager(new LinearLayoutManager(requireContext()));
 
@@ -69,6 +74,7 @@ public class SavedFilesFragment extends Fragment {
                     String localPath = download != null ? download.localPath : null;
                     recentRepo.record(file.id, file.name, localPath);
                     Bundle args = new Bundle();
+                    args.putString("fileId", file.id);
                     args.putString("fileName", file.name);
                     if (localPath != null) args.putString("localPath", localPath);
                     Navigation.findNavController(view).navigate(R.id.action_global_pdfViewerFragment, args);
@@ -77,14 +83,20 @@ public class SavedFilesFragment extends Fragment {
 
             @Override
             public void onSaveToggle(FileEntity file, boolean save) {
-                // Everything here is already a favourite, so this removes it.
+                // Everything here is already a favourite, so this removes it — offer an undo.
                 viewModel.toggleSave(file.id, save);
+                if (!save) {
+                    Snackbar.make(view, "تمت الإزالة من المفضلة", Snackbar.LENGTH_LONG)
+                            .setAction("تراجع", v -> viewModel.toggleSave(file.id, true))
+                            .show();
+                }
             }
         });
         rvSavedFiles.setAdapter(adapter);
 
         viewModel.getSavedFiles().observe(getViewLifecycleOwner(), files -> {
             progressBar.setVisibility(View.GONE);
+            if (swipeRefresh != null) swipeRefresh.setRefreshing(false);
             if (files != null && !files.isEmpty()) {
                 adapter.setFiles(files);
                 Set<String> ids = new HashSet<>();
@@ -106,6 +118,7 @@ public class SavedFilesFragment extends Fragment {
         super.onDestroyView();
         emptyState = null;
         progressBar = null;
+        swipeRefresh = null;
         adapter = null;
     }
 }

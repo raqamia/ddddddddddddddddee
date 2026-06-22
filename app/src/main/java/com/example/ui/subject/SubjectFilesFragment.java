@@ -144,6 +144,13 @@ public class SubjectFilesFragment extends Fragment {
         });
         savedRepo.syncFromServer();
 
+        // Mark which files are already downloaded (✓).
+        downloadRepo.getCompletedDownloadsLive().observe(getViewLifecycleOwner(), dls -> {
+            Set<String> ids = new HashSet<>();
+            if (dls != null) for (com.example.data.local.entity.DownloadEntity d : dls) ids.add(d.fileId);
+            if (adapter != null) adapter.setDownloadedIds(ids);
+        });
+
         viewModel.getFiles().observe(getViewLifecycleOwner(), files -> {
             progressBar.setVisibility(View.GONE);
             if (files != null && !files.isEmpty()) {
@@ -179,6 +186,7 @@ public class SubjectFilesFragment extends Fragment {
         if (!isAdded()) return;
         if (recentRepo != null) recentRepo.record(fileId, fileName, localPath);
         Bundle args = new Bundle();
+        args.putString("fileId", fileId);
         args.putString("localPath", localPath);
         args.putString("fileName", fileName);
         try {

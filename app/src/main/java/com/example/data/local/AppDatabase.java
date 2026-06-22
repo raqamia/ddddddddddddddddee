@@ -15,7 +15,7 @@ import com.example.data.local.entity.RecentEntity;
 import com.example.data.local.entity.SavedFileEntity;
 import com.example.data.local.entity.SubjectEntity;
 
-@Database(entities = {SubjectEntity.class, FileEntity.class, DownloadEntity.class, SavedFileEntity.class, RecentEntity.class}, version = 3, exportSchema = false)
+@Database(entities = {SubjectEntity.class, FileEntity.class, DownloadEntity.class, SavedFileEntity.class, RecentEntity.class}, version = 4, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static volatile AppDatabase INSTANCE;
 

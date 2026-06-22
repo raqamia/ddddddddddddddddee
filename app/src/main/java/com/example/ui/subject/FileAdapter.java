@@ -21,6 +21,7 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.FileViewHolder
 
     private List<FileEntity> files = new ArrayList<>();
     private final Set<String> savedIds = new HashSet<>();
+    private final Set<String> downloadedIds = new HashSet<>();
     private final OnItemClickListener listener;
 
     public interface OnItemClickListener {
@@ -43,6 +44,13 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.FileViewHolder
     public void setSavedIds(Set<String> ids) {
         savedIds.clear();
         if (ids != null) savedIds.addAll(ids);
+        notifyDataSetChanged();
+    }
+
+    /** Updates which files are downloaded so a "✓ محمّل" indicator can be shown. */
+    public void setDownloadedIds(Set<String> ids) {
+        downloadedIds.clear();
+        if (ids != null) downloadedIds.addAll(ids);
         notifyDataSetChanged();
     }
 
@@ -101,7 +109,12 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.FileViewHolder
         public void bind(FileEntity file) {
             tvFileName.setText(file.name);
             String sizeMb = String.format(Locale.US, "%.1f", file.sizeBytes / (1024.0 * 1024.0));
-            tvFileInfo.setText("PDF • " + sizeMb + " MB • " + file.pageCount + " صفحات");
+            String info = "PDF • " + sizeMb + " MB • " + file.pageCount + " صفحات";
+            boolean isDownloaded = downloadedIds.contains(file.id);
+            if (isDownloaded) info += " • ✓ محمّل";
+            tvFileInfo.setText(info);
+            btnAction.setColorFilter(itemView.getContext().getColor(isDownloaded ? R.color.success : R.color.navy));
+
             boolean isSaved = savedIds.contains(file.id);
             btnSave.setImageResource(isSaved ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_outline);
         }

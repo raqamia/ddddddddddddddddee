@@ -96,6 +96,7 @@ public class HomeFragment extends Fragment {
         rvRecent.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         RecentAdapter recentAdapter = new RecentAdapter(item -> {
             Bundle args = new Bundle();
+            args.putString("fileId", item.fileId);
             args.putString("fileName", item.name);
             if (item.localPath != null) args.putString("localPath", item.localPath);
             Navigation.findNavController(view).navigate(R.id.action_global_pdfViewerFragment, args);

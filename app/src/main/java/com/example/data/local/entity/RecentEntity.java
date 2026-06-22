@@ -13,4 +13,5 @@ public class RecentEntity {
     public String name;
     public String localPath;
     public long openedAt;
+    public int lastPage = 0;
 }
