@@ -41,7 +41,7 @@ public class SubjectFilesFragment extends Fragment {
     private SubjectFilesViewModel viewModel;
     private FileAdapter adapter;
     private View emptyState;
-    private TextView tvError;
+    private View tvError;
     private Button btnRetry;
     private ProgressBar progressBar;
     private DownloadRepository downloadRepo;
@@ -158,7 +158,6 @@ public class SubjectFilesFragment extends Fragment {
         viewModel.getNetworkError().observe(getViewLifecycleOwner(), hasError -> {
             progressBar.setVisibility(View.GONE);
             if (Boolean.TRUE.equals(hasError) && (adapter == null || adapter.getItemCount() == 0)) {
-                tvError.setText(ErrorMessages.get("network_error"));
                 tvError.setVisibility(View.VISIBLE);
                 emptyState.setVisibility(View.GONE);
             }
