@@ -10,6 +10,10 @@ public class Constants {
     public static final String SUPABASE_STORAGE_URL = SUPABASE_URL + "/storage/v1/";
 
     public static final String PDF_BUCKET = "pdfs";
+
+    // Tawjihi exam start date (yyyy-MM-dd) used for the home-screen countdown.
+    public static final String TAWJIHI_EXAM_DATE = "2026-06-13";
+
     public static final String PREFS_NAME = "manara_secure_prefs";
     public static final String KEY_ACCESS_TOKEN = "access_token";
     public static final String KEY_REFRESH_TOKEN = "refresh_token";

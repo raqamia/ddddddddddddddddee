@@ -5,6 +5,10 @@ import com.example.data.remote.SupabaseApiService;
 import com.example.data.remote.dto.AuthResponse;
 import com.example.data.remote.dto.LoginRequest;
 import com.example.data.remote.dto.RegisterRequest;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -76,6 +80,24 @@ public class AuthRepository {
 
             @Override
             public void onFailure(Call<AuthResponse> call, Throwable t) {
+                callback.onError("network_error");
+            }
+        });
+    }
+
+    /** Sends a password-reset email via Supabase Auth. */
+    public void resetPassword(String email, final AuthCallback callback) {
+        Map<String, String> body = new HashMap<>();
+        body.put("email", email);
+        api.recoverPassword(body).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) callback.onSuccess(null);
+                else callback.onError(parseError(response));
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
                 callback.onError("network_error");
             }
         });

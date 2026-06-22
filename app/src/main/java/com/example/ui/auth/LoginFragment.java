@@ -102,6 +102,46 @@ public class LoginFragment extends Fragment {
         tvRegister.setOnClickListener(v ->
                 Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_registerFragment)
         );
+
+        View tvForgot = view.findViewById(R.id.tv_forgot);
+        if (tvForgot != null) {
+            tvForgot.setOnClickListener(v -> showForgotDialog(repository, etEmail.getText().toString().trim()));
+        }
+    }
+
+    private void showForgotDialog(AuthRepository repository, String prefill) {
+        final android.widget.EditText input = new android.widget.EditText(requireContext());
+        input.setInputType(android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS | android.text.InputType.TYPE_CLASS_TEXT);
+        input.setHint("البريد الإلكتروني");
+        if (prefill != null) input.setText(prefill);
+        int pad = (int) (20 * getResources().getDisplayMetrics().density);
+        android.widget.FrameLayout container = new android.widget.FrameLayout(requireContext());
+        container.setPadding(pad, pad / 2, pad, 0);
+        container.addView(input);
+
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle("استعادة كلمة المرور")
+                .setMessage("أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة التعيين.")
+                .setView(container)
+                .setPositiveButton("إرسال", (d, w) -> {
+                    String email = input.getText().toString().trim();
+                    if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                        Toast.makeText(requireContext(), "صيغة البريد الإلكتروني غير صحيحة", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    repository.resetPassword(email, new AuthRepository.AuthCallback() {
+                        @Override public void onSuccess(com.example.data.remote.dto.AuthResponse auth) {
+                            if (isAdded()) requireActivity().runOnUiThread(() ->
+                                    Toast.makeText(requireContext(), "تم إرسال رابط الاستعادة إلى بريدك", Toast.LENGTH_LONG).show());
+                        }
+                        @Override public void onError(String errorCode) {
+                            if (isAdded()) requireActivity().runOnUiThread(() ->
+                                    Toast.makeText(requireContext(), ErrorMessages.get(errorCode), Toast.LENGTH_LONG).show());
+                        }
+                    });
+                })
+                .setNegativeButton("إلغاء", null)
+                .show();
     }
 
     @Override

@@ -19,6 +19,9 @@ public interface SupabaseApiService {
     @POST("auth/v1/logout")
     Call<Void> logout(@Header("Authorization") String bearer);
 
+    @POST("auth/v1/recover")
+    Call<Void> recoverPassword(@Body Map<String, String> body);
+
     @GET("rest/v1/profiles")
     Call<List<ProfileDto>> getProfile(@Query("id") String eqUserId, @Header("Authorization") String bearer);
 

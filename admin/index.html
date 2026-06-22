@@ -138,6 +138,15 @@
 <div id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+<script>
+  if (window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+  // Counts the pages of a selected PDF (best-effort) so the admin doesn't enter it by hand.
+  async function countPdfPages(file){
+    try{ const buf = await file.arrayBuffer(); const doc = await pdfjsLib.getDocument({data:buf}).promise; return doc.numPages; }
+    catch(e){ return null; }
+  }
+</script>
 <script>
 /* ---------- config ---------- */
 const DEFAULTS = {
@@ -307,6 +316,15 @@ function fileModal(){
       if(error){ await sb.storage.from('pdfs').remove([path]); $('#upInfo').textContent=''; return toast(error.message,'err'); }
       closeModal(); toast('تم رفع الملف بنجاح','ok'); viewFiles();
     }, 'رفع');
+  // Auto-fill the page count from the chosen PDF.
+  const pdfInput = $('#f_pdf');
+  if(pdfInput){ pdfInput.onchange = async () => {
+    const f = pdfInput.files[0]; if(!f || !window.pdfjsLib) return;
+    $('#upInfo').textContent = 'جارٍ حساب عدد الصفحات…';
+    const n = await countPdfPages(f);
+    if(n){ $('#f_pages').value = n; $('#upInfo').textContent = `عدد الصفحات: ${n}`; }
+    else { $('#upInfo').textContent = ''; }
+  }; }
 }
 async function delFile(id){ const f=FILES_ROWS.find(x=>x.id===id); if(!f)return;
   if(!confirm(`حذف الملف "${f.name}"؟`))return;
