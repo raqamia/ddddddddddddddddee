@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Note: Replace "sans-serif" with "@font/cairo_regular" etc once TTF files are added to res/font/ -->
+    <!-- Cairo brand font (see res/font/cairo.xml). -->
     <style name="Text.Regular" parent="">
-        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:fontFamily">@font/cairo</item>
+        <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/text_primary</item>
     </style>
 
     <style name="Text.SemiBold" parent="">
-        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">@font/cairo</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/text_primary</item>
     </style>
 
     <style name="Text.Bold" parent="">
-        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:fontFamily">@font/cairo</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/text_primary</item>
     </style>
 
     <style name="Text.Black" parent="">
-        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:fontFamily">@font/cairo</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/text_primary</item>
     </style>
 
@@ -32,7 +36,8 @@
     <style name="Button.Primary" parent="Widget.MaterialComponents.Button">
         <item name="android:background">@drawable/bg_button_primary</item>
         <item name="android:textColor">@color/text_light</item>
-        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:fontFamily">@font/cairo</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textSize">15sp</item>
         <item name="android:height">52dp</item>
         <item name="cornerRadius">14dp</item>

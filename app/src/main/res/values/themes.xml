@@ -2,6 +2,8 @@
 <resources>
     <style name="Theme.Manara" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:layoutDirection">rtl</item>
+        <item name="android:fontFamily">@font/cairo</item>
+        <item name="fontFamily">@font/cairo</item>
         <item name="colorPrimary">@color/navy</item>
         <item name="colorPrimaryVariant">@color/navy_light</item>
         <item name="colorSecondary">@color/gold</item>
