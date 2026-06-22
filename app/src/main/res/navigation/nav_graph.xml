@@ -99,6 +99,9 @@
         <action
             android:id="@+id/action_homeFragment_to_notificationsFragment"
             app:destination="@id/notificationsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_downloadsFragment"
+            app:destination="@id/downloadsFragment" />
     </fragment>
 
     <fragment
@@ -108,14 +111,16 @@
         tools:layout="@layout/fragment_notifications" />
 
     <fragment
+        android:id="@+id/downloadsFragment"
+        android:name="com.example.ui.downloads.DownloadsFragment"
+        android:label="Downloads"
+        tools:layout="@layout/fragment_downloads" />
+
+    <fragment
         android:id="@+id/savedFilesFragment"
         android:name="com.example.ui.saved.SavedFilesFragment"
         android:label="Saved Files"
-        tools:layout="@layout/fragment_saved_files">
-        <action
-            android:id="@+id/action_global_pdfViewerFragment"
-            app:destination="@id/pdfViewerFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_saved_files" />
 
     <fragment
         android:id="@+id/settingsFragment"
@@ -147,5 +152,10 @@
         android:name="com.example.ui.pdfviewer.PdfViewerFragment"
         android:label="PDF Viewer"
         tools:layout="@layout/fragment_pdf_viewer" />
+
+    <!-- Global action: open the PDF viewer from any destination (saved, downloads, recent). -->
+    <action
+        android:id="@+id/action_global_pdfViewerFragment"
+        app:destination="@id/pdfViewerFragment" />
 
 </navigation>

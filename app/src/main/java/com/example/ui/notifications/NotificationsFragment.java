@@ -42,6 +42,9 @@ public class NotificationsFragment extends Fragment {
 
         btnBack.setOnClickListener(v -> Navigation.findNavController(view).popBackStack());
 
+        // Mark notifications as seen so the home badge clears.
+        new com.example.data.prefs.AppPreferences(requireContext()).setLastSeenNotif(System.currentTimeMillis());
+
         rv.setLayoutManager(new LinearLayoutManager(requireContext()));
         adapter = new NotificationAdapter();
         rv.setAdapter(adapter);

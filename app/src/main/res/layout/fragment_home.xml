@@ -33,16 +33,44 @@
                     android:textSize="24sp" />
 
                 <ImageView
-                    android:id="@+id/btn_notifications"
+                    android:id="@+id/btn_downloads"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="@drawable/bg_circle_navy"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/bg_circle_navy_10"
                     android:clickable="true"
                     android:focusable="true"
-                    android:contentDescription="الإشعارات"
+                    android:contentDescription="التحميلات"
                     android:padding="8dp"
-                    android:src="@drawable/ic_notifications"
-                    app:tint="@color/white" />
+                    android:src="@drawable/ic_cloud_download_outline"
+                    app:tint="@color/navy" />
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/btn_notifications"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_circle_navy"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:contentDescription="الإشعارات"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_notifications"
+                        app:tint="@color/white" />
+
+                    <View
+                        android:id="@+id/badge_dot"
+                        android:layout_width="11dp"
+                        android:layout_height="11dp"
+                        android:layout_gravity="top|end"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginEnd="1dp"
+                        android:background="@drawable/bg_badge_dot"
+                        android:visibility="gone" />
+                </FrameLayout>
             </LinearLayout>
 
             <!-- بطاقة الترحيب -->

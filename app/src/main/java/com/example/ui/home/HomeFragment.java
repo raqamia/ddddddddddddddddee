@@ -20,6 +20,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.R;
 import com.example.data.local.entity.SubjectEntity;
 import com.example.data.prefs.AppPreferences;
+import com.example.data.prefs.SessionManager;
+import com.example.data.remote.SupabaseApiClient;
+import com.example.data.repository.NotificationsRepository;
 import com.example.util.Constants;
 import com.example.util.ErrorMessages;
 
@@ -65,6 +68,24 @@ public class HomeFragment extends Fragment {
             btnNotifications.setOnClickListener(v ->
                     Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_notificationsFragment));
         }
+
+        View btnDownloads = view.findViewById(R.id.btn_downloads);
+        if (btnDownloads != null) {
+            btnDownloads.setOnClickListener(v ->
+                    Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_downloadsFragment));
+        }
+
+        // New-notification badge: show a dot when the newest announcement is unseen.
+        View badgeDot = view.findViewById(R.id.badge_dot);
+        AppPreferences badgePrefs = new AppPreferences(requireContext());
+        NotificationsRepository notifRepo = new NotificationsRepository(
+                SupabaseApiClient.getApi(new SessionManager(requireContext().getApplicationContext())));
+        notifRepo.getNotifications().observe(getViewLifecycleOwner(), list -> {
+            if (badgeDot == null || list == null || list.isEmpty()) return;
+            long newest = parseIsoMillis(list.get(0).getCreatedAt());
+            badgeDot.setVisibility(newest > badgePrefs.getLastSeenNotif() ? View.VISIBLE : View.GONE);
+        });
+        notifRepo.fetch();
 
         rvSubjects.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
@@ -127,6 +148,17 @@ public class HomeFragment extends Fragment {
         boolean has = !shown.isEmpty();
         if (rvSubjects != null) rvSubjects.setVisibility(has ? View.VISIBLE : View.GONE);
         if (emptyState != null) emptyState.setVisibility(has ? View.GONE : View.VISIBLE);
+    }
+
+    /** Parses a Supabase ISO timestamp to epoch millis (0 on failure). */
+    private long parseIsoMillis(String iso) {
+        if (iso == null) return 0;
+        try {
+            SimpleDateFormat in = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+            return in.parse(iso.length() >= 19 ? iso.substring(0, 19) : iso).getTime();
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     /** Computes the number of days remaining until the Tawjihi exam date. */

@@ -26,6 +26,14 @@ public class AppPreferences {
         prefs.edit().putString("user_track", track).apply();
     }
 
+    public long getLastSeenNotif() {
+        return prefs.getLong("last_seen_notif", 0);
+    }
+
+    public void setLastSeenNotif(long timeMillis) {
+        prefs.edit().putLong("last_seen_notif", timeMillis).apply();
+    }
+
     public boolean isNightMode() {
         return prefs.getBoolean("night_mode", false);
     }
