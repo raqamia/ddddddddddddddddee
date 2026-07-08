@@ -45,7 +45,7 @@
             <FrameLayout
                 android:layout_width="52dp"
                 android:layout_height="52dp"
-                android:background="@drawable/bg_circle_white">
+                android:background="@drawable/bg_circle_dark">
 
                 <ImageView
                     android:id="@+id/iv_track_icon"
@@ -60,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:textColor="@color/navy"
+                android:textColor="@color/text_dark_primary"
                 android:textSize="20sp" />
 
             <TextView

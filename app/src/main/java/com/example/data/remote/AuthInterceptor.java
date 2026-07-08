@@ -4,6 +4,7 @@ import android.util.Log;
 import com.example.data.prefs.SessionManager;
 import com.example.util.Constants;
 import java.io.IOException;
+import okhttp3.CertificatePinner;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -15,11 +16,13 @@ import org.json.JSONObject;
 public class AuthInterceptor implements Interceptor {
     private final SessionManager sessionManager;
     private static final String TAG = "AuthInterceptor";
+    private volatile boolean refreshPermanentlyFailed = false;
 
     // Reused across token refreshes so we don't allocate a new connection/thread pool each time.
     private static final OkHttpClient REFRESH_CLIENT = new OkHttpClient.Builder()
             .connectTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
             .readTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
+            .certificatePinner(SupabaseApiClient.buildCertificatePinner())
             .build();
 
     public AuthInterceptor(SessionManager sessionManager) {
@@ -28,11 +31,11 @@ public class AuthInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        if (sessionManager != null) {
+        if (sessionManager != null && !refreshPermanentlyFailed) {
             String refreshToken = sessionManager.getRefreshToken();
             if (refreshToken != null && !refreshToken.isEmpty() && !sessionManager.hasValidSession()) {
                 synchronized (this) {
-                    if (!sessionManager.hasValidSession()) {
+                    if (!sessionManager.hasValidSession() && !refreshPermanentlyFailed) {
                         try {
                             refreshAccessToken();
                         } catch (Exception e) {
@@ -59,16 +62,17 @@ public class AuthInterceptor implements Interceptor {
         Request request = requestBuilder.build();
         Response response = chain.proceed(request);
 
-        if (response.code() == 401 && sessionManager != null && sessionManager.getRefreshToken() != null) {
+        if (response.code() == 401 && sessionManager != null && sessionManager.getRefreshToken() != null && !refreshPermanentlyFailed) {
             synchronized (this) {
+                if (refreshPermanentlyFailed) {
+                    return response;
+                }
                 try {
                     refreshAccessToken();
                 } catch (Exception e) {
-                    // Refresh failed: return the original 401 response (still open) to the caller.
                     Log.e(TAG, "فشل تحديث التوكن بعد 401", e);
                     return response;
                 }
-                // Refresh succeeded: discard the old response and retry the original request.
                 response.close();
                 Request retryRequest = original.newBuilder()
                         .header("apikey", Constants.SUPABASE_ANON_KEY)
@@ -109,7 +113,9 @@ public class AuthInterceptor implements Interceptor {
                 long expiresIn = jsonObject.getLong("expires_in");
                 String userId = jsonObject.getJSONObject("user").getString("id");
                 sessionManager.saveTokens(newAccessToken, newRefreshToken, userId, expiresIn);
+                refreshPermanentlyFailed = false;
             } else {
+                refreshPermanentlyFailed = true;
                 sessionManager.clearSession();
             }
         }

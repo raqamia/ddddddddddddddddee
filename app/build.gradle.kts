@@ -23,12 +23,17 @@ android {
   }
 
   signingConfigs {
-    create("release") {
-      val keystorePath = System.getenv("KEYSTORE_PATH") ?: "${rootDir}/my-upload-key.jks"
-      storeFile = file(keystorePath)
-      storePassword = System.getenv("STORE_PASSWORD")
-      keyAlias = "upload"
-      keyPassword = System.getenv("KEY_PASSWORD")
+    val keystorePath = System.getenv("KEYSTORE_PATH")
+    val storePass = System.getenv("STORE_PASSWORD")
+    val keyPass = System.getenv("KEY_PASSWORD")
+    if (keystorePath != null && storePass != null && keyPass != null) {
+      create("release") {
+        logger.lifecycle("release signing config: using KEYSTORE_PATH from env")
+        storeFile = file(keystorePath)
+        storePassword = storePass
+        keyAlias = "upload"
+        keyPassword = keyPass
+      }
     }
     create("debugConfig") {
       storeFile = file(System.getProperty("user.home") + "/.android/debug.keystore")
@@ -44,7 +49,7 @@ android {
       isMinifyEnabled = true
       isShrinkResources = true
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-      signingConfig = signingConfigs.getByName("release")
+      signingConfig = signingConfigs.findByName("release")
     }
     debug {
       signingConfig = signingConfigs.getByName("debugConfig")
@@ -91,4 +96,6 @@ dependencies {
   
   implementation(libs.androidx.swiperefreshlayout)
   implementation(libs.androidx.core.splashscreen)
+  implementation(libs.androidx.sqlcipher)
+  implementation(libs.androidx.sqlite.ktx)
 }

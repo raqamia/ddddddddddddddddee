@@ -26,6 +26,7 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:src="@drawable/ic_description"
+            android:contentDescription="@string/cd_empty_files"
             app:tint="@color/text_muted" />
 
         <TextView
@@ -33,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="لا توجد ملفات"
+            android:text="@string/no_files"
             android:textColor="@color/text_muted"
             android:textSize="14sp" />
     </LinearLayout>
@@ -51,7 +52,7 @@
             style="@style/Text.Regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="حدث خطأ في تحميل الملفات"
+            android:text="@string/load_error"
             android:textColor="@color/text_muted"
             android:textSize="14sp" />
 
@@ -61,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="إعادة المحاولة" />
+                android:text="@string/retry" />
     </LinearLayout>
 
     <ProgressBar

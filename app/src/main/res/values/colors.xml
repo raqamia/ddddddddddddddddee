@@ -9,14 +9,14 @@
     <!-- Backgrounds -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="background">#FEF7FF</color>
-    <color name="surface">#F7F2FA</color>
-    <color name="border">#CAC4D0</color>
+    <color name="background">#150E22</color>
+    <color name="surface">#662A2138</color>
+    <color name="border">#33B8A9D4</color>
 
     <!-- Text -->
-    <color name="text_primary">#1D1B20</color>
-    <color name="text_secondary">#49454F</color>
-    <color name="text_muted">#79747E</color>
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#B8A9D4</color>
+    <color name="text_muted">#9A8AB5</color>
     <color name="text_light">#FFFFFF</color>
 
     <!-- Status -->
@@ -34,6 +34,17 @@
     <color name="white_45">#73FFFFFF</color>
     <color name="gold_15">#26EADDFF</color>
     <color name="gold_20">#33D0BCFF</color>
+
+    <!-- Dark theme (home screen redesign) -->
+    <color name="accent_gold">#FFCA28</color>
+    <color name="text_dark_primary">#FFFFFF</color>
+    <color name="text_dark_secondary">#B8A9D4</color>
+    <color name="bg_dark_surface">#662A2138</color>
+    <color name="dark_purple_deep">#150E22</color>
+    <color name="dark_purple_mid">#4A3570</color>
+    <color name="featured_start">#7B3FE4</color>
+    <color name="featured_end">#A855F7</color>
+    <color name="bottom_nav_bg">#F01A1229</color>
 
     <!-- Subjects -->
     <color name="subject_math">#6B48FF</color>

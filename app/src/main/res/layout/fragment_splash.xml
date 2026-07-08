@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/navy">
+    android:background="@color/dark_purple_deep">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
@@ -24,6 +24,7 @@
                 android:layout_height="36dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_lantern"
+                android:contentDescription="@string/cd_lantern"
                 app:tint="@color/gold" />
         </FrameLayout>
 
@@ -42,16 +43,16 @@
                 style="@style/Text.Black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="منارة"
-                android:textColor="@color/white"
-                android:textSize="32sp" />
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="32sp" />
 
             <TextView
                 style="@style/Text.Regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="طريقك للتوجيهي"
+                android:text="@string/tagline"
                 android:textColor="@color/white_45"
                 android:textSize="13sp" />
         </LinearLayout>

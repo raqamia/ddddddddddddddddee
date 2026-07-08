@@ -1,0 +1,19 @@
+{
+  "permission": {
+    "skill": {
+      "threejs-fundamentals": "allow",
+      "threejs-geometry": "allow",
+      "threejs-materials": "allow",
+      "threejs-lighting": "allow",
+      "threejs-textures": "allow",
+      "threejs-animation": "allow",
+      "threejs-interaction": "allow",
+      "threejs-loaders": "allow",
+      "threejs-postprocessing": "allow",
+      "threejs-shaders": "allow",
+      "frontend-design": "allow",
+      "ui-ux-pro-max": "allow",
+      "remotion-best-practices": "allow"
+    }
+  }
+}

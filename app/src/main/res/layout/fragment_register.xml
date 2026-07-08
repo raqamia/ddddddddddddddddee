@@ -14,7 +14,7 @@
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:background="@color/navy"
+            android:background="@color/dark_purple_mid"
             android:gravity="center"
             android:orientation="vertical"
             app:layout_constraintTop_toTopOf="parent">
@@ -30,6 +30,7 @@
                     android:layout_margin="16dp"
                     android:background="@drawable/bg_circle_gold_15"
                     android:src="@drawable/ic_arrow_forward"
+                    android:contentDescription="@string/cd_back"
                     app:tint="@color/white"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
@@ -48,7 +49,7 @@
                         style="@style/Text.Black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="منارة"
+                        android:text="@string/app_name"
                         android:textColor="@color/white"
                         android:textSize="28sp" />
 
@@ -57,7 +58,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="إنشاء حساب"
+                        android:text="@string/register"
                         android:textColor="@color/white_45"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -69,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="-24dp"
-            android:background="@drawable/bg_bottom_sheet"
+            android:background="@drawable/bg_bottom_sheet_dark"
             android:orientation="vertical"
             android:padding="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -80,8 +81,8 @@
                 style="@style/Text.Bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="إنشاء حساب"
-                android:textColor="@color/navy"
+                android:text="@string/register"
+                android:textColor="@color/text_dark_primary"
                 android:textSize="18sp" />
 
             <EditText
@@ -90,10 +91,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:background="@drawable/bg_input_field_dark"
                 android:drawableEnd="@drawable/ic_person"
                 android:drawablePadding="12dp"
                 android:hint="الاسم الكامل"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textColor="@color/text_dark_primary"
+                android:textColorHint="@color/text_dark_secondary"
+                android:drawableTint="@color/text_dark_secondary" />
 
             <EditText
                 android:id="@+id/et_email"
@@ -101,10 +106,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:background="@drawable/bg_input_field_dark"
                 android:drawableEnd="@drawable/ic_mail"
                 android:drawablePadding="12dp"
                 android:hint="البريد الإلكتروني"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:textColor="@color/text_dark_primary"
+                android:textColorHint="@color/text_dark_secondary"
+                android:drawableTint="@color/text_dark_secondary" />
 
             <EditText
                 android:id="@+id/et_password"
@@ -112,10 +121,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:background="@drawable/bg_input_field_dark"
                 android:drawableEnd="@drawable/ic_lock"
                 android:drawablePadding="12dp"
                 android:hint="كلمة المرور (8 أحرف على الأقل)"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textColor="@color/text_dark_primary"
+                android:textColorHint="@color/text_dark_secondary"
+                android:drawableTint="@color/text_dark_secondary" />
 
             <EditText
                 android:id="@+id/et_confirm_password"
@@ -123,10 +136,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:background="@drawable/bg_input_field_dark"
                 android:drawableEnd="@drawable/ic_lock"
                 android:drawablePadding="12dp"
                 android:hint="تأكيد كلمة المرور"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textColor="@color/text_dark_primary"
+                android:textColorHint="@color/text_dark_secondary"
+                android:drawableTint="@color/text_dark_secondary" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -139,13 +156,13 @@
                     android:id="@+id/cb_terms"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:buttonTint="@color/navy" />
+                    android:buttonTint="@color/accent_gold" />
 
                 <TextView
                     style="@style/Text.Regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="أوافق على الشروط والأحكام"
+                    android:text="@string/agree_terms"
                     android:textColor="@color/text_secondary"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -164,7 +181,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="إنشاء الحساب ←" />
+                android:text="@string/register_action" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -177,7 +194,7 @@
                     style="@style/Text.Regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="لديك حساب؟"
+                    android:text="@string/has_account_login"
                     android:textColor="@color/text_secondary" />
 
                 <TextView
@@ -186,8 +203,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text="تسجيل الدخول"
-                    android:textColor="@color/subject_physics" />
+                    android:text="@string/login"
+                    android:textColor="@color/accent_gold" />
             </LinearLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,10 +11,11 @@
     <ImageView
         android:layout_width="38dp"
         android:layout_height="38dp"
-        android:background="@drawable/bg_circle_navy_10"
+        android:background="@drawable/bg_circle_dark"
         android:padding="8dp"
         android:src="@drawable/ic_description"
-        app:tint="@color/navy" />
+        android:contentDescription="@string/cd_recent_file"
+        app:tint="@color/text_dark_primary" />
 
     <TextView
         android:id="@+id/tv_recent_name"
@@ -25,7 +26,7 @@
         android:ellipsize="end"
         android:maxLines="2"
         android:minLines="2"
-        android:text="اسم الملف"
+            android:text="@string/placeholder_file_name"
         android:textColor="@color/text_primary"
         android:textSize="13sp" />
 
@@ -34,8 +35,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:text="متابعة القراءة"
-        android:textColor="@color/navy"
-        android:textSize="11sp" />
+            android:text="@string/continue_reading"
+            android:textColor="@color/accent_gold"
+            android:textSize="11sp" />
 
 </LinearLayout>

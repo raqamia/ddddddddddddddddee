@@ -17,8 +17,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="20dp"
-            android:text="الإعدادات"
-            android:textColor="@color/navy"
+            android:text="@string/settings"
+            android:textColor="@color/text_dark_primary"
             android:textSize="24sp" />
 
         <!-- Profile card (tap to edit name) -->
@@ -40,7 +40,8 @@
                 android:background="@drawable/bg_circle_navy_10"
                 android:padding="10dp"
                 android:src="@drawable/ic_person"
-                app:tint="@color/navy" />
+                android:contentDescription="@string/cd_profile"
+                app:tint="@color/text_dark_primary" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -54,8 +55,8 @@
                     style="@style/Text.SemiBold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="—"
-                    android:textColor="@color/text_primary"
+                    android:text="@string/dash"
+                    android:textColor="@color/text_dark_primary"
                     android:textSize="16sp" />
 
                 <TextView
@@ -64,7 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:textColor="@color/text_muted"
+                    android:textColor="@color/text_dark_secondary"
                     android:textSize="13sp" />
             </LinearLayout>
 
@@ -72,8 +73,8 @@
                 style="@style/Text.SemiBold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="تعديل"
-                android:textColor="@color/navy"
+                android:text="@string/edit"
+                android:textColor="@color/accent_gold"
                 android:textSize="13sp" />
         </LinearLayout>
 
@@ -85,7 +86,7 @@
             android:layout_marginStart="22dp"
             android:layout_marginTop="22dp"
             android:layout_marginBottom="4dp"
-            android:text="التطبيق"
+            android:text="@string/section_app"
             android:textColor="@color/text_muted"
             android:textSize="13sp" />
 
@@ -105,8 +106,8 @@
                 android:orientation="horizontal"
                 android:paddingVertical="14dp">
 
-                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_lantern" app:tint="@color/text_primary" />
-                <TextView style="@style/Text.Regular" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="الوضع الليلي" android:textColor="@color/text_primary" android:textSize="15sp" />
+                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_lantern" android:contentDescription="@string/cd_night_mode" app:tint="@color/text_primary" />
+                <TextView style="@style/Text.Regular" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="@string/night_mode" android:textColor="@color/text_primary" android:textSize="15sp" />
                 <com.google.android.material.switchmaterial.SwitchMaterial android:id="@+id/switch_night_mode" android:layout_width="wrap_content" android:layout_height="wrap_content" />
             </LinearLayout>
 
@@ -124,9 +125,9 @@
                 android:orientation="horizontal"
                 android:paddingVertical="14dp">
 
-                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_description" app:tint="@color/text_primary" />
-                <TextView style="@style/Text.Regular" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="حجم الخط" android:textColor="@color/text_primary" android:textSize="15sp" />
-                <TextView android:id="@+id/tv_font_value" style="@style/Text.Regular" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="عادي" android:textColor="@color/text_muted" android:textSize="13sp" />
+                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_description" android:contentDescription="@string/cd_font_size" app:tint="@color/text_primary" />
+                <TextView style="@style/Text.Regular" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="@string/font_size" android:textColor="@color/text_primary" android:textSize="15sp" />
+                <TextView android:id="@+id/tv_font_value" style="@style/Text.Regular" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/font_size_normal" android:textColor="@color/text_muted" android:textSize="13sp" />
             </LinearLayout>
 
             <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/border" />
@@ -143,8 +144,8 @@
                 android:orientation="horizontal"
                 android:paddingVertical="14dp">
 
-                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_school_outline" app:tint="@color/text_primary" />
-                <TextView style="@style/Text.Regular" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="تغيير المسار" android:textColor="@color/text_primary" android:textSize="15sp" />
+                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_school_outline" android:contentDescription="@string/cd_change_track" app:tint="@color/text_primary" />
+                <TextView style="@style/Text.Regular" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="@string/change_track_short" android:textColor="@color/text_primary" android:textSize="15sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -156,7 +157,7 @@
             android:layout_marginStart="22dp"
             android:layout_marginTop="22dp"
             android:layout_marginBottom="4dp"
-            android:text="التخزين"
+            android:text="@string/storage"
             android:textColor="@color/text_muted"
             android:textSize="13sp" />
 
@@ -169,11 +170,11 @@
             android:orientation="horizontal"
             android:padding="16dp">
 
-            <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_cloud_download_outline" app:tint="@color/text_primary" />
+            <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_cloud_download_outline" android:contentDescription="@string/cd_storage" app:tint="@color/text_primary" />
 
             <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:orientation="vertical">
-                <TextView style="@style/Text.Regular" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="المساحة المستخدمة" android:textColor="@color/text_primary" android:textSize="15sp" />
-                <TextView android:id="@+id/tv_storage" style="@style/Text.Regular" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="@color/text_muted" android:textSize="13sp" />
+                <TextView style="@style/Text.Regular" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/storage_used" android:textColor="@color/text_primary" android:textSize="15sp" />
+                <TextView android:id="@+id/tv_storage" style="@style/Text.Regular" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/dash" android:textColor="@color/text_muted" android:textSize="13sp" />
             </LinearLayout>
 
             <TextView
@@ -185,7 +186,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:padding="8dp"
-                android:text="حذف الكل"
+                android:text="@string/delete_all"
                 android:textColor="@color/error"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -198,7 +199,7 @@
             android:layout_marginStart="22dp"
             android:layout_marginTop="22dp"
             android:layout_marginBottom="4dp"
-            android:text="أخرى"
+            android:text="@string/section_other"
             android:textColor="@color/text_muted"
             android:textSize="13sp" />
 
@@ -210,27 +211,33 @@
             android:orientation="vertical"
             android:paddingHorizontal="12dp">
 
+            <LinearLayout android:id="@+id/row_countdown" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingVertical="14dp">
+                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_school_outline" android:contentDescription="@string/cd_exam_countdown" app:tint="@color/text_primary" />
+                <TextView style="@style/Text.Regular" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="@string/exam_countdown_short" android:textColor="@color/text_primary" android:textSize="15sp" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/border" />
+
             <LinearLayout android:id="@+id/row_share" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingVertical="14dp">
-                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_arrow_forward" app:tint="@color/text_primary" />
-                <TextView style="@style/Text.Regular" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="شارك التطبيق" android:textColor="@color/text_primary" android:textSize="15sp" />
+                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_arrow_forward" android:contentDescription="@string/cd_share" app:tint="@color/text_primary" />
+                <TextView style="@style/Text.Regular" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="@string/share_app" android:textColor="@color/text_primary" android:textSize="15sp" />
             </LinearLayout>
             <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/border" />
 
             <LinearLayout android:id="@+id/row_rate" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingVertical="14dp">
-                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_lantern" app:tint="@color/text_primary" />
-                <TextView style="@style/Text.Regular" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="قيّمنا على المتجر" android:textColor="@color/text_primary" android:textSize="15sp" />
+                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_lantern" android:contentDescription="@string/cd_rate" app:tint="@color/text_primary" />
+                <TextView style="@style/Text.Regular" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="@string/rate_app" android:textColor="@color/text_primary" android:textSize="15sp" />
             </LinearLayout>
             <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/border" />
 
             <LinearLayout android:id="@+id/row_help" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingVertical="14dp">
-                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_notifications" app:tint="@color/text_primary" />
-                <TextView style="@style/Text.Regular" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="مساعدة" android:textColor="@color/text_primary" android:textSize="15sp" />
+                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_notifications" android:contentDescription="@string/cd_help" app:tint="@color/text_primary" />
+                <TextView style="@style/Text.Regular" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="@string/help" android:textColor="@color/text_primary" android:textSize="15sp" />
             </LinearLayout>
             <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/border" />
 
             <LinearLayout android:id="@+id/row_about" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingVertical="14dp">
-                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_description" app:tint="@color/text_primary" />
-                <TextView style="@style/Text.Regular" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="عن التطبيق" android:textColor="@color/text_primary" android:textSize="15sp" />
+                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_description" android:contentDescription="@string/cd_about" app:tint="@color/text_primary" />
+                <TextView style="@style/Text.Regular" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="@string/about" android:textColor="@color/text_primary" android:textSize="15sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -248,8 +255,8 @@
             android:orientation="horizontal"
             android:padding="16dp">
 
-            <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_arrow_forward" android:rotation="180" app:tint="@color/error" />
-            <TextView style="@style/Text.SemiBold" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="تسجيل الخروج" android:textColor="@color/error" android:textSize="15sp" />
+            <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_arrow_forward" android:rotation="180" android:contentDescription="@string/cd_logout" app:tint="@color/error" />
+            <TextView style="@style/Text.SemiBold" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:text="@string/logout" android:textColor="@color/error" android:textSize="15sp" />
         </LinearLayout>
 
     </LinearLayout>

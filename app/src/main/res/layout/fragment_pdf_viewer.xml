@@ -22,6 +22,7 @@
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_arrow_forward"
+            android:contentDescription="@string/cd_back"
             app:tint="@color/white" />
 
         <TextView
@@ -31,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginStart="16dp"
-            android:text="امتحان الدورة الأولى 2023"
+            android:text="@string/placeholder_file_name"
             android:textColor="@color/white"
             android:textSize="16sp" />
         
@@ -41,6 +42,7 @@
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_bookmark_outline"
+            android:contentDescription="@string/cd_bookmark"
             app:tint="@color/white" />
     </LinearLayout>
 
@@ -62,7 +64,7 @@
         android:background="#80000000"
         android:paddingHorizontal="12dp"
         android:paddingVertical="4dp"
-        android:text="0 / 0"
+        android:text="@string/page_counter_placeholder"
         android:textColor="@color/white"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"

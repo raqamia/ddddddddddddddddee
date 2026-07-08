@@ -1,6 +1,7 @@
 package com.example.data.repository;
 
 import com.example.data.prefs.SessionManager;
+import com.example.data.remote.SupabaseApiClient;
 import com.example.data.remote.SupabaseApiService;
 import com.example.data.remote.dto.AuthResponse;
 import com.example.data.remote.dto.LoginRequest;
@@ -34,6 +35,7 @@ public class AuthRepository {
                             auth.getUser().getId(),
                             auth.getExpiresIn()
                     );
+                    SupabaseApiClient.resetClient();
                     callback.onSuccess(auth);
                 } else {
                     callback.onError(parseError(response));
@@ -71,6 +73,7 @@ public class AuthRepository {
                             auth.getUser().getId(),
                             auth.getExpiresIn()
                     );
+                    SupabaseApiClient.resetClient();
                     callback.onSuccess(auth);
                 } else {
                     // تسجيل ناجح لكن يحتاج تأكيد الإيميل
@@ -110,15 +113,18 @@ public class AuthRepository {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     sessionManager.clearSession();
+                    SupabaseApiClient.resetClient();
                 }
 
                 @Override
                 public void onFailure(Call<Void> call, Throwable t) {
                     sessionManager.clearSession();
+                    SupabaseApiClient.resetClient();
                 }
             });
         } else {
             sessionManager.clearSession();
+            SupabaseApiClient.resetClient();
         }
     }
 

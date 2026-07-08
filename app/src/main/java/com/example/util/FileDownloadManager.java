@@ -1,19 +1,28 @@
 package com.example.util;
 
 import android.app.DownloadManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
+import android.text.TextUtils;
 import com.example.data.local.entity.DownloadEntity;
 import java.io.File;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class FileDownloadManager {
 
     private static final String DIR_NAME = "ManaraFiles";
+    private static final ExecutorService CHECK_EXECUTOR = Executors.newSingleThreadExecutor(r -> {
+        Thread t = new Thread(r, "UrlCheck");
+        t.setDaemon(true);
+        return t;
+    });
 
     /** The directory where downloaded PDFs are stored. */
     public static File getDownloadsDir(Context context) {
@@ -48,6 +57,8 @@ public class FileDownloadManager {
     }
 
     public static String downloadPdf(Context context, String fileId, String fileName, String signedUrl) {
+        if (!isSignedUrlValid(signedUrl)) return null;
+
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         if (downloadManager == null) return null;
 
@@ -55,7 +66,8 @@ public class FileDownloadManager {
         File dir = getDownloadsDir(context);
         if (!dir.exists()) dir.mkdirs();
 
-        String safeName = fileId + "_" + fileName.replaceAll("[^a-zA-Z0-9_.\\-]", "_") + ".pdf";
+        String safeId = fileId.replaceAll("[^a-zA-Z0-9_-]", "_");
+        String safeName = safeId + "_" + fileName.replaceAll("[^a-zA-Z0-9_.\\-]", "_") + ".pdf";
         String localPath = new File(dir, safeName).getAbsolutePath();
 
         DownloadManager.Request request = new DownloadManager.Request(uri)
@@ -79,10 +91,10 @@ public class FileDownloadManager {
             if (cursor != null && cursor.moveToFirst()) {
                 int status = cursor.getInt(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS));
                 int progress = 0;
-                if (status == DownloadManager.STATUS_RUNNING) {
-                    long total = cursor.getLong(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
-                    long downloaded = cursor.getLong(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
-                    if (total > 0) progress = (int) (downloaded * 100 / total);
+                long total = cursor.getLong(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+                long downloaded = cursor.getLong(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+                if (status == DownloadManager.STATUS_RUNNING && total > 0) {
+                    progress = (int) (downloaded * 100 / total);
                 }
 
                 DownloadEntity entity = new DownloadEntity();
@@ -92,9 +104,18 @@ public class FileDownloadManager {
 
                 switch (status) {
                     case DownloadManager.STATUS_SUCCESSFUL:
-                        entity.state = "COMPLETED";
                         String path = cursor.getString(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_URI));
-                        entity.localPath = path != null ? path.replace("file://", "") : "";
+                        String localPath = path != null ? path.replace("file://", "") : "";
+                        if (!TextUtils.isEmpty(localPath)) {
+                            File file = new File(localPath);
+                            if (!file.exists() || file.length() == 0) {
+                                entity.state = "FAILED";
+                                file.delete();
+                                break;
+                            }
+                        }
+                        entity.state = "COMPLETED";
+                        entity.localPath = localPath;
                         break;
                     case DownloadManager.STATUS_FAILED:
                         entity.state = "FAILED";
@@ -109,5 +130,47 @@ public class FileDownloadManager {
             }
         } catch (Exception ignored) {}
         return null;
+    }
+
+    /** Checks that the signed URL is non-null, parseable, and has a token query parameter. */
+    private static boolean isSignedUrlValid(String signedUrl) {
+        if (TextUtils.isEmpty(signedUrl)) return false;
+        try {
+            Uri uri = Uri.parse(signedUrl);
+            if (uri.getScheme() == null || uri.getHost() == null) return false;
+            String token = uri.getQueryParameter("token");
+            return !TextUtils.isEmpty(token);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /** Checks whether a signed URL is reachable (HTTP 200) before enqueuing the download. */
+    public static void checkUrlReachable(String signedUrl, UrlCheckCallback callback) {
+        CHECK_EXECUTOR.execute(() -> {
+            boolean reachable = false;
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(5, TimeUnit.SECONDS)
+                    .readTimeout(5, TimeUnit.SECONDS)
+                    .followRedirects(false)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(signedUrl)
+                    .head()
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                reachable = response.isSuccessful();
+            } catch (Exception ignored) {}
+            if (reachable) {
+                callback.onReachable();
+            } else {
+                callback.onUnreachable();
+            }
+        });
+    }
+
+    public interface UrlCheckCallback {
+        void onReachable();
+        void onUnreachable();
     }
 }

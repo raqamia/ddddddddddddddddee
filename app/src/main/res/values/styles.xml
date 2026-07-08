@@ -34,7 +34,7 @@
     <style name="Text.Size.XXL" parent=""> <item name="android:textSize">28sp</item> </style>
 
     <style name="Button.Primary" parent="Widget.MaterialComponents.Button">
-        <item name="android:background">@drawable/bg_button_primary</item>
+        <item name="android:background">@drawable/bg_button_primary_dark</item>
         <item name="android:textColor">@color/text_light</item>
         <item name="android:fontFamily">@font/cairo</item>
         <item name="android:textStyle">bold</item>
@@ -46,14 +46,19 @@
     <style name="Button.Gold" parent="Widget.MaterialComponents.Button">
         <item name="android:backgroundTint">@color/gold</item>
         <item name="android:textColor">@color/navy</item>
-        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:fontFamily">@font/cairo</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="InputField" parent="">
-        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:fontFamily">@font/cairo</item>
         <item name="android:textSize">14sp</item>
         <item name="android:padding">14dp</item>
         <item name="android:textDirection">rtl</item>
         <item name="android:gravity">right|center_vertical</item>
+        <item name="android:background">@drawable/bg_input_field_dark</item>
+        <item name="android:textColor">@color/text_dark_primary</item>
+        <item name="android:textColorHint">@color/text_dark_secondary</item>
+        <item name="android:drawableTint">@color/text_dark_secondary</item>
     </style>
 </resources>

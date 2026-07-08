@@ -14,27 +14,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.R;
-import com.example.data.local.AppDatabase;
 import com.example.data.local.entity.SubjectEntity;
 import com.example.data.prefs.AppPreferences;
-import com.example.data.prefs.SessionManager;
-import com.example.data.remote.SupabaseApiClient;
-import com.example.data.repository.NotificationsRepository;
-import com.example.data.repository.RecentRepository;
-import com.example.util.Constants;
 import com.example.util.ErrorMessages;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
+import java.util.Random;
 
 public class HomeFragment extends Fragment {
 
@@ -43,6 +34,10 @@ public class HomeFragment extends Fragment {
     private SwipeRefreshLayout swipeRefresh;
     private RecyclerView rvSubjects;
     private View emptyState;
+    private View recentSection;
+    private RecyclerView rvRecent;
+    private RecentAdapter recentAdapter;
+    private View badgeDot;
     private final List<SubjectEntity> allSubjects = new ArrayList<>();
     private String query = "";
 
@@ -57,14 +52,36 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication())).get(HomeViewModel.class);
 
-        TextView tvTrackName = view.findViewById(R.id.tv_track_name);
-        TextView tvCountdown = view.findViewById(R.id.tv_countdown);
         EditText etSearch = view.findViewById(R.id.et_search);
         rvSubjects = view.findViewById(R.id.rv_subjects);
         swipeRefresh = view.findViewById(R.id.swipe_refresh);
         emptyState = view.findViewById(R.id.empty_state);
+        badgeDot = view.findViewById(R.id.badge_dot);
+        recentSection = view.findViewById(R.id.recent_section);
+        rvRecent = view.findViewById(R.id.rv_recent);
 
-        setCountdown(tvCountdown);
+        // Featured card random message
+        TextView tvTitle = view.findViewById(R.id.tv_featured_title);
+        TextView tvSub = view.findViewById(R.id.tv_featured_subtitle);
+        if (tvTitle != null && tvSub != null) {
+            int idx = new Random().nextInt(5);
+            String[] titles = {
+                getString(R.string.featured_title_1),
+                getString(R.string.featured_title_2),
+                getString(R.string.featured_title_3),
+                getString(R.string.featured_title_4),
+                getString(R.string.featured_title_5)
+            };
+            String[] subs = {
+                getString(R.string.featured_sub_1),
+                getString(R.string.featured_sub_2),
+                getString(R.string.featured_sub_3),
+                getString(R.string.featured_sub_4),
+                getString(R.string.featured_sub_5)
+            };
+            tvTitle.setText(titles[idx]);
+            tvSub.setText(subs[idx]);
+        }
 
         View btnNotifications = view.findViewById(R.id.btn_notifications);
         if (btnNotifications != null) {
@@ -78,23 +95,14 @@ public class HomeFragment extends Fragment {
                     Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_downloadsFragment));
         }
 
-        // New-notification badge: show a dot when the newest announcement is unseen.
-        View badgeDot = view.findViewById(R.id.badge_dot);
-        AppPreferences badgePrefs = new AppPreferences(requireContext());
-        NotificationsRepository notifRepo = new NotificationsRepository(
-                SupabaseApiClient.getApi(new SessionManager(requireContext().getApplicationContext())));
-        notifRepo.getNotifications().observe(getViewLifecycleOwner(), list -> {
-            if (badgeDot == null || list == null || list.isEmpty()) return;
-            long newest = parseIsoMillis(list.get(0).getCreatedAt());
-            badgeDot.setVisibility(newest > badgePrefs.getLastSeenNotif() ? View.VISIBLE : View.GONE);
+        viewModel.getHasUnseenNotification().observe(getViewLifecycleOwner(), unseen -> {
+            if (badgeDot != null) {
+                badgeDot.setVisibility(Boolean.TRUE.equals(unseen) ? View.VISIBLE : View.GONE);
+            }
         });
-        notifRepo.fetch();
 
-        // Continue-reading section: the files the user most recently opened.
-        View recentSection = view.findViewById(R.id.recent_section);
-        RecyclerView rvRecent = view.findViewById(R.id.rv_recent);
         rvRecent.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        RecentAdapter recentAdapter = new RecentAdapter(item -> {
+        recentAdapter = new RecentAdapter(item -> {
             Bundle args = new Bundle();
             args.putString("fileId", item.fileId);
             args.putString("fileName", item.name);
@@ -102,15 +110,14 @@ public class HomeFragment extends Fragment {
             Navigation.findNavController(view).navigate(R.id.action_global_pdfViewerFragment, args);
         });
         rvRecent.setAdapter(recentAdapter);
-        RecentRepository recentRepo = new RecentRepository(
-                AppDatabase.getDatabase(requireContext().getApplicationContext()).recentDao());
-        recentRepo.getRecentLive().observe(getViewLifecycleOwner(), items -> {
+
+        viewModel.getRecentItems().observe(getViewLifecycleOwner(), items -> {
             boolean has = items != null && !items.isEmpty();
             recentSection.setVisibility(has ? View.VISIBLE : View.GONE);
             recentAdapter.setItems(items);
         });
 
-        rvSubjects.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+        rvSubjects.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         adapter = new SubjectAdapter(subject -> {
             Bundle args = new Bundle();
@@ -140,8 +147,6 @@ public class HomeFragment extends Fragment {
             if (adapter != null) adapter.setDownloadedPerSubject(map);
         });
 
-        viewModel.getGreeting().observe(getViewLifecycleOwner(), greeting -> tvTrackName.setText(greeting));
-
         viewModel.getNetworkError().observe(getViewLifecycleOwner(), hasError -> {
             swipeRefresh.setRefreshing(false);
             if (Boolean.TRUE.equals(hasError)) {
@@ -152,6 +157,7 @@ public class HomeFragment extends Fragment {
         swipeRefresh.setOnRefreshListener(() -> {
             AppPreferences prefs = new AppPreferences(requireContext());
             viewModel.loadSubjects(prefs.getUserTrack());
+            viewModel.fetchNotifications();
         });
 
         AppPreferences prefs = new AppPreferences(requireContext());
@@ -177,37 +183,6 @@ public class HomeFragment extends Fragment {
         if (emptyState != null) emptyState.setVisibility(has ? View.GONE : View.VISIBLE);
     }
 
-    /** Parses a Supabase ISO timestamp to epoch millis (0 on failure). */
-    private long parseIsoMillis(String iso) {
-        if (iso == null) return 0;
-        try {
-            SimpleDateFormat in = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
-            return in.parse(iso.length() >= 19 ? iso.substring(0, 19) : iso).getTime();
-        } catch (Exception e) {
-            return 0;
-        }
-    }
-
-    /** Computes the number of days remaining until the Tawjihi exam date. */
-    private void setCountdown(TextView tv) {
-        if (tv == null) return;
-        try {
-            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-            Date exam = fmt.parse(Constants.TAWJIHI_EXAM_DATE);
-            long diff = exam.getTime() - System.currentTimeMillis();
-            long days = TimeUnit.MILLISECONDS.toDays(diff);
-            if (days > 1) {
-                tv.setText(days + " يوم");
-            } else if (days >= 0) {
-                tv.setText("الامتحانات بدأت — بالتوفيق! 🎓");
-            } else {
-                tv.setText("بالتوفيق في نتائجك! 🎓");
-            }
-        } catch (Exception e) {
-            tv.setText("");
-        }
-    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -215,5 +190,9 @@ public class HomeFragment extends Fragment {
         adapter = null;
         rvSubjects = null;
         emptyState = null;
+        recentSection = null;
+        rvRecent = null;
+        recentAdapter = null;
+        badgeDot = null;
     }
 }

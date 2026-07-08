@@ -3,363 +3,750 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>منارة — كتب وملخصات وامتحانات التوجيهي</title>
-<meta name="description" content="تطبيق منارة: كل مصادر التوجيهي في مكان واحد — كتب، امتحانات سابقة، وملخصات، مع التحميل والعرض بدون إنترنت." />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-ancestors 'none'; form-action 'self'; base-uri 'self';" />
+<title>منارة — الضوء يلي بيوصلك للتفوق بالتوجيهي</title>
+<meta name="description" content="تطبيق منارة: كل مصادر التوجيهي في مكان واحد — كتب، امتحانات سابقة، وملخصات، تحميل وعرض بدون إنترنت." />
+<meta property="og:title" content="منارة — الضوء يلي بيوصلك للتفوق بالتوجيهي" />
+<meta property="og:description" content="كتب، امتحانات سابقة، وملخصات لكل المواد — حمّلها واقرأها بدون إنترنت." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://manara-app.github.io/og-image.png" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='8.6' y='8.2' width='6.8' height='9' rx='1.2' fill='%23A855F7'/><rect x='9.8' y='9.4' width='4.4' height='6.6' rx='.8' fill='%23FFC94D'/><path d='M9.6 6.2h4.8l1.4 2H8.2z' fill='%23A855F7'/></svg>" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+
 <style>
-  :root{
-    --primary:#6750A4; --primary-light:#7E68C8; --deep:#21005D;
-    --gold:#EADDFF; --gold-2:#D0BCFF; --glow:#FFCA28; --glow-2:#FFE082;
-    --bg:#FEF7FF; --surface:#F7F2FA; --border:#E7E0EC;
-    --text:#1D1B20; --text-2:#49454F; --muted:#79747E; --white:#fff;
-    --phys:#1A6B9A; --phys-bg:#E8F4FF; --chem:#E53E3E; --chem-bg:#FFF0F0;
-    --bio:#38A169; --bio-bg:#EDFAF3; --math:#6B48FF; --math-bg:#F0EEFF;
-    --arab:#D69E2E; --arab-bg:#FFFBEB; --hist:#805AD5; --hist-bg:#F3EEFF;
-    --radius:22px; --shadow:0 18px 50px rgba(33,0,93,.14);
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{font-family:'Cairo',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden}
-  a{text-decoration:none;color:inherit}
-  .wrap{max-width:1180px;margin:0 auto;padding:0 22px}
-  .btn{display:inline-flex;align-items:center;gap:9px;font-weight:800;font-size:16px;padding:15px 28px;border-radius:16px;cursor:pointer;border:0;transition:.25s;font-family:inherit}
-  .btn-primary{background:var(--primary);color:#fff;box-shadow:0 12px 28px rgba(103,80,164,.4)}
-  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 18px 36px rgba(103,80,164,.5)}
-  .btn-ghost{background:rgba(255,255,255,.12);color:#fff;border:1.5px solid rgba(255,255,255,.4)}
-  .btn-ghost:hover{background:rgba(255,255,255,.22)}
-  .eyebrow{display:inline-block;font-weight:800;font-size:13px;letter-spacing:.5px;color:var(--primary);background:var(--gold);padding:7px 16px;border-radius:999px;margin-bottom:18px}
-  .section{padding:90px 0}
-  .section h2{font-size:clamp(28px,4vw,42px);font-weight:900;text-align:center;line-height:1.3}
-  .section .lead{text-align:center;color:var(--text-2);max-width:660px;margin:16px auto 0;font-size:18px}
+/* Design System */
+:root {
+  --bg-1: #4A3570;
+  --bg-2: #2A1F45;
+  --bg-3: #150E22;
+  --bg-4: #0F0A1A;
+  --primary: #7B3FE4;
+  --primary-light: #A855F7;
+  --primary-pale: #D0BCFF;
+  --accent: #FFC94D;
+  --accent-dark: #E8A93D;
+  --surface: rgba(255,255,255,.05);
+  --surface-2: rgba(255,255,255,.08);
+  --border: rgba(184,169,212,.16);
+  --border-2: rgba(255,255,255,.1);
+  --text: #FFFFFF;
+  --text-2: #C7BEDE;
+  --text-3: #8B7FA8;
+  --success: #6FE3A1;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,.2);
+  --shadow-md: 0 8px 32px rgba(0,0,0,.32);
+  --shadow-lg: 0 16px 48px rgba(0,0,0,.4);
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 999px;
+  --max-w: 1200px;
+  --font: 'Cairo', sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font);
+  color:var(--text);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  background:
+    radial-gradient(ellipse 90% 50% at 50% 0%, var(--bg-1) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 90% 30%, rgba(123,63,228,.25) 0%, transparent 60%),
+    linear-gradient(180deg, var(--bg-2) 0%, var(--bg-3) 55%, var(--bg-4) 100%);
+  background-attachment:fixed;
+  min-height:100vh;
+}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.container{width:100%;max-width:var(--max-w);margin:0 auto;padding:0 24px}
+.section{padding:100px 0}
+.section-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(168,85,247,.14);border:1px solid rgba(168,85,247,.3);color:var(--primary-pale);font-size:14px;font-weight:700;padding:6px 16px;border-radius:var(--radius-full);margin-bottom:16px}
+.section-title{font-size:clamp(28px,3.5vw,42px);font-weight:900;color:#fff;line-height:1.25;margin-bottom:16px}
+.section-desc{font-size:18px;color:var(--text-2);max-width:600px;line-height:1.75}
+.text-center{text-align:center}
+.mx-auto{margin-left:auto;margin-right:auto}
 
-  /* NAV */
-  header.nav{position:sticky;top:0;z-index:50;background:rgba(254,247,255,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
-  .nav-in{display:flex;align-items:center;justify-content:space-between;height:72px}
-  .brand{display:flex;align-items:center;gap:11px;font-weight:900;font-size:21px}
-  .brand .logo{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--primary-light),var(--deep));box-shadow:0 6px 16px rgba(103,80,164,.4)}
-  .nav-links{display:flex;gap:30px;font-weight:700;color:var(--text-2)}
-  .nav-links a:hover{color:var(--primary)}
-  .nav .btn{padding:11px 22px;font-size:15px}
-  @media(max-width:820px){.nav-links{display:none}}
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:var(--radius-full);font-family:var(--font);font-size:16px;font-weight:700;border:none;cursor:pointer;transition:all .25s ease;white-space:nowrap}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(123,63,228,.4)}
+.btn-outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.25)}
+.btn-outline:hover{border-color:#fff;background:rgba(255,255,255,.08)}
+.btn-accent{background:var(--accent);color:#2A1F45}
+.btn-accent:hover{background:var(--accent-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,201,77,.3)}
+.btn svg{flex:none}
+.btn-sm{padding:10px 20px;font-size:14px}
 
-  /* HERO */
-  .hero{position:relative;background:linear-gradient(150deg,var(--primary-light) 0%,var(--primary) 42%,var(--deep) 100%);color:#fff;padding:70px 0 110px;overflow:hidden}
-  .hero::before,.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(8px);opacity:.5}
-  .hero::before{width:380px;height:380px;background:radial-gradient(circle,rgba(255,202,40,.35),transparent 70%);top:-90px;left:-80px}
-  .hero::after{width:320px;height:320px;background:radial-gradient(circle,rgba(208,188,255,.4),transparent 70%);bottom:-120px;right:-60px}
-  .hero-grid{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
-  .hero h1{font-size:clamp(34px,5.2vw,58px);font-weight:900;line-height:1.18;letter-spacing:-.5px}
-  .hero h1 .hl{color:var(--glow-2)}
-  .hero p.sub{font-size:20px;color:rgba(255,255,255,.9);margin:22px 0 32px;max-width:540px}
-  .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
-  .hero-stats{display:flex;gap:34px;margin-top:42px}
-  .hero-stats .n{font-size:30px;font-weight:900;color:var(--glow-2)}
-  .hero-stats .l{font-size:14px;color:rgba(255,255,255,.8)}
-  .hero-visual{display:flex;justify-content:center;position:relative}
-  @media(max-width:900px){.hero-grid{grid-template-columns:1fr;text-align:center}.hero p.sub{margin-inline:auto}.hero-cta,.hero-stats{justify-content:center}}
+/* Navbar */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 0;transition:all .3s ease}
+nav.scrolled{background:rgba(15,10,26,.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:var(--shadow-sm);padding:12px 0;border-bottom:1px solid var(--border)}
+nav .container{display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-size:24px;font-weight:900;color:#fff;display:flex;align-items:center;gap:8px}
+.nav-logo span{background:rgba(255,255,255,.1);padding:2px 10px;border-radius:6px;font-size:12px;font-weight:600;letter-spacing:.3px;color:var(--primary-pale)}
+.nav-links{display:flex;gap:32px;font-weight:700;font-size:15px;color:rgba(255,255,255,.8)}
+.nav-links a{position:relative;transition:color .25s}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--accent);transition:width .3s;border-radius:2px}
+.nav-links a:hover{color:var(--accent)}
+.nav-links a:hover::after{width:100%}
+.mobile-toggle{display:none;background:none;border:none;color:#fff;font-size:24px;cursor:pointer;padding:4px}
 
-  /* PHONE MOCKUP */
-  .phone{width:300px;height:610px;background:#0e0c1a;border-radius:42px;padding:13px;box-shadow:var(--shadow);position:relative;flex:none}
-  .phone::after{content:"";position:absolute;top:20px;left:50%;transform:translateX(-50%);width:120px;height:26px;background:#0e0c1a;border-radius:0 0 16px 16px;z-index:5}
-  .screen{width:100%;height:100%;background:var(--bg);border-radius:31px;overflow:hidden;position:relative;direction:rtl}
-  .phone.tilt{transform:rotate(4deg)}
-  .phone.tilt-l{transform:rotate(-4deg)}
+@media(max-width:820px){
+  .nav-links,.nav-cta{display:none}
+  .mobile-toggle{display:flex;align-items:center}
+  .nav-links.open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:rgba(21,14,34,.98);backdrop-filter:blur(16px);padding:24px;gap:16px;box-shadow:var(--shadow-md);color:#fff;border-top:1px solid var(--border)}
+  .nav-links.open a{font-size:17px;padding:8px 0}
+}
 
-  /* app screen: home */
-  .app-head{background:linear-gradient(140deg,var(--primary),var(--deep));padding:46px 18px 22px;color:#fff;border-radius:0 0 26px 26px}
-  .app-head .hi{font-size:13px;opacity:.85}
-  .app-head .nm{font-size:20px;font-weight:900;margin-top:2px}
-  .app-head .track{display:inline-block;margin-top:10px;font-size:11px;font-weight:700;background:rgba(255,255,255,.18);padding:4px 12px;border-radius:999px}
-  .subj-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;padding:16px}
-  .subj{border-radius:18px;padding:14px;min-height:96px;display:flex;flex-direction:column;justify-content:space-between}
-  .subj .ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:17px}
-  .subj .nm{font-weight:800;font-size:13px}
-  .subj .bd{font-size:9px;font-weight:700;opacity:.8}
-  .s-phys{background:var(--phys-bg);color:var(--phys)} .s-chem{background:var(--chem-bg);color:var(--chem)}
-  .s-bio{background:var(--bio-bg);color:var(--bio)} .s-math{background:var(--math-bg);color:var(--math)}
-  .s-arab{background:var(--arab-bg);color:var(--arab)} .s-hist{background:var(--hist-bg);color:var(--hist)}
-  .subj .ic{background:rgba(255,255,255,.6)}
-  .tabbar{position:absolute;bottom:0;left:0;right:0;height:58px;background:#fff;border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;font-size:20px}
-  .tabbar .t{opacity:.4} .tabbar .t.on{opacity:1;color:var(--primary)}
+/* Hero */
+.hero{position:relative;color:#fff;padding:150px 0 100px;overflow:hidden;min-height:100vh;display:flex;align-items:center}
+.hero-bg-glow{position:absolute;width:500px;height:500px;border-radius:50%;filter:blur(120px);opacity:.35;pointer-events:none}
+.hero-bg-glow.g1{background:radial-gradient(circle,rgba(255,201,77,.4),transparent 70%);top:-120px;right:-80px}
+.hero-bg-glow.g2{background:radial-gradient(circle,rgba(168,85,247,.4),transparent 70%);bottom:-100px;left:-60px}
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.hero .container{position:relative;z-index:2}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.16);padding:8px 18px;border-radius:var(--radius-full);font-size:14px;font-weight:600;margin-bottom:24px}
+.hero-badge .stars{letter-spacing:2px}
+.hero h1{font-size:clamp(32px,5vw,56px);font-weight:900;line-height:1.2;letter-spacing:-.5px;margin-bottom:20px}
+.hero h1 .hl{color:var(--accent);position:relative;display:inline-block}
+.hero h1 .hl::after{content:'';position:absolute;bottom:2px;left:0;right:0;height:6px;background:rgba(255,201,77,.3);border-radius:4px}
+.hero p.sub{font-size:20px;color:var(--text-2);max-width:540px;margin-bottom:36px;line-height:1.75}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:48px}
+.hero-stats{display:flex;gap:40px}
+.hero-stats .n{font-size:28px;font-weight:900;color:var(--accent)}
+.hero-stats .l{font-size:14px;color:var(--text-2)}
+.hero-visual{display:flex;justify-content:center;position:relative}
 
-  /* app screen: pdf */
-  .pdf-top{background:linear-gradient(140deg,var(--primary),var(--deep));color:#fff;padding:44px 16px 14px;display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:13px}
-  .pdf-page{margin:16px;background:#fff;border:1px solid var(--border);border-radius:10px;height:420px;padding:18px;box-shadow:0 8px 22px rgba(0,0,0,.06)}
-  .pdf-page .ln{height:9px;background:#ece7f3;border-radius:4px;margin-bottom:11px}
-  .pdf-page .ln.s{width:60%} .pdf-page .ln.m{width:85%}
-  .pdf-count{text-align:center;color:var(--muted);font-size:12px;font-weight:700}
+/* Phone mockup */
+.phone-mockup{width:300px;height:610px;background:#0F0A1A;border-radius:44px;padding:14px;box-shadow:0 24px 64px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.08)inset;position:relative;flex:none;transform:perspective(1000px) rotateY(-6deg) rotateX(3deg);transition:transform .6s ease}
+.phone-mockup:hover{transform:perspective(1000px) rotateY(0) rotateX(0)}
+.phone-screen{width:100%;height:100%;background:radial-gradient(ellipse 130% 60% at 50% -10%,#4A3570 0%,#241B3D 40%,#150E22 100%);border-radius:32px;overflow:hidden;position:relative;direction:rtl}
+.phone-screen-inner{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column}
+.phone-topbar{display:flex;align-items:center;padding:16px 14px 0;gap:8px}
+.phone-topbar .logo-text{font-size:16px;font-weight:900;color:#fff;flex:1}
+.phone-topbar .icon-btn{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:12px;flex:none}
+.phone-topbar .icon-btn.dl{background:rgba(255,255,255,.08);color:#fff}
+.phone-topbar .icon-btn.notif{background:rgba(255,255,255,.08);color:#fff;position:relative}
+.phone-topbar .icon-btn.notif::after{content:'';width:6px;height:6px;background:#FF5252;border-radius:50%;position:absolute;top:4px;right:4px}
+.phone-banner{background:linear-gradient(135deg,var(--primary),var(--primary-light));margin:16px;padding:18px;border-radius:16px;text-align:center;box-shadow:0 8px 24px rgba(123,63,228,.35)}
+.phone-banner h3{font-size:16px;font-weight:800;color:#fff;margin-bottom:4px}
+.phone-banner p{font-size:12px;color:rgba(255,255,255,.75)}
+.phone-subjects{display:flex;flex-direction:column;gap:8px;padding:0 14px 12px}
+.phone-subject{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:10px}
+.phone-subject .s-icon{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:14px;flex:none}
+.phone-subject .s-icon.purple{background:#6B48FF;color:#fff}
+.phone-subject .s-icon.gold{background:#FF8A65;color:#fff}
+.phone-subject .s-icon.green{background:#4CAF50;color:#fff}
+.phone-subject .s-icon.blue{background:#42A5F5;color:#fff}
+.phone-subject .s-name{font-size:14px;font-weight:700;color:#fff;flex:1}
+.phone-subject .s-arrow{color:rgba(255,255,255,.3);font-size:14px}
+.phone-bottom{display:flex;justify-content:space-around;padding:12px 16px 16px;border-top:1px solid rgba(255,255,255,.07);margin-top:auto}
+.phone-bottom .tab{font-size:11px;color:rgba(255,255,255,.45);font-weight:600;display:flex;flex-direction:column;align-items:center;gap:5px}
+.phone-bottom .tab .tab-icon{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;transition:all .2s}
+.phone-bottom .tab.active{color:var(--accent)}
+.phone-bottom .tab.active .tab-icon{background:var(--accent);color:#2A1F45}
 
-  /* app screen: dark settings */
-  .screen.dark{background:#1C1B1F;color:#E6E1E5}
-  .set-head{padding:46px 18px 16px;font-size:20px;font-weight:900;color:var(--gold-2)}
-  .set-card{margin:0 16px;background:#2B2930;border-radius:16px;padding:14px;display:flex;align-items:center;gap:12px}
-  .set-card .av{width:42px;height:42px;border-radius:50%;background:rgba(103,80,164,.35);display:grid;place-items:center;font-size:20px}
-  .set-card .nm{font-weight:800;font-size:14px} .set-card .em{font-size:11px;color:#938F99}
-  .set-row{margin:12px 16px 0;display:flex;align-items:center;justify-content:space-between;background:#2B2930;border-radius:14px;padding:14px 16px;font-size:14px}
-  .toggle{width:42px;height:24px;background:var(--primary);border-radius:999px;position:relative}
-  .toggle::after{content:"";position:absolute;width:18px;height:18px;background:#fff;border-radius:50%;top:3px;left:3px}
+@media(max-width:900px){
+  .hero{padding:120px 0 80px;min-height:auto}
+  .hero-grid{grid-template-columns:1fr;text-align:center}
+  .hero p.sub{margin-inline:auto}
+  .hero-cta,.hero-stats{justify-content:center}
+  .hero-visual{margin-top:48px}
+  .phone-mockup{transform:none}
+  .phone-mockup:hover{transform:none}
+}
 
-  /* PROBLEM */
-  .prob-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:50px}
-  .prob{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:30px;text-align:center}
-  .prob .em{font-size:40px;margin-bottom:14px}
-  .prob h3{font-size:19px;font-weight:800;margin-bottom:8px}
-  .prob p{color:var(--text-2);font-size:15px}
-  .arrow-down{text-align:center;font-size:34px;color:var(--primary);margin:34px 0 -10px}
-  @media(max-width:820px){.prob-grid{grid-template-columns:1fr}}
+/* Features */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:48px}
+.feature-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:32px 28px;transition:all .3s ease;cursor:default;backdrop-filter:blur(6px)}
+.feature-card:hover{box-shadow:var(--shadow-md);transform:translateY(-4px);border-color:rgba(168,85,247,.4)}
+.feature-card .f-icon{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;margin-bottom:20px}
+.feature-card .f-icon.purple{background:rgba(168,85,247,.18);color:#D0BCFF}
+.feature-card .f-icon.gold{background:rgba(255,201,77,.18);color:var(--accent)}
+.feature-card .f-icon.green{background:rgba(74,222,128,.18);color:#6FE3A1}
+.feature-card .f-icon.blue{background:rgba(96,165,250,.18);color:#8FC4FB}
+.feature-card h3{font-size:20px;font-weight:800;color:#fff;margin-bottom:8px}
+.feature-card p{font-size:15px;color:var(--text-2);line-height:1.75}
 
-  /* FEATURES */
-  .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:54px}
-  .feat{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:28px;transition:.25s}
-  .feat:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:transparent}
-  .feat .ic{width:54px;height:54px;border-radius:15px;display:grid;place-items:center;font-size:25px;background:var(--gold);margin-bottom:16px}
-  .feat h3{font-size:19px;font-weight:800;margin-bottom:7px}
-  .feat p{color:var(--text-2);font-size:15px}
-  @media(max-width:820px){.feat-grid{grid-template-columns:1fr}}
+/* Story */
+.story{position:relative}
+.story-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
+.story-visual{position:relative;display:flex;justify-content:center}
+.lighthouse-wrap{position:relative;width:220px;height:220px}
+.story p{font-size:17px;color:var(--text-2);line-height:1.9;margin-bottom:20px}
+.story .signature{color:#fff;font-weight:800;font-size:16px;display:flex;align-items:center;gap:10px}
+.story .signature .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+@media(max-width:900px){
+  .story-grid{grid-template-columns:1fr;text-align:center}
+  .story .signature{justify-content:center}
+}
 
-  /* SHOWCASE */
-  .showcase{background:linear-gradient(160deg,var(--surface),#fff)}
-  .shots{display:flex;gap:26px;justify-content:center;flex-wrap:wrap;margin-top:54px}
-  .shot{display:flex;flex-direction:column;align-items:center;gap:16px}
-  .shot .cap{font-weight:800;color:var(--text-2)}
+/* Mockup Showcase */
+.mockup-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;margin-top:48px}
+.mockup-card{background:var(--surface);border-radius:var(--radius-md);padding:20px;text-align:center;transition:all .3s ease;border:1px solid var(--border)}
+.mockup-card:hover{box-shadow:var(--shadow-md);transform:translateY(-4px);border-color:rgba(168,85,247,.4)}
+.mockup-card .m-screen{width:100%;max-width:200px;height:360px;border-radius:20px;margin:0 auto 16px;overflow:hidden;position:relative;box-shadow:0 8px 24px rgba(0,0,0,.35);text-align:right}
+.m-screen-home{background:radial-gradient(ellipse 130% 60% at 50% 20%,#4A3570 0%,#241B3D 40%,#150E22 100%);padding:0;display:flex;flex-direction:column;direction:rtl}
+.m-home-header{display:flex;align-items:center;justify-content:space-between;padding:10px 12px 0}
+.m-home-header .logo{font-size:15px;font-weight:900;color:#fff}
+.m-home-header .h-actions{display:flex;gap:6px}
+.m-home-header .h-btn{width:24px;height:24px;border-radius:50%;background:rgba(184,169,212,.1);display:grid;place-items:center}
+.m-home-header .h-btn svg{width:12px;height:12px;color:rgba(255,255,255,.7)}
+.m-home-featured{background:linear-gradient(135deg,#7B3FE4,#A855F7);margin:10px 12px;padding:14px 20px;border-radius:14px;text-align:center}
+.m-home-featured h4{font-size:13px;font-weight:800;color:#fff}
+.m-home-featured p{font-size:7.5px;color:rgba(255,255,255,.7);margin-top:2px}
+.m-home-search{display:flex;align-items:center;gap:6px;margin:0 12px 8px;background:rgba(42,33,56,.5);border:1px solid rgba(184,169,212,.12);border-radius:12px;padding:7px 10px}
+.m-home-search svg{width:12px;height:12px;color:var(--text-2);flex:none}
+.m-home-search span{font-size:8px;color:var(--text-2)}
+.m-home-subjects{display:flex;flex-direction:column;gap:2px;padding:0 12px 10px}
+.m-home-subj{display:flex;align-items:center;gap:8px;background:rgba(42,33,56,.45);border:1px solid rgba(184,169,212,.12);border-radius:12px;padding:9px 10px;min-height:40px}
+.m-home-subj .s-icon{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;flex:none}
+.m-home-subj .s-icon svg{width:14px;height:14px;color:#fff}
+.m-home-subj .s-name{font-size:9px;font-weight:700;color:#fff;flex:1}
+.m-home-subj .s-badge{font-size:6.5px;color:var(--text-2)}
+.m-home-subj .s-arrow{color:rgba(255,255,255,.25);font-size:10px}
 
-  /* STEPS */
-  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:54px}
-  .step{text-align:center;padding:30px}
-  .step .num{width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--primary-light),var(--deep));color:#fff;font-size:24px;font-weight:900;display:grid;place-items:center;margin:0 auto 18px}
-  .step h3{font-size:19px;font-weight:800;margin-bottom:7px}
-  .step p{color:var(--text-2);font-size:15px}
-  @media(max-width:820px){.steps{grid-template-columns:1fr}}
+/* Countdown screen mockup */
+.m-screen-cd{background:#150E22;padding:0;display:flex;flex-direction:column;direction:rtl}
+.m-cd-top{display:flex;align-items:center;gap:6px;padding:8px 10px}
+.m-cd-top .back{width:24px;height:24px;border-radius:50%;background:rgba(42,33,56,.5);display:grid;place-items:center}
+.m-cd-top .back svg{width:12px;height:12px;color:#fff}
+.m-cd-top .title{font-size:12px;font-weight:800;color:#fff;flex:1;text-align:center}
+.m-cd-main{margin:0 10px;background:#7B3FE4;border-radius:14px;padding:14px;text-align:center}
+.m-cd-main .cd-icon{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.15);display:grid;place-items:center;margin:0 auto 8px}
+.m-cd-main .cd-icon svg{width:16px;height:16px;color:#fff}
+.m-cd-main .cd-label{font-size:8px;color:rgba(255,255,255,.5)}
+.m-cd-main .cd-date{font-size:7px;color:rgba(255,255,255,.35);margin-top:2px}
+.m-cd-grid{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;align-items:center;margin:8px 10px;background:rgba(42,33,56,.45);border:1px solid rgba(184,169,212,.12);border-radius:14px;padding:12px 8px}
+.m-cd-item{text-align:center}
+.m-cd-item .num{font-size:22px;font-weight:900;color:var(--accent);font-variant-numeric:tabular-nums;direction:ltr}
+.m-cd-item .lbl{font-size:7px;color:var(--text-2);margin-top:1px}
+.m-cd-sep{font-size:18px;font-weight:300;color:rgba(184,169,212,.3)}
+.m-cd-motiv{margin:0 10px 10px;background:rgba(42,33,56,.45);border:1px solid rgba(184,169,212,.12);border-radius:14px;padding:10px;text-align:center}
+.m-cd-motiv span{font-size:8px;color:var(--text);line-height:1.5}
 
-  /* SUBJECTS chips */
-  .chips{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:40px}
-  .chip{background:#fff;border:1px solid var(--border);border-radius:999px;padding:11px 22px;font-weight:700;color:var(--text-2)}
+/* Subject detail mockup */
+.m-screen-detail{background:#150E22;padding:0;display:flex;flex-direction:column;direction:rtl}
+.m-detail-top{display:flex;align-items:center;height:34px;padding:0 8px}
+.m-detail-top .back{width:24px;height:24px;background:transparent;display:grid;place-items:center}
+.m-detail-top .back svg{width:14px;height:14px;color:var(--text-2)}
+.m-detail-top .title{font-size:11px;font-weight:900;color:#fff;flex:1;text-align:center}
+.m-detail-top .filter{width:24px;height:24px;background:transparent;display:grid;place-items:center}
+.m-detail-top .filter svg{width:14px;height:14px;color:var(--text-2)}
+.m-detail-tabs{display:flex;margin:0;background:#2A1F45}
+.m-detail-tabs .tab{flex:1;text-align:center;font-size:8px;font-weight:700;color:var(--text-2);padding:7px 0;transition:all .2s;border-bottom:2px solid transparent}
+.m-detail-tabs .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.m-detail-files{display:flex;flex-direction:column;gap:4px;padding:8px 10px}
+.m-detail-file{display:flex;align-items:center;gap:6px;background:rgba(42,33,56,.45);border:1px solid rgba(184,169,212,.12);border-radius:10px;padding:7px 8px}
+.m-detail-file .f-icon{width:22px;height:22px;border-radius:6px;background:rgba(123,63,228,.15);display:grid;place-items:center;flex:none}
+.m-detail-file .f-icon svg{width:11px;height:11px;color:var(--primary)}
+.m-detail-file .f-info{flex:1}
+.m-detail-file .f-name{font-size:8.5px;font-weight:700;color:#fff}
+.m-detail-file .f-meta{font-size:6.5px;color:var(--text-3);margin-top:1px}
+.m-detail-file .f-action svg{width:12px;height:12px;color:var(--text-2)}
 
-  /* CTA */
-  .cta{margin:0 22px}
-  .cta-in{max-width:1180px;margin:0 auto;background:linear-gradient(150deg,var(--primary-light),var(--primary) 45%,var(--deep));border-radius:32px;padding:64px 30px;text-align:center;color:#fff;position:relative;overflow:hidden}
-  .cta-in::before{content:"";position:absolute;width:300px;height:300px;background:radial-gradient(circle,rgba(255,202,40,.3),transparent 70%);top:-100px;right:-60px}
-  .cta-in h2{font-size:clamp(26px,3.6vw,38px);font-weight:900;position:relative}
-  .cta-in p{font-size:18px;opacity:.9;margin:14px auto 28px;max-width:560px;position:relative}
+.mockup-card h4{font-size:17px;font-weight:800;color:#fff;margin-bottom:4px}
+.mockup-card p{font-size:14px;color:var(--text-2)}
 
-  /* FOOTER */
-  footer{background:var(--deep);color:rgba(255,255,255,.75);padding:50px 0 30px;margin-top:80px}
-  .foot-in{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
-  footer .brand{color:#fff}
-  .foot-links{display:flex;gap:24px;font-weight:700}
-  .foot-links a:hover{color:var(--gold-2)}
-  .copy{text-align:center;margin-top:30px;font-size:13px;color:rgba(255,255,255,.5)}
+/* Countdown + Waitlist */
+.waitlist{position:relative;overflow:hidden}
+.waitlist-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:56px 48px;text-align:center;box-shadow:var(--shadow-md);position:relative;z-index:1;backdrop-filter:blur(8px)}
+.waitlist-box h2{font-size:clamp(26px,3vw,38px);font-weight:900;color:#fff;margin-bottom:12px}
+.waitlist-box p{font-size:18px;color:var(--text-2);margin-bottom:32px;max-width:500px;margin-left:auto;margin-right:auto}
+
+.countdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:36px}
+.countdown .c-box{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 18px;min-width:76px}
+.countdown .c-box .c-num{font-size:28px;font-weight:900;color:var(--accent);font-variant-numeric:tabular-nums;direction:ltr;display:block}
+.countdown .c-box .c-label{font-size:12px;color:var(--text-2);margin-top:2px}
+
+.waitlist-form{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;max-width:500px;margin:0 auto}
+.waitlist-form input{flex:1;min-width:200px;padding:14px 20px;border:2px solid var(--border);border-radius:var(--radius-full);font-family:var(--font);font-size:16px;direction:rtl;outline:none;transition:border-color .25s,box-shadow .25s;background:rgba(255,255,255,.06);color:#fff}
+.waitlist-form input:focus{border-color:var(--primary-light);box-shadow:0 0 0 3px rgba(168,85,247,.2)}
+.waitlist-form input::placeholder{color:var(--text-3)}
+.wf-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:var(--radius-full);font-family:var(--font);font-size:16px;font-weight:700;border:none;cursor:pointer;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;transition:all .25s ease;white-space:nowrap}
+.wf-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(123,63,228,.4)}
+.wf-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.wf-success{display:none;color:var(--success);font-size:16px;font-weight:700;margin-top:16px;padding:12px;background:rgba(111,227,161,.12);border:1px solid rgba(111,227,161,.3);border-radius:var(--radius-sm)}
+
+/* Footer */
+footer{background:var(--bg-4);color:rgba(255,255,255,.75);padding:56px 0 24px;border-top:1px solid var(--border)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:32px}
+footer h4{color:#fff;font-size:18px;font-weight:800;margin-bottom:16px}
+footer p{font-size:14px;line-height:1.8;color:rgba(255,255,255,.55)}
+footer .logo{font-size:22px;font-weight:900;color:#fff;display:flex;align-items:center;gap:8px;margin-bottom:12px}
+footer .logo span{background:rgba(255,255,255,.08);padding:2px 10px;border-radius:6px;font-size:11px;color:var(--primary-pale)}
+footer a{color:rgba(255,255,255,.55);transition:color .25s;font-size:14px;display:block;padding:4px 0}
+footer a:hover{color:var(--accent)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:13px;color:rgba(255,255,255,.45)}
+@media(max-width:768px){
+  .footer-grid{grid-template-columns:1fr;gap:32px}
+  .footer-bottom{flex-direction:column;text-align:center}
+}
+
+/* Back to Top */
+#top-btn{position:fixed;bottom:32px;left:32px;z-index:90;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(123,63,228,.4);transition:all .3s ease;opacity:0;transform:translateY(20px);pointer-events:none}
+#top-btn.show{opacity:1;transform:translateY(0);pointer-events:auto}
+#top-btn:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(123,63,228,.5)}
+
+
+/* Animations */
+.anim-fade{opacity:0;transform:translateY(30px);transition:all .6s ease}
+.anim-fade.in{opacity:1;transform:translateY(0)}
+.anim-fade-up{opacity:0;transform:translateY(20px);transition:all .5s ease}
+.anim-fade-up.in{opacity:1;transform:translateY(0)}
+.stagger>div{opacity:0;transform:translateY(24px);transition:all .5s ease}
+.stagger.in>div{opacity:1;transform:translateY(0)}
+.stagger.in>div:nth-child(1){transition-delay:0s}
+.stagger.in>div:nth-child(2){transition-delay:.1s}
+.stagger.in>div:nth-child(3){transition-delay:.2s}
+.stagger.in>div:nth-child(4){transition-delay:.3s}
+
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.anim-float{animation:float 4s ease-in-out infinite}
+
+@keyframes beamSweep{0%{transform:rotate(-35deg)}50%{transform:rotate(35deg)}100%{transform:rotate(-35deg)}}
+.beam{transform-origin:110px 110px;animation:beamSweep 5s ease-in-out infinite}
+
+@keyframes heroIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.hero-badge{animation:heroIn .7s ease both}
+.hero h1{animation:heroIn .7s ease .1s both}
+.hero p.sub{animation:heroIn .7s ease .2s both}
+.hero-cta{animation:heroIn .7s ease .3s both}
+.hero-stats{animation:heroIn .7s ease .4s both}
+.hero-visual .phone-mockup{animation:heroIn .8s ease .25s both,float 4s ease-in-out .8s infinite}
+
+@keyframes glowDrift{
+  0%,100%{transform:translate(0,0) scale(1)}
+  33%{transform:translate(24px,-18px) scale(1.06)}
+  66%{transform:translate(-16px,14px) scale(0.97)}
+}
+.hero-bg-glow.g1{animation:glowDrift 14s ease-in-out infinite}
+.hero-bg-glow.g2{animation:glowDrift 18s ease-in-out infinite reverse}
+
+/* Shine sweep on accent buttons */
+.btn-accent{position:relative;overflow:hidden}
+.btn-accent::after{content:'';position:absolute;top:0;bottom:0;right:-60%;width:40%;background:linear-gradient(115deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);transition:right .6s ease}
+.btn-accent:hover::after{right:120%}
+
+/* Countdown pulse when a digit updates */
+@keyframes digitPulse{0%{transform:scale(1)}40%{transform:scale(1.12)}100%{transform:scale(1)}}
+.c-num.pulse{animation:digitPulse .35s ease}
+
+/* Stat count-up numbers keep tabular width so they don't jitter */
+.hero-stats .n{font-variant-numeric:tabular-nums;direction:ltr;display:inline-block}
+
+@keyframes starPop{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+.star-pop{display:inline-block;animation:starPop 2s ease-in-out infinite}
+.star-pop:nth-child(2){animation-delay:.3s}
+.star-pop:nth-child(3){animation-delay:.6s}
+
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .anim-fade,.anim-fade-up,.stagger>div{opacity:1;transform:none}
+  .phone-mockup{transform:none!important}
+}
 </style>
 </head>
 <body>
 
-<!-- ============ NAV ============ -->
-<header class="nav">
-  <div class="wrap nav-in">
-    <div class="brand">
-      <span class="logo">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-          <path d="M9.5 5.5c0-1.6 5-1.6 5 0" stroke="#EADDFF" stroke-width="1.5" stroke-linecap="round"/>
-          <rect x="10.6" y="4.4" width="2.8" height="1.8" rx=".4" fill="#D0BCFF"/>
-          <path d="M9.6 6.2h4.8l1.4 2H8.2z" fill="#EADDFF"/>
-          <rect x="8.6" y="8.2" width="6.8" height="9" rx="1.2" fill="#EADDFF"/>
-          <rect x="9.8" y="9.4" width="4.4" height="6.6" rx=".8" fill="#FFCA28"/>
-          <ellipse cx="12" cy="12.6" rx="1.5" ry="2" fill="#FFFDE7"/>
-          <path d="M9.4 17.2h5.2l-1 1.8h-3.2z" fill="#EADDFF"/>
-        </svg>
-      </span>
+<!-- Navbar -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-logo">
       منارة
+      <span>توجيهي</span>
     </div>
-    <nav class="nav-links">
-      <a href="#problem">المشكلة</a>
+    <div class="nav-links" id="navLinks">
+      <a href="#hero">الرئيسية</a>
       <a href="#features">المميزات</a>
-      <a href="#shots">صور التطبيق</a>
-      <a href="#how">كيف يعمل</a>
-    </nav>
-    <a href="#download" class="btn btn-primary">حمّل التطبيق</a>
-  </div>
-</header>
+      <a href="#story">قصتنا</a>
+      <a href="#notify">نبّهني</a>
+    </div>
 
-<!-- ============ HERO ============ -->
-<section class="hero">
-  <div class="wrap hero-grid">
+    <a href="#notify" class="btn btn-accent btn-sm nav-cta">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      نبّهني عند الإطلاق
+    </a>
+    <button class="mobile-toggle" id="mobileToggle" aria-label="فتح القائمة">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+  <div class="hero-bg-glow g1"></div>
+  <div class="hero-bg-glow g2"></div>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="stars">🚀</span>
+          <span>قريبًا على Google Play</span>
+        </div>
+        <h1>منارتك في رحلة <span class="hl">التوجيهي</span></h1>
+        <p class="sub">كل الكتب، الامتحانات السابقة، والملخصات — بين إيديك بضغطة وحدة، وتقدر تدرس بدون نت وين ما كنت.</p>
+        <div class="hero-cta">
+          <a href="#notify" class="btn btn-accent">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            نبّهني عند الإطلاق
+          </a>
+          <a href="#story" class="btn btn-outline">شو يعني منارة؟</a>
+        </div>
+        <div class="hero-stats">
+          <div><div class="n" data-target="50" data-format="plus">0</div><div class="l">كتاب ومرجع</div></div>
+          <div><div class="n" data-target="12" data-format="ar">0</div><div class="l">مادة دراسية</div></div>
+          
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="phone-mockup anim-float">
+          <div class="phone-screen">
+            <div class="phone-screen-inner">
+              <div class="phone-topbar">
+                <div class="logo-text">منارة</div>
+                <div class="icon-btn dl">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+                </div>
+                <div class="icon-btn notif">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                </div>
+              </div>
+              <div class="phone-banner">
+                <h3 id="hero-feat-title">التوجيهي 2026</h3>
+                <p id="hero-feat-sub">كل المواد بين يديك</p>
+              </div>
+              <div class="phone-subjects">
+                <div class="phone-subject">
+                  <div class="s-icon purple">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                  </div>
+                  <span class="s-name">رياضيات</span>
+                  <span class="s-arrow">‹</span>
+                </div>
+                <div class="phone-subject">
+                  <div class="s-icon gold">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                  </div>
+                  <span class="s-name">فيزياء</span>
+                  <span class="s-arrow">‹</span>
+                </div>
+                <div class="phone-subject">
+                  <div class="s-icon green">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  </div>
+                  <span class="s-name">كيمياء</span>
+                  <span class="s-arrow">‹</span>
+                </div>
+                <div class="phone-subject">
+                  <div class="s-icon blue">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                  </div>
+                  <span class="s-name">أحياء</span>
+                  <span class="s-arrow">‹</span>
+                </div>
+              </div>
+              <div class="phone-bottom">
+                <div class="tab active">
+                  <span class="tab-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>
+                  الرئيسية
+                </div>
+                <div class="tab">
+                  <span class="tab-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></span>
+                  المحفوظات
+                </div>
+                <div class="tab">
+                  <span class="tab-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
+                  الإعدادات
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="section features" id="features">
+  <div class="container text-center">
+    <div class="section-tag mx-auto">ليش منارة؟</div>
+    <h2 class="section-title">درسك، مرتّب وبين إيديك</h2>
+    <p class="section-desc mx-auto">صممنا منارة تكون أول شي تفتحه أيام المذاكرة — كل المصادر، وضوح بالتنظيم، وثبات حتى بدون إنترنت.</p>
+  </div>
+  <div class="container">
+    <div class="features-grid stagger" id="featuresGrid">
+      <div class="feature-card anim-fade-up">
+        <div class="f-icon purple">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <h3>كل المصادر بمكان واحد</h3>
+        <p>كتب الوزارة، امتحانات الأعوام السابقة، وملخصات لكل مادة — مجموعة ومرتبة حسب الفرع والتخصص.</p>
+      </div>
+      <div class="feature-card anim-fade-up">
+        <div class="f-icon gold">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <h3>دراسة بدون نت</h3>
+        <p>حمّل أي ملف واقرأه وقت ما بدك، حتى لو انقطع الإنترنت أو كنت بمكان تغطيته ضعيفة.</p>
+      </div>
+      <div class="feature-card anim-fade-up">
+        <div class="f-icon green">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <h3>توصل لأي درس بثواني</h3>
+        <p>دوّر باسم المادة أو الموضوع ولاقي يلي بدك ياه على طول، بدون ما تضيع وقتك بالتصفح.</p>
+      </div>
+      <div class="feature-card anim-fade-up">
+        <div class="f-icon blue">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </div>
+        <h3>كل مادة إلها هوية</h3>
+        <p>لون وأيقونة خاصة لكل مادة، عشان تميز بسرعة وين رايح وشو باقي عليك.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Story -->
+<section class="section story" id="story">
+  <div class="container story-grid">
+    <div class="story-visual">
+      <div class="lighthouse-wrap anim-float">
+        <svg viewBox="0 0 220 220" width="220" height="220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="beamGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#FFC94D" stop-opacity="0.55"/>
+              <stop offset="100%" stop-color="#FFC94D" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="towerGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#EADDFF"/>
+              <stop offset="100%" stop-color="#A855F7"/>
+            </linearGradient>
+          </defs>
+          <g class="beam">
+            <path d="M110 110 L210 60 L210 160 Z" fill="url(#beamGrad)"/>
+          </g>
+          <rect x="96" y="90" width="28" height="90" rx="4" fill="url(#towerGrad)"/>
+          <rect x="90" y="170" width="40" height="16" rx="3" fill="#7B3FE4"/>
+          <rect x="98" y="78" width="24" height="16" rx="3" fill="#FFC94D"/>
+          <path d="M92 78 L110 58 L128 78 Z" fill="#EADDFF"/>
+          <circle cx="110" cy="86" r="5" fill="#fff"/>
+        </svg>
+      </div>
+    </div>
     <div>
-      <span class="eyebrow" style="background:rgba(255,255,255,.16);color:#fff">🏮 رفيقك في رحلة التوجيهي</span>
-      <h1>كل مصادر التوجيهي<br><span class="hl">في مكان واحد</span></h1>
-      <p class="sub">كتب، امتحانات سابقة، وملخصات لكل المواد — حمّلها واقرأها بدون إنترنت، وادرس بتركيز بدون تشتيت.</p>
-      <div class="hero-cta">
-        <a href="#download" class="btn btn-primary">⬇️ حمّل الآن مجانًا</a>
-        <a href="#features" class="btn btn-ghost">استكشف المميزات</a>
-      </div>
-      <div class="hero-stats">
-        <div><div class="n">+12</div><div class="l">مادة دراسية</div></div>
-        <div><div class="n">3</div><div class="l">أقسام لكل مادة</div></div>
-        <div><div class="n">100%</div><div class="l">بدون إنترنت</div></div>
-      </div>
-    </div>
-    <div class="hero-visual">
-      <!-- HOME mockup -->
-      <div class="phone tilt">
-        <div class="screen">
-          <div class="app-head">
-            <div class="hi">مساء الخير 👋</div>
-            <div class="nm">مرحباً، أحمد</div>
-            <span class="track">المسار العلمي</span>
-          </div>
-          <div class="subj-grid">
-            <div class="subj s-phys"><div class="ic">🧲</div><div><div class="nm">الفيزياء</div><div class="bd">علمي</div></div></div>
-            <div class="subj s-chem"><div class="ic">⚗️</div><div><div class="nm">الكيمياء</div><div class="bd">علمي</div></div></div>
-            <div class="subj s-bio"><div class="ic">🧬</div><div><div class="nm">الأحياء</div><div class="bd">علمي</div></div></div>
-            <div class="subj s-math"><div class="ic">📐</div><div><div class="nm">الرياضيات</div><div class="bd">علمي</div></div></div>
-            <div class="subj s-arab"><div class="ic">📖</div><div><div class="nm">اللغة العربية</div><div class="bd">مشترك</div></div></div>
-            <div class="subj s-hist"><div class="ic">🕌</div><div><div class="nm">التربية</div><div class="bd">مشترك</div></div></div>
-          </div>
-          <div class="tabbar"><span class="t on">🏠</span><span class="t">🔖</span><span class="t">⚙️</span></div>
-        </div>
-      </div>
+      <div class="section-tag">قصتنا</div>
+      <h2 class="section-title">كل بحّار يحتاج منارة</h2>
+      <p>التوجيهي رحلة طويلة، فيها ليالي دراسة وأسئلة كتير: وين ألاقي هاد الكتاب؟ وين امتحانات السنين اللي فاتت؟ مين يلخصلي هاد الفصل؟</p>
+      <p>منارة طلعت من هاد السؤال بالذات. صممناها إحنا — طلاب وخريجين فلسطينيين — عشان تكون الضوء يلي يدلّك عالطريق وسط زحمة المذاكرة، متل ما المنارة الحقيقية ترشد المراكب وسط العتمة.</p>
+      <div class="signature"><span class="dot"></span> صنعناها بفلسطين، لأجل كل طالب وطالبة بيحلموا بمعدل يفتحلهم الأبواب.</div>
     </div>
   </div>
 </section>
 
-<!-- ============ PROBLEM ============ -->
-<section class="section" id="problem">
-  <div class="wrap">
-    <div style="text-align:center"><span class="eyebrow">المشكلة</span></div>
-    <h2>طالب التوجيهي يضيع وقته في البحث<br>بدل ما يدرس</h2>
-    <p class="lead">مصادر الدراسة مشتّتة بين مجموعات واتساب، صفحات فيسبوك، وروابط تحميل لا تنتهي — والنتيجة وقت ضائع وتوتر أكبر.</p>
-    <div class="prob-grid">
-      <div class="prob"><div class="em">🔍</div><h3>مصادر مبعثرة</h3><p>الكتب والملخصات والامتحانات منتشرة في عشرات الأماكن، يصعب إيجادها وترتيبها.</p></div>
-      <div class="prob"><div class="em">📵</div><h3>تعتمد على الإنترنت</h3><p>كل مرة تحتاج فيها ملف لازم تبحث وتحمّل من جديد، وبدون إنترنت تتوقف الدراسة.</p></div>
-      <div class="prob"><div class="em">😵</div><h3>تشتيت وضياع وقت</h3><p>البحث الدائم وكثرة الإعلانات والمجموعات يشتّت التركيز ويأكل من وقت المراجعة.</p></div>
-    </div>
-    <div class="arrow-down">⬇️</div>
+<!-- Mockup Showcase -->
+<section class="section mockup-showcase" id="screenshots">
+  <div class="container text-center">
+    <div class="section-tag mx-auto">شوف التطبيق</div>
+    <h2 class="section-title">هيك رح تشوف منارة</h2>
+    <p class="section-desc mx-auto">واجهة هادية وبسيطة، بتركّز معك على الدراسة مو على التعقيد.</p>
   </div>
-</section>
-
-<!-- ============ SOLUTION / FEATURES ============ -->
-<section class="section" id="features" style="background:var(--surface)">
-  <div class="wrap">
-    <div style="text-align:center"><span class="eyebrow">الحل</span></div>
-    <h2>منارة تجمع كل شي وتنظّمه لك</h2>
-    <p class="lead">تطبيق واحد، منظّم حسب مسارك ومادتك، يشتغل بدون إنترنت — عشان تركّز على الدراسة فقط.</p>
-    <div class="feat-grid">
-      <div class="feat"><div class="ic">📚</div><h3>كتب ومناهج</h3><p>الكتب المدرسية الرسمية لكل مادة، منظّمة وجاهزة للقراءة في أي وقت.</p></div>
-      <div class="feat"><div class="ic">📝</div><h3>امتحانات سابقة</h3><p>دورات الأعوام الماضية لتتدرّب على نمط الأسئلة وتزيد ثقتك قبل الامتحان.</p></div>
-      <div class="feat"><div class="ic">⭐</div><h3>ملخصات مركّزة</h3><p>ملخصات تختصر لك المنهج وتساعدك في المراجعة السريعة قبل الاختبار.</p></div>
-      <div class="feat"><div class="ic">⬇️</div><h3>تحميل وعرض أوفلاين</h3><p>حمّل الملفات مرة واحدة واقرأها بدون إنترنت في أي مكان، حتى بدون شبكة.</p></div>
-      <div class="feat"><div class="ic">🔖</div><h3>حفظ المفضّلة</h3><p>احفظ الملفات المهمة في قائمتك الخاصة وارجع لها بسرعة وقت ما تحتاج.</p></div>
-      <div class="feat"><div class="ic">🌙</div><h3>وضع ليلي مريح</h3><p>واجهة داكنة تريح عينيك أثناء الدراسة الليلية الطويلة.</p></div>
-      <div class="feat"><div class="ic">🧭</div><h3>منظّم حسب مسارك</h3><p>اختر العلمي أو الأدبي ليعرض لك التطبيق المواد المناسبة لك فقط.</p></div>
-      <div class="feat"><div class="ic">🔐</div><h3>آمن وخاص</h3><p>حسابك وبياناتك محمية بتشفير، واتصال مشفّر بالكامل مع الخادم.</p></div>
-      <div class="feat"><div class="ic">📄</div><h3>عارض PDF مدمج</h3><p>اقرأ الملفات داخل التطبيق مباشرة مع تتبّع الصفحات، بدون برامج خارجية.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SCREENSHOTS ============ -->
-<section class="section showcase" id="shots">
-  <div class="wrap">
-    <div style="text-align:center"><span class="eyebrow">من داخل التطبيق</span></div>
-    <h2>تجربة بسيطة وأنيقة</h2>
-    <p class="lead">واجهة عربية كاملة، سهلة الاستخدام، مصمّمة خصيصًا لطالب التوجيهي.</p>
-    <div class="shots">
-      <!-- Home -->
-      <div class="shot">
-        <div class="phone">
-          <div class="screen">
-            <div class="app-head"><div class="hi">مرحباً 👋</div><div class="nm">الرئيسية</div><span class="track">المسار العلمي</span></div>
-            <div class="subj-grid">
-              <div class="subj s-phys"><div class="ic">🧲</div><div><div class="nm">الفيزياء</div><div class="bd">علمي</div></div></div>
-              <div class="subj s-chem"><div class="ic">⚗️</div><div><div class="nm">الكيمياء</div><div class="bd">علمي</div></div></div>
-              <div class="subj s-bio"><div class="ic">🧬</div><div><div class="nm">الأحياء</div><div class="bd">علمي</div></div></div>
-              <div class="subj s-math"><div class="ic">📐</div><div><div class="nm">الرياضيات</div><div class="bd">علمي</div></div></div>
+  <div class="container">
+    <div class="mockup-grid stagger" id="mockupGrid">
+      <div class="mockup-card anim-fade-up">
+        <div class="m-screen">
+          <div class="m-screen-home">
+            <div class="m-home-header">
+              <span class="logo">منارة</span>
+              <div class="h-actions">
+                <div class="h-btn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                </div>
+                <div class="h-btn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+                </div>
+              </div>
             </div>
-            <div class="tabbar"><span class="t on">🏠</span><span class="t">🔖</span><span class="t">⚙️</span></div>
-          </div>
-        </div>
-        <div class="cap">الشاشة الرئيسية</div>
-      </div>
-      <!-- PDF -->
-      <div class="shot">
-        <div class="phone">
-          <div class="screen">
-            <div class="pdf-top"><span>⟶</span><span>ملخص الوحدة الأولى</span><span>🔖</span></div>
-            <div class="pdf-page">
-              <div class="ln m"></div><div class="ln"></div><div class="ln s"></div>
-              <div class="ln"></div><div class="ln m"></div><div class="ln s"></div>
-              <div class="ln"></div><div class="ln m"></div><div class="ln"></div>
-              <div class="ln s"></div><div class="ln m"></div>
+            <div class="m-home-featured">
+              <h4 id="mock-feat-title">التوجيهي 2026</h4>
+              <p id="mock-feat-sub">كل المواد بين يديك</p>
             </div>
-            <div class="pdf-count">صفحة 1 / 15</div>
+            <div class="m-home-search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="10" y2="18"/></svg>
+              <span>ابحث عن مادة...</span>
+            </div>
+            <div class="m-home-subjects">
+              <div class="m-home-subj">
+                <div class="s-icon" style="background:#6B48FF"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+                <span class="s-name">الرياضيات</span>
+                <span class="s-badge">علمي</span>
+                <span class="s-arrow">‹</span>
+              </div>
+              <div class="m-home-subj">
+                <div class="s-icon" style="background:#FF8A65"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+                <span class="s-name">الفيزياء</span>
+                <span class="s-badge">علمي</span>
+                <span class="s-arrow">‹</span>
+              </div>
+              <div class="m-home-subj">
+                <div class="s-icon" style="background:#4CAF50"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+                <span class="s-name">الكيمياء</span>
+                <span class="s-badge">علمي</span>
+                <span class="s-arrow">‹</span>
+              </div>
+              <div class="m-home-subj">
+                <div class="s-icon" style="background:#42A5F5"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+                <span class="s-name">الأحياء</span>
+                <span class="s-badge">علمي</span>
+                <span class="s-arrow">‹</span>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="cap">عارض الـ PDF</div>
+        <h4>مادتك، بلمسة وحدة</h4>
+        <p>كل المواد مرتبة بقائمة عمودية مع دائرة لونية وأيقونة خاصة بكل مادة.</p>
       </div>
-      <!-- Dark settings -->
-      <div class="shot">
-        <div class="phone">
-          <div class="screen dark">
-            <div class="set-head">الإعدادات</div>
-            <div class="set-card"><div class="av">👤</div><div><div class="nm">أحمد محمد</div><div class="em">ahmad@email.com</div></div></div>
-            <div class="set-row"><span>🌙 الوضع الليلي</span><span class="toggle"></span></div>
-            <div class="set-row"><span>📘 تغيير المسار</span><span>›</span></div>
-            <div class="set-row" style="color:#F2B8B5"><span>↩︎ تسجيل الخروج</span></div>
+      <div class="mockup-card anim-fade-up">
+        <div class="m-screen">
+          <div class="m-screen-cd">
+            <div class="m-cd-top">
+              <div class="back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="20" y1="12" x2="4" y2="12"/><polyline points="10 18 4 12 10 6"/></svg></div>
+              <div class="title">العدّاد التنازلي</div>
+            </div>
+            <div class="m-cd-main">
+              <div class="cd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+              <div class="cd-label">الوقت المتبقي</div>
+              <div class="cd-date">١٣ يونيو ٢٠٢٦</div>
+            </div>
+            <div class="m-cd-grid">
+              <div class="m-cd-item"><div class="num">٧٦</div><div class="lbl">يوم</div></div>
+              <div class="m-cd-sep">:</div>
+              <div class="m-cd-item"><div class="num">١٤</div><div class="lbl">ساعة</div></div>
+              <div class="m-cd-sep">:</div>
+              <div class="m-cd-item"><div class="num">٣٢</div><div class="lbl">دقيقة</div></div>
+              <div class="m-cd-sep">:</div>
+              <div class="m-cd-item"><div class="num">٠٨</div><div class="lbl">ثانية</div></div>
+            </div>
+            <div class="m-cd-motiv">
+              <span>أنت أقوى مما تظن، ورح تنجح بإذن الله.</span>
+            </div>
           </div>
         </div>
-        <div class="cap">الإعدادات + الوضع الليلي</div>
+        <h4>العدّاد التنازلي</h4>
+        <p>تابع الوقت المتبقي لامتحانات التوجيهي مع رسالة تحفيزية يومية.</p>
+      </div>
+      <div class="mockup-card anim-fade-up">
+        <div class="m-screen">
+          <div class="m-screen-detail">
+            <div class="m-detail-top">
+              <div class="back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="20" y1="12" x2="4" y2="12"/><polyline points="10 18 4 12 10 6"/></svg></div>
+              <div class="title">الفيزياء</div>
+              <div class="filter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="12" y1="18" x2="12" y2="18"/></svg></div>
+            </div>
+            <div class="m-detail-tabs">
+              <div class="tab active">الكتب</div>
+              <div class="tab">امتحانات</div>
+              <div class="tab">ملخصات</div>
+            </div>
+            <div class="m-detail-files">
+              <div class="m-detail-file">
+                <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                <div class="f-info"><div class="f-name">الفيزياء للصف الثاني عشر</div><div class="f-meta">PDF • 3.2 MB</div></div>
+                <div class="f-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div>
+              </div>
+              <div class="m-detail-file">
+                <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                <div class="f-info"><div class="f-name">امتحان الدورة الأولى 2023</div><div class="f-meta">PDF • 1.8 MB</div></div>
+                <div class="f-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div>
+              </div>
+              <div class="m-detail-file">
+                <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                <div class="f-info"><div class="f-name">ملخص قوانين الفيزياء</div><div class="f-meta">PDF • 0.8 MB</div></div>
+                <div class="f-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h4>كل شي بمكانه</h4>
+        <p>الكتب، الامتحانات السابقة، والملخصات مصنّفة في تبويبات بلون ذهبي للمختار.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ HOW IT WORKS ============ -->
-<section class="section" id="how">
-  <div class="wrap">
-    <div style="text-align:center"><span class="eyebrow">البداية بثلاث خطوات</span></div>
-    <h2>كيف يعمل التطبيق؟</h2>
-    <div class="steps">
-      <div class="step"><div class="num">1</div><h3>أنشئ حسابك</h3><p>سجّل بالبريد الإلكتروني خلال ثوانٍ وابدأ مباشرة.</p></div>
-      <div class="step"><div class="num">2</div><h3>اختر مسارك</h3><p>علمي أو أدبي — ليعرض لك التطبيق موادك المناسبة فقط.</p></div>
-      <div class="step"><div class="num">3</div><h3>تصفّح وحمّل</h3><p>افتح المادة، اختر كتاب أو امتحان أو ملخص، وحمّله لتقرأه أوفلاين.</p></div>
-    </div>
-    <div class="chips">
-      <span class="chip">📐 رياضيات</span><span class="chip">🧲 فيزياء</span><span class="chip">⚗️ كيمياء</span>
-      <span class="chip">🧬 أحياء</span><span class="chip">📖 لغة عربية</span><span class="chip">🕌 تربية إسلامية</span>
-      <span class="chip">🌍 جغرافيا</span><span class="chip">📜 تاريخ</span><span class="chip">🗽 لغة إنجليزية</span>
+<!-- Countdown + Waitlist -->
+<section class="section waitlist" id="notify">
+  <div class="container">
+    <div class="waitlist-box">
+      <div class="section-tag mx-auto">قريبًا</div>
+      <h2>خليك اول واحد يجرب</h2>
+      <p>التطبيق لسا قيد الإنارة 🔦 — سجّل إيميلك وبنبعتلك إشعار أول ما نضوي الموقع بالكامل.</p>
+
+      <div class="countdown" id="countdown" data-target="2026-09-01T00:00:00">
+        <div class="c-box"><span class="c-num" id="cd-days">--</span><span class="c-label">يوم</span></div>
+        <div class="c-box"><span class="c-num" id="cd-hours">--</span><span class="c-label">ساعة</span></div>
+        <div class="c-box"><span class="c-num" id="cd-mins">--</span><span class="c-label">دقيقة</span></div>
+        <div class="c-box"><span class="c-num" id="cd-secs">--</span><span class="c-label">ثانية</span></div>
+      </div>
+
+      <form class="waitlist-form">
+        <input type="text" id="wl-website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+          style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none" />
+        <input type="email" id="wl-email" placeholder="بريدك الإلكتروني" required aria-label="البريد الإلكتروني" autocomplete="email" />
+        <button type="submit" class="wf-btn" id="wl-submit">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          نبّهني
+        </button>
+      </form>
+      <div class="wf-success" id="wl-success">تم تسجيلك! راح ننبّهك أول ما ننزل التطبيق 🎉</div>
     </div>
   </div>
 </section>
 
-<!-- ============ CTA ============ -->
-<section class="section" id="download" style="padding-top:0">
-  <div class="cta">
-    <div class="cta-in">
-      <h2>جاهز تبدأ رحلتك نحو التفوّق؟</h2>
-      <p>حمّل منارة الآن مجانًا، ونظّم دراستك في مكان واحد — كل ما تحتاجه للتوجيهي بين يديك.</p>
-      <a href="#" class="btn btn-ghost" style="font-size:17px;padding:16px 34px;background:#fff;color:var(--primary);border:0">▶️ متوفّر قريبًا على Google Play</a>
-    </div>
-  </div>
-</section>
-
-<!-- ============ FOOTER ============ -->
+<!-- Footer -->
 <footer>
-  <div class="wrap">
-    <div class="foot-in">
-      <div class="brand">
-        <span class="logo" style="width:38px;height:38px;border-radius:11px">
-          <svg width="22" height="22" viewBox="0 0 24 24"><rect x="8.6" y="8.2" width="6.8" height="9" rx="1.2" fill="#EADDFF"/><rect x="9.8" y="9.4" width="4.4" height="6.6" rx=".8" fill="#FFCA28"/><path d="M9.6 6.2h4.8l1.4 2H8.2z" fill="#EADDFF"/></svg>
-        </span>
-        منارة
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="logo">
+          منارة
+          <span>توجيهي</span>
+        </div>
+        <p>منارة هي تطبيق مجاني يضم كل مصادر التوجيهي — كتب، امتحانات سابقة، وملخصات. الضوء يلي بيوصلك للتفوق.</p>
       </div>
-      <div class="foot-links">
-        <a href="#problem">المشكلة</a><a href="#features">المميزات</a><a href="#shots">الصور</a><a href="#download">تحميل</a>
+      <div>
+        <h4>روابط سريعة</h4>
+        <a href="#hero">الرئيسية</a>
+        <a href="#features">المميزات</a>
+        <a href="#story">قصتنا</a>
+        <a href="#notify">نبّهني</a>
+      </div>
+      <div>
+        <h4>تواصل معنا</h4>
+        <a href="mailto:support@manara-app.com">support@manara-app.com</a>
+        <a href="privacy.html">سياسة الخصوصية</a>
       </div>
     </div>
-    <div class="copy">© 2026 منارة — تطبيق تعليمي لطلاب التوجيهي. جميع الحقوق محفوظة.</div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="copyright-year"></span> منارة. جميع الحقوق محفوظة.</span>
+      <span>صنع بفخر في غزة 🇵🇸</span>
+    </div>
   </div>
 </footer>
+
+<!-- Back to Top -->
+<button id="top-btn" aria-label="العودة للأعلى">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<script src="assets/manara.js" defer></script>
 
 </body>
 </html>
