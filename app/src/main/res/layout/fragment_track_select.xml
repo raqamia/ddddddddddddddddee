@@ -11,8 +11,8 @@
         style="@style/Text.Black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="اختر مسارك الدراسي"
-        android:textColor="@color/navy"
+        android:text="@string/choose_track"
+        android:textColor="@color/text_dark_primary"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="يمكنك تغييره لاحقاً من الإعدادات"
+        android:text="@string/track_change_hint"
         android:textColor="@color/text_muted"
         android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:enabled="false"
-        android:text="تأكيد الاختيار ←"
+        android:text="@string/confirm_selection"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

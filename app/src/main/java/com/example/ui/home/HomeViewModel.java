@@ -11,16 +11,21 @@ import androidx.lifecycle.Transformations;
 import com.example.data.local.AppDatabase;
 import com.example.data.local.entity.DownloadEntity;
 import com.example.data.local.entity.FileEntity;
+import com.example.data.local.entity.RecentEntity;
 import com.example.data.local.entity.SubjectEntity;
 import com.example.data.prefs.AppPreferences;
 import com.example.data.prefs.SessionManager;
 import com.example.data.remote.SupabaseApiClient;
 import com.example.data.remote.dto.ProfileDto;
+import com.example.data.repository.NotificationsRepository;
 import com.example.data.repository.ProfileRepository;
+import com.example.data.repository.RecentRepository;
 import com.example.data.repository.SubjectRepository;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class HomeViewModel extends AndroidViewModel {
@@ -37,6 +42,10 @@ public class HomeViewModel extends AndroidViewModel {
     private final LiveData<List<FileEntity>> allFiles;
     private final LiveData<List<DownloadEntity>> completedDownloads;
     private final MediatorLiveData<Map<String, Integer>> downloadedPerSubject = new MediatorLiveData<>();
+    private final NotificationsRepository notificationsRepository;
+    private final RecentRepository recentRepository;
+    private final LiveData<List<RecentEntity>> recentItems;
+    private final MutableLiveData<Boolean> hasUnseenNotification = new MutableLiveData<>(false);
 
     public HomeViewModel(@NonNull Application application) {
         super(application);
@@ -51,6 +60,10 @@ public class HomeViewModel extends AndroidViewModel {
                 SupabaseApiClient.getApi(sessionManager),
                 sessionManager
         );
+        recentRepository = new RecentRepository(db.recentDao());
+        notificationsRepository = new NotificationsRepository(
+                SupabaseApiClient.getApi(sessionManager));
+
         subjects = Transformations.switchMap(currentTrack, track ->
                 repository.getSubjectsByTrackLive(track)
         );
@@ -67,9 +80,38 @@ public class HomeViewModel extends AndroidViewModel {
         downloadedPerSubject.addSource(allFiles, f -> recomputeDownloaded());
         downloadedPerSubject.addSource(completedDownloads, c -> recomputeDownloaded());
 
+        // Recent items
+        recentItems = recentRepository.getRecentLive();
+
+        // Notification badge
+        notificationsRepository.getNotifications().observeForever(list -> {
+            if (list == null || list.isEmpty()) {
+                hasUnseenNotification.setValue(false);
+                return;
+            }
+            long newest = parseIsoMillis(list.get(0).getCreatedAt());
+            hasUnseenNotification.setValue(newest > prefs.getLastSeenNotif());
+        });
+        notificationsRepository.fetch();
+
         profileRepository.fetchProfile();
-        profileRepository.markActive(); // updates last_seen for the admin "active users" metric
-        // The hosting fragment triggers the initial subjects load in onViewCreated.
+        profileRepository.markActive();
+    }
+
+    public void fetchNotifications() {
+        notificationsRepository.fetch();
+    }
+
+    public LiveData<Boolean> getHasUnseenNotification() {
+        return hasUnseenNotification;
+    }
+
+    public LiveData<List<RecentEntity>> getRecentItems() {
+        return recentItems;
+    }
+
+    public RecentRepository getRecentRepository() {
+        return recentRepository;
     }
 
     private void recomputeGreeting() {
@@ -129,5 +171,15 @@ public class HomeViewModel extends AndroidViewModel {
             trackGreeting.setValue("اختر مسارك");
         }
         repository.fetchAndStoreSubjects(track);
+    }
+
+    private long parseIsoMillis(String iso) {
+        if (iso == null) return 0;
+        try {
+            SimpleDateFormat in = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+            return in.parse(iso.length() >= 19 ? iso.substring(0, 19) : iso).getTime();
+        } catch (Exception e) {
+            return 0;
+        }
     }
 }

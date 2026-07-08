@@ -3,12 +3,16 @@ package com.example.ui.home;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.R;
 import com.example.data.local.entity.SubjectEntity;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +37,6 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
         notifyDataSetChanged();
     }
 
-    /** Sets the number of downloaded files per subject id (for the progress label on each card). */
     public void setDownloadedPerSubject(Map<String, Integer> map) {
         downloadedPerSubject.clear();
         if (map != null) downloadedPerSubject.putAll(map);
@@ -62,7 +65,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
         private final TextView tvName;
         private final TextView tvTrackBadge;
         private final TextView tvProgress;
-        private final View cardBg;
+        private final FrameLayout iconContainer;
         private final ImageView ivIcon;
 
         public SubjectViewHolder(@NonNull View itemView) {
@@ -70,7 +73,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
             tvName = itemView.findViewById(R.id.tv_name);
             tvTrackBadge = itemView.findViewById(R.id.tv_track_badge);
             tvProgress = itemView.findViewById(R.id.tv_progress);
-            cardBg = itemView.findViewById(R.id.card_bg);
+            iconContainer = itemView.findViewById(R.id.icon_container);
             ivIcon = itemView.findViewById(R.id.iv_icon);
 
             itemView.setOnClickListener(v -> {
@@ -92,23 +95,21 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
             } else {
                 tvProgress.setVisibility(View.GONE);
             }
-            
-            // Assign some placeholder colours based on subject length to make it look dynamic without images right now
-            int colorResInfoBg = R.color.subject_math_bg;
-            int colorResInfo = R.color.subject_math;
-            int icon = R.drawable.ic_science;
-            if (subject.name.contains("فيزياء")) { colorResInfoBg = R.color.subject_physics_bg; colorResInfo = R.color.subject_physics; icon = R.drawable.ic_science; }
-            else if (subject.name.contains("كيمياء")) { colorResInfoBg = R.color.subject_chemistry_bg; colorResInfo = R.color.subject_chemistry; icon = R.drawable.ic_science; }
-            else if (subject.name.contains("أحياء")) { colorResInfoBg = R.color.subject_biology_bg; colorResInfo = R.color.subject_biology; icon = R.drawable.ic_science; }
-            else if (subject.name.contains("عربي")) { colorResInfoBg = R.color.subject_arabic_bg; colorResInfo = R.color.subject_arabic; icon = R.drawable.ic_menu_book; }
-            else if (subject.name.contains("دين")) { colorResInfoBg = R.color.subject_islamic_bg; colorResInfo = R.color.subject_islamic; icon = R.drawable.ic_menu_book; }
-            else if (subject.name.contains("رياضيات")) { colorResInfoBg = R.color.subject_math_bg; colorResInfo = R.color.subject_math; icon = R.drawable.ic_science; }
 
-            cardBg.setBackgroundColor(itemView.getContext().getColor(colorResInfoBg));
-            tvName.setTextColor(itemView.getContext().getColor(colorResInfo));
-            tvTrackBadge.setTextColor(itemView.getContext().getColor(colorResInfo));
-            ivIcon.setColorFilter(itemView.getContext().getColor(colorResInfo));
-            ivIcon.setImageResource(icon);
+            int iconBgRes = R.drawable.bg_circle_subject_math;
+            int iconRes = R.drawable.ic_science;
+            String name = subject.name != null ? subject.name : "";
+            if (name.contains("فيزياء")) { iconBgRes = R.drawable.bg_circle_subject_physics; iconRes = R.drawable.ic_science; }
+            else if (name.contains("كيمياء")) { iconBgRes = R.drawable.bg_circle_subject_chemistry; iconRes = R.drawable.ic_science; }
+            else if (name.contains("أحياء")) { iconBgRes = R.drawable.bg_circle_subject_biology; iconRes = R.drawable.ic_science; }
+            else if (name.contains("عربي")) { iconBgRes = R.drawable.bg_circle_subject_math; iconRes = R.drawable.ic_menu_book; }
+            else if (name.contains("دين")) { iconBgRes = R.drawable.bg_circle_subject_math; iconRes = R.drawable.ic_menu_book; }
+            else if (name.contains("رياضيات")) { iconBgRes = R.drawable.bg_circle_subject_math; iconRes = R.drawable.ic_science; }
+            else if (name.contains("تاريخ") || name.contains("جغرافيا")) { iconBgRes = R.drawable.bg_circle_subject_biology; iconRes = R.drawable.ic_menu_book; }
+            else if (name.contains("انجليزي")) { iconBgRes = R.drawable.bg_circle_subject_physics; iconRes = R.drawable.ic_menu_book; }
+
+            iconContainer.setBackgroundResource(iconBgRes);
+            ivIcon.setImageResource(iconRes);
         }
     }
 }

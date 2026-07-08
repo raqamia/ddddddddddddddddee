@@ -4,6 +4,7 @@ public class Constants {
     // Configured via BuildConfig
     public static final String SUPABASE_URL = com.example.BuildConfig.SUPABASE_URL;
     public static final String SUPABASE_ANON_KEY = com.example.BuildConfig.SUPABASE_ANON_KEY;
+    public static final String SUPABASE_CERT_HOST = "vdqrcshhnkqnqwrldjos.supabase.co";
     
     public static final String SUPABASE_REST_URL = SUPABASE_URL + "/rest/v1/";
     public static final String SUPABASE_AUTH_URL = SUPABASE_URL + "/auth/v1/";

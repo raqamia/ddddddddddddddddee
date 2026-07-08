@@ -90,6 +90,8 @@ public class SettingsFragment extends Fragment {
                         .show());
 
         // ---- Other ----
+        view.findViewById(R.id.row_countdown).setOnClickListener(v ->
+                Navigation.findNavController(view).navigate(R.id.action_settingsFragment_to_examCountdownFragment));
         view.findViewById(R.id.row_share).setOnClickListener(v -> shareApp());
         view.findViewById(R.id.row_rate).setOnClickListener(v -> rateApp());
         view.findViewById(R.id.row_help).setOnClickListener(v -> simpleDialog("مساعدة",

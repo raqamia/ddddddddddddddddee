@@ -38,3 +38,8 @@
 
 # حماية PDF Viewer
 -keep class com.github.barteksc.pdfviewer.** { *; }
+
+# الحفاظ على BuildConfig (SUPABASE_URL, SUPABASE_ANON_KEY) في release
+-keepclassmembers class com.example.BuildConfig {
+    *;
+}

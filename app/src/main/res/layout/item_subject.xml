@@ -1,73 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="20dp"
-    app:cardElevation="0dp">
+    android:background="@drawable/selector_subject_card"
+    android:clickable="true"
+    android:focusable="true"
+    android:minHeight="64dp"
+    android:paddingHorizontal="14dp"
+    android:paddingVertical="12dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/card_bg"
-        android:layout_width="match_parent"
+    <FrameLayout
+        android:id="@+id/icon_container"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/bg_circle_subject_math"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/cd_subject_icon"
+            android:src="@drawable/ic_science"
+            app:tint="@color/text_dark_primary" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tv_name"
+        style="@style/Text.SemiBold"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:background="#E8DEF8">
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/placeholder_subject_name"
+        android:textColor="@color/text_dark_primary"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@id/icon_container"
+        app:layout_constraintEnd_toStartOf="@id/iv_chevron"
+        app:layout_constraintTop_toTopOf="@id/icon_container"
+        app:layout_constraintBottom_toBottomOf="@id/icon_container" />
 
-        <FrameLayout
-            android:id="@+id/icon_container"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/bg_circle_white_50"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+    <TextView
+        android:id="@+id/tv_track_badge"
+        style="@style/Text.Regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/track_scientific"
+        android:textColor="@color/text_dark_secondary"
+        android:textSize="10sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/tv_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_name" />
 
-            <ImageView
-                android:id="@+id/iv_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_science"
-                app:tint="@color/navy" />
-        </FrameLayout>
+    <TextView
+        android:id="@+id/tv_progress"
+        style="@style/Text.Regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/text_dark_secondary"
+        android:textSize="11sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/tv_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_name" />
 
-        <TextView
-            android:id="@+id/tv_track_badge"
-            style="@style/Text.Bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="علمي"
-            android:textColor="@color/navy"
-            android:textSize="10sp"
-            android:alpha="0.6"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/iv_chevron"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:contentDescription="@string/cd_download_file"
+        android:src="@drawable/ic_chevron_left"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/icon_container"
+        app:layout_constraintBottom_toBottomOf="@id/icon_container" />
 
-        <TextView
-            android:id="@+id/tv_name"
-            style="@style/Text.SemiBold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="الفيزياء"
-            android:textColor="@color/navy"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/icon_container" />
-
-        <TextView
-            android:id="@+id/tv_progress"
-            style="@style/Text.Regular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:alpha="0.7"
-            android:text=""
-            android:textColor="@color/navy"
-            android:textSize="11sp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_name" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

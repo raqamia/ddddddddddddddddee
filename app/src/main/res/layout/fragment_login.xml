@@ -14,7 +14,7 @@
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:background="@color/navy"
+            android:background="@color/dark_purple_mid"
             android:gravity="center"
             android:orientation="vertical"
             app:layout_constraintTop_toTopOf="parent">
@@ -23,7 +23,7 @@
                 style="@style/Text.Black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="منارة"
+                android:text="@string/app_name"
                 android:textColor="@color/white"
                 android:textSize="28sp" />
 
@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="مرحباً بك"
+                android:text="@string/welcome_back"
                 android:textColor="@color/white_45"
                 android:textSize="13sp" />
         </LinearLayout>
@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="-24dp"
-            android:background="@drawable/bg_bottom_sheet"
+            android:background="@drawable/bg_bottom_sheet_dark"
             android:orientation="vertical"
             android:padding="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -52,20 +52,24 @@
                 style="@style/Text.Bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="تسجيل الدخول"
-                android:textColor="@color/navy"
+                android:text="@string/login"
+                android:textColor="@color/text_dark_primary"
                 android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/et_email"
                 style="@style/InputField"
+                android:background="@drawable/bg_input_field_dark"
+                android:textColor="@color/text_dark_primary"
+                android:textColorHint="@color/text_dark_secondary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:drawableEnd="@drawable/ic_mail"
                 android:drawablePadding="12dp"
                 android:hint="البريد الإلكتروني"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:drawableTint="@color/text_dark_secondary" />
 
             <EditText
                 android:id="@+id/et_password"
@@ -76,7 +80,11 @@
                 android:drawableEnd="@drawable/ic_lock"
                 android:drawablePadding="12dp"
                 android:hint="كلمة المرور"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:background="@drawable/bg_input_field_dark"
+                android:textColor="@color/text_dark_primary"
+                android:textColorHint="@color/text_dark_secondary"
+                android:drawableTint="@color/text_dark_secondary" />
 
             <TextView
                 android:id="@+id/tv_forgot"
@@ -86,8 +94,8 @@
                 android:layout_gravity="end"
                 android:layout_marginTop="8dp"
                 android:padding="4dp"
-                android:text="نسيت كلمة المرور؟"
-                android:textColor="@color/subject_physics"
+                android:text="@string/forgot_password"
+                android:textColor="@color/accent_gold"
                 android:textSize="12sp" />
 
             <ProgressBar
@@ -104,7 +112,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="دخول ←" />
+                android:text="@string/login_action" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -125,7 +133,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
-                    android:text="أو"
+                    android:text="@string/or"
                     android:textColor="@color/text_muted" />
 
                 <View
@@ -146,7 +154,7 @@
                     style="@style/Text.Regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ليس لديك حساب؟"
+                    android:text="@string/no_account"
                     android:textColor="@color/text_secondary" />
 
                 <TextView
@@ -155,8 +163,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text="إنشاء حساب"
-                    android:textColor="@color/subject_physics" />
+                    android:text="@string/register"
+                    android:textColor="@color/accent_gold" />
             </LinearLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,8 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="الإشعارات"
-            android:textColor="@color/navy"
+            android:text="@string/notifications_title"
+            android:textColor="@color/text_dark_primary"
             android:textSize="22sp" />
     </LinearLayout>
 
@@ -72,6 +72,7 @@
             android:layout_height="64dp"
             android:alpha="0.5"
             android:src="@drawable/ic_notifications"
+            android:contentDescription="@string/cd_empty_notifications"
             app:tint="@color/text_muted" />
 
         <TextView
@@ -79,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="لا توجد إشعارات حتى الآن"
+            android:text="@string/no_notifications"
             android:textColor="@color/text_muted"
             android:textSize="15sp" />
     </LinearLayout>

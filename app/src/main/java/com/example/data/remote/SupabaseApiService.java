@@ -47,8 +47,8 @@ public interface SupabaseApiService {
     Call<SignedUrlResponse> getSignedUrl(@Path("bucket") String bucket, @Path(value = "path", encoded = true) String path, @Body Map<String, Integer> expiresIn, @Header("Authorization") String bearer);
 
     @GET("rest/v1/notifications")
-    Call<List<NotificationDto>> getNotifications(@Query("order") String order);
+    Call<List<NotificationDto>> getNotifications(@Query("order") String order, @Header("Authorization") String bearer);
 
     @POST("rest/v1/rpc/touch_last_seen")
-    Call<Void> touchLastSeen(@Body Map<String, String> body);
+    Call<Void> touchLastSeen(@Body Map<String, String> body, @Header("Authorization") String bearer);
 }

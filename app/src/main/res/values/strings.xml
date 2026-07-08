@@ -67,6 +67,15 @@
     <string name="no_saved_files">لا توجد ملفات محفوظة بعد</string>
     <string name="no_saved_files_desc">حمّل ملفاتك من المواد لتظهر هنا</string>
 
+    <!-- Exam Countdown -->
+    <string name="exam_countdown">عدّاد التوجيهي</string>
+    <string name="exam_date">الجمعة 13 يونيو 2026</string>
+    <string name="countdown_motivation_default">كل ثانية بتفرق — ابدأ من اليوم</string>
+    <string name="countdown_motivation_soon">الوقت يضيق — ركّز واجتهد</string>
+    <string name="countdown_motivation_final">الأيام الأخيرة — ثابر ولا تستسلم</string>
+    <string name="countdown_motivation_today">غداً يوم الحسم — أنت مستعد!</string>
+    <string name="countdown_exam_started">الامتحانات انطلقت! — بالتوفيق والنجاح</string>
+
     <!-- Settings -->
     <string name="settings">الإعدادات</string>
     <string name="change_track">تغيير المسار الدراسي</string>
@@ -84,4 +93,117 @@
     <string name="error_occurred">حدث خطأ، حاول مرة أخرى</string>
     <string name="retry">إعادة المحاولة</string>
     <string name="ok">حسناً</string>
+
+    <!-- Downloads -->
+    <string name="downloads_title">التحميلات</string>
+    <string name="no_downloads">لا توجد ملفات محمّلة بعد</string>
+
+    <!-- Home -->
+    <string name="tagline">طريقك للتوجيهي</string>
+    <string name="continue_reading">تابع القراءة</string>
+    <string name="no_subjects">لا توجد مواد متاحة</string>
+    <string name="featured_title_1">التوجيهي 2026</string>
+    <string name="featured_sub_1">كل المواد بين يديك</string>
+    <string name="featured_title_2">مرحباً يا بطل</string>
+    <string name="featured_sub_2">طريقك للتفوق يبدأ من هنا</string>
+    <string name="featured_title_3">رحلة التوجيهي</string>
+    <string name="featured_sub_3">مشوار الألف ميل يبدأ بخطوة</string>
+    <string name="featured_title_4">أنت قادر</string>
+    <string name="featured_sub_4">بالاجتهاد توصل للقمة</string>
+    <string name="featured_title_5">حلمك بين إيديك</string>
+    <string name="featured_sub_5">ادرس بذكاء، ليس بجهد فقط</string>
+
+    <!-- Notifications -->
+    <string name="notifications_title">الإشعارات</string>
+    <string name="no_notifications">لا توجد إشعارات حتى الآن</string>
+
+    <!-- Exam Countdown -->
+    <string name="countdown_remaining">متبقٍ على امتحانات التوجيهي</string>
+    <string name="countdown_day">يوم</string>
+    <string name="countdown_hour">ساعة</string>
+    <string name="countdown_minute">دقيقة</string>
+    <string name="countdown_second">ثانية</string>
+    <string name="countdown_separator">:</string>
+    <string name="countdown_placeholder">--</string>
+
+    <!-- Auth Extended -->
+    <string name="welcome_back">مرحباً بك</string>
+    <string name="forgot_password">نسيت كلمة المرور؟</string>
+    <string name="login_action">دخول ←</string>
+    <string name="or">أو</string>
+    <string name="register_action">إنشاء الحساب ←</string>
+    <string name="has_account_login">لديك حساب؟</string>
+
+    <!-- Track -->
+    <string name="track_change_hint">يمكنك تغييره لاحقاً من الإعدادات</string>
+    <string name="confirm_selection">تأكيد الاختيار ←</string>
+
+    <!-- Files -->
+    <string name="no_files">لا توجد ملفات</string>
+    <string name="load_error">حدث خطأ في تحميل الملفات</string>
+
+    <!-- Saved -->
+    <string name="saved_empty_title">المحفوظات</string>
+    <string name="no_saved">لا توجد ملفات في المفضلة</string>
+    <string name="saved_empty_hint">اضغط على 🔖 بجانب أي ملف لحفظه هنا</string>
+
+    <!-- PDF Viewer -->
+    <string name="page_counter_placeholder">0 / 0</string>
+
+    <!-- Settings -->
+    <string name="dash">—</string>
+    <string name="edit">تعديل</string>
+    <string name="section_app">التطبيق</string>
+    <string name="night_mode">الوضع الليلي</string>
+    <string name="font_size">حجم الخط</string>
+    <string name="font_size_normal">عادي</string>
+    <string name="change_track_short">تغيير المسار</string>
+    <string name="storage">التخزين</string>
+    <string name="storage_used">المساحة المستخدمة</string>
+    <string name="delete_all">حذف الكل</string>
+    <string name="section_other">أخرى</string>
+    <string name="share_app">شارك التطبيق</string>
+    <string name="rate_app">قيّمنا على المتجر</string>
+    <string name="help">مساعدة</string>
+    <string name="about">عن التطبيق</string>
+    <string name="exam_countdown_short">عدّاد التوجيهي</string>
+
+    <!-- Placeholders (item templates) -->
+    <string name="placeholder_notif_title">عنوان الإشعار</string>
+    <string name="placeholder_notif_body">نص الإشعار</string>
+    <string name="placeholder_file_name">اسم الملف</string>
+    <string name="placeholder_file_meta">PDF • %1$s • %2$d صفحة</string>
+    <string name="placeholder_subject_name">الفيزياء</string>
+
+    <!-- Content descriptions -->
+    <string name="cd_back">رجوع</string>
+    <string name="cd_notifications">الإشعارات</string>
+    <string name="cd_downloads">التحميلات</string>
+    <string name="cd_bookmark">حفظ</string>
+    <string name="cd_download_file">تحميل</string>
+    <string name="cd_empty_downloads">لا توجد تحميلات</string>
+    <string name="cd_school_icon">أيقونة المدرسة</string>
+    <string name="cd_search">بحث</string>
+    <string name="cd_empty_notifications">لا توجد إشعارات</string>
+    <string name="cd_empty_saved">لا توجد محفوظات</string>
+    <string name="cd_profile">الملف الشخصي</string>
+    <string name="cd_night_mode">الوضع الليلي</string>
+    <string name="cd_font_size">حجم الخط</string>
+    <string name="cd_change_track">تغيير المسار</string>
+    <string name="cd_storage">التخزين</string>
+    <string name="cd_exam_countdown">عدّاد التوجيهي</string>
+    <string name="cd_share">مشاركة</string>
+    <string name="cd_rate">تقييم</string>
+    <string name="cd_help">مساعدة</string>
+    <string name="cd_about">عن التطبيق</string>
+    <string name="cd_logout">تسجيل الخروج</string>
+    <string name="cd_lantern">أيقونة الفانوس</string>
+    <string name="cd_file_icon">أيقونة الملف</string>
+    <string name="cd_notif_icon">أيقونة الإشعار</string>
+    <string name="cd_onboarding_icon">أيقونة الشرح</string>
+    <string name="cd_subject_icon">أيقونة المادة</string>
+    <string name="cd_track_icon">أيقونة المسار</string>
+    <string name="cd_recent_file">الملف الحديث</string>
+    <string name="cd_empty_files">لا توجد ملفات</string>
+    <string name="cd_filter">تصفية</string>
 </resources>

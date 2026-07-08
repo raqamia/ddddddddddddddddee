@@ -29,8 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="التحميلات"
-            android:textColor="@color/navy"
+            android:text="@string/downloads_title"
+            android:textColor="@color/text_dark_primary"
             android:textSize="22sp" />
     </LinearLayout>
 
@@ -68,6 +68,7 @@
             android:layout_height="64dp"
             android:alpha="0.5"
             android:src="@drawable/ic_cloud_download_outline"
+            android:contentDescription="@string/cd_empty_downloads"
             app:tint="@color/text_muted" />
 
         <TextView
@@ -75,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="لا توجد ملفات محمّلة بعد"
+            android:text="@string/no_downloads"
             android:textColor="@color/text_muted"
             android:textSize="15sp" />
     </LinearLayout>

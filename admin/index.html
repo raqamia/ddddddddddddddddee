@@ -3,15 +3,16 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.supabase.co; frame-ancestors 'none'; form-action 'self'; base-uri 'self';" />
 <title>منارة — لوحة التحكم</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --primary:#6750A4;--primary-light:#7E68C8;--deep:#21005D;
-    --gold:#EADDFF;--gold-2:#D0BCFF;--bg:#F5F3FA;--surface:#fff;--border:#E7E0EC;
+    --primary:#7B3FE4;--primary-light:#A855F7;--deep:#150E22;
+    --gold:#FFCA28;--gold-2:#E8A93D;--bg:#F5F3FA;--surface:#fff;--border:#E7E0EC;
     --text:#1D1B20;--text-2:#49454F;--muted:#79747E;
     --green:#38A169;--red:#E53E3E;--amber:#D69E2E;--blue:#3182CE;
-    --shadow:0 8px 30px rgba(33,0,93,.08);
+    --shadow:0 8px 30px rgba(21,14,34,.12);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'Cairo',system-ui,sans-serif;background:var(--bg);color:var(--text)}
@@ -28,7 +29,7 @@
   .btn.outline{background:#fff;border:1.5px solid var(--border);color:var(--text-2)}
   .hide{display:none!important}
 
-  /* LOGIN */
+  /* Login */
   #login{min-height:100vh;display:grid;place-items:center;background:linear-gradient(150deg,var(--primary-light),var(--primary) 45%,var(--deep))}
   .login-card{background:#fff;border-radius:24px;padding:38px;width:min(420px,92vw);box-shadow:0 30px 70px rgba(0,0,0,.3)}
   .login-card .logo{width:62px;height:62px;border-radius:18px;background:linear-gradient(135deg,var(--primary-light),var(--deep));display:grid;place-items:center;margin:0 auto 16px}
@@ -37,7 +38,7 @@
   details.cfg{margin-top:14px;font-size:13px;color:var(--muted)}
   details.cfg summary{cursor:pointer;font-weight:700}
 
-  /* SHELL */
+  /* Shell */
   #app{display:grid;grid-template-columns:248px 1fr;min-height:100vh}
   aside{background:linear-gradient(180deg,var(--deep),var(--primary));color:#fff;padding:22px 16px;position:sticky;top:0;height:100vh}
   aside .brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:20px;margin-bottom:26px;padding:0 6px}
@@ -52,7 +53,7 @@
   .topbar h2{font-size:25px;font-weight:900}
   .topbar p{color:var(--muted);font-size:14px}
 
-  /* CARDS / STATS */
+  /* Cards / Stats */
   .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:26px}
   .stat{background:#fff;border-radius:18px;padding:20px;box-shadow:var(--shadow);border:1px solid var(--border)}
   .stat .ic{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-size:22px;background:var(--gold);margin-bottom:12px}
@@ -74,7 +75,7 @@
   .empty{padding:40px;text-align:center;color:var(--muted)}
   .muted{color:var(--muted);font-size:13px}
 
-  /* MODAL */
+  /* Modal */
   .modal-bg{position:fixed;inset:0;background:rgba(33,0,93,.45);display:grid;place-items:center;z-index:100;padding:20px}
   .modal{background:#fff;border-radius:20px;width:min(520px,96vw);max-height:92vh;overflow:auto;box-shadow:0 30px 80px rgba(0,0,0,.35)}
   .modal .mh{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border)}
@@ -83,7 +84,7 @@
   .modal .mf{display:flex;gap:10px;justify-content:flex-start;padding:0 22px 22px}
   .x{background:none;border:0;font-size:22px;color:var(--muted)}
 
-  /* TOAST */
+  /* Toast */
   #toast{position:fixed;bottom:24px;left:24px;z-index:200;display:flex;flex-direction:column;gap:10px}
   .toast{background:#1D1B20;color:#fff;padding:13px 20px;border-radius:12px;font-weight:700;font-size:14px;box-shadow:0 10px 30px rgba(0,0,0,.3);animation:slideIn .25s}
   .toast.ok{background:var(--green)} .toast.err{background:var(--red)}
@@ -95,11 +96,11 @@
 </head>
 <body>
 
-<!-- ============ LOGIN ============ -->
+<!-- Login -->
 <div id="login">
   <div class="login-card">
     <div class="logo">
-      <svg width="34" height="34" viewBox="0 0 24 24"><rect x="8.6" y="8.2" width="6.8" height="9" rx="1.2" fill="#EADDFF"/><rect x="9.8" y="9.4" width="4.4" height="6.6" rx=".8" fill="#FFCA28"/><path d="M9.6 6.2h4.8l1.4 2H8.2z" fill="#EADDFF"/><path d="M9.5 5.5c0-1.6 5-1.6 5 0" stroke="#EADDFF" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>
+      <svg width="34" height="34" viewBox="0 0 24 24"><rect x="8.6" y="8.2" width="6.8" height="9" rx="1.2" fill="#A855F7"/><rect x="9.8" y="9.4" width="4.4" height="6.6" rx=".8" fill="#FFCA28"/><path d="M9.6 6.2h4.8l1.4 2H8.2z" fill="#A855F7"/><path d="M9.5 5.5c0-1.6 5-1.6 5 0" stroke="#A855F7" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>
     </div>
     <h1>لوحة تحكم منارة</h1>
     <div class="sub">سجّل دخولك بحساب المشرف (Admin)</div>
@@ -108,7 +109,7 @@
     <button class="btn" style="width:100%;justify-content:center" id="loginBtn">دخول</button>
     <div id="loginErr" class="muted" style="color:var(--red);margin-top:10px;text-align:center"></div>
     <details class="cfg">
-      <summary>⚙️ إعدادات الاتصال بـ Supabase</summary>
+      <summary>إعدادات الاتصال بـ Supabase</summary>
       <div class="field" style="margin-top:10px"><label>Supabase URL</label><input id="cfgUrl" /></div>
       <div class="field"><label>Anon Key</label><input id="cfgKey" /></div>
       <button class="btn outline sm" id="saveCfg">حفظ الإعدادات</button>
@@ -116,16 +117,16 @@
   </div>
 </div>
 
-<!-- ============ APP ============ -->
+<!-- App -->
 <div id="app" class="hide">
   <aside>
-    <div class="brand"><span class="logo"><svg width="22" height="22" viewBox="0 0 24 24"><rect x="8.6" y="8.2" width="6.8" height="9" rx="1.2" fill="#EADDFF"/><rect x="9.8" y="9.4" width="4.4" height="6.6" rx=".8" fill="#FFCA28"/></svg></span> منارة</div>
+    <div class="brand"><span class="logo"><svg width="22" height="22" viewBox="0 0 24 24"><rect x="8.6" y="8.2" width="6.8" height="9" rx="1.2" fill="#A855F7"/><rect x="9.8" y="9.4" width="4.4" height="6.6" rx=".8" fill="#FFCA28"/></svg></span> منارة</div>
     <nav class="menu" id="menu">
-      <a data-view="dashboard" class="active">📊 لوحة المعلومات</a>
-      <a data-view="subjects">📚 المواد</a>
-      <a data-view="files">📄 الملفات والكتب</a>
-      <a data-view="users">👥 المستخدمون</a>
-      <a data-view="notifications">🔔 الإشعارات</a>
+      <a data-view="dashboard" class="active"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> لوحة المعلومات</a>
+      <a data-view="subjects"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> المواد</a>
+      <a data-view="files"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> الملفات والكتب</a>
+      <a data-view="users"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> المستخدمون</a>
+      <a data-view="notifications"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg> الإشعارات</a>
     </nav>
     <div class="bottom">
       <div class="who" id="who"></div>
@@ -152,29 +153,30 @@
   }
 </script>
 <script>
-/* ---------- config ---------- */
+/* Config */
 const DEFAULTS = {
-  url: localStorage.getItem('mn_url') || 'https://vdqrcshhnkqnqwrldjos.supabase.co',
-  key: localStorage.getItem('mn_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZkcXJjc2hobmtxbnF3cmxkam9zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzNTE0MTUsImV4cCI6MjA5NjkyNzQxNX0.reAiDOnDFuWGFC2GSAzlDMJl1JN_woBkRWAOtqzTKZI'
+  url: sessionStorage.getItem('mn_url') || localStorage.getItem('mn_url') || '',
+  key: sessionStorage.getItem('mn_key') || localStorage.getItem('mn_key') || ''
 };
 const CATS = { books:'كتب', exams:'امتحانات سابقة', summaries:'ملخصات' };
 const TRACKS = { scientific:'علمي', literary:'أدبي', both:'مشترك' };
 let sb, me;
 
-/* ---------- helpers ---------- */
+/* Helpers */
 const $ = s => document.querySelector(s);
 const esc = s => (s==null?'':String(s)).replace(/[&<>"'`]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;'}[c]));
 function toast(msg, type){ const t=document.createElement('div'); t.className='toast '+(type||''); t.textContent=msg; $('#toast').appendChild(t); setTimeout(()=>t.remove(),3200); }
 function fmtBytes(b){ if(!b) return '—'; const u=['B','KB','MB','GB']; let i=0,n=b; while(n>=1024&&i<3){n/=1024;i++} return n.toFixed(1)+' '+u[i]; }
 function fmtDate(d){ if(!d) return '—'; return new Date(d).toLocaleDateString('ar-EG',{year:'numeric',month:'short',day:'numeric'}); }
 
-/* ---------- init / auth ---------- */
+/* Init / Auth */
 $('#cfgUrl').value = DEFAULTS.url; $('#cfgKey').value = DEFAULTS.key;
 $('#saveCfg').onclick = () => {
   const url = $('#cfgUrl').value.trim(), key = $('#cfgKey').value.trim();
   let u; try { u = new URL(url); } catch(e) { return toast('رابط غير صالح','err'); }
   if (u.protocol !== 'https:') return toast('يجب أن يبدأ الرابط بـ https','err');
   localStorage.setItem('mn_url', url); localStorage.setItem('mn_key', key);
+  sessionStorage.setItem('mn_url', url); sessionStorage.setItem('mn_key', key);
   toast('تم حفظ الإعدادات، أعد تحميل الصفحة','ok');
 };
 
@@ -183,7 +185,10 @@ initClient();
 
 $('#loginBtn').onclick = async () => {
   const email=$('#email').value.trim(), password=$('#password').value;
-  $('#loginErr').textContent=''; const btn=$('#loginBtn'); btn.innerHTML='<span class="spin"></span>'; btn.disabled=true;
+  $('#loginErr').textContent='';
+  if (!$('#cfgUrl').value.trim() && !DEFAULTS.url) return $('#loginErr').textContent = '⚠️ أدخل رابط Supabase من الإعدادات أولاً';
+  if (!$('#cfgKey').value.trim() && !DEFAULTS.key) return $('#loginErr').textContent = '⚠️ أدخل Anon Key من الإعدادات أولاً';
+  const btn=$('#loginBtn'); btn.innerHTML='<span class="spin"></span>'; btn.disabled=true;
   try{
     initClient();
     const { data, error } = await sb.auth.signInWithPassword({ email, password });
@@ -219,10 +224,10 @@ function route(view){
   ({dashboard:viewDashboard,subjects:viewSubjects,files:viewFiles,users:viewUsers,notifications:viewNotifications}[view])();
 }
 
-/* ---------- count helper ---------- */
+/* Count helper */
 async function count(table){ const { count, error } = await sb.from(table).select('*',{count:'exact',head:true}); return error?null:count; }
 
-/* ========== DASHBOARD ========== */
+/* Dashboard */
 async function viewDashboard(){
   const c = $('#content');
   c.innerHTML = `<div class="topbar"><div><h2>لوحة المعلومات</h2><p>نظرة عامة على التطبيق</p></div></div>
@@ -243,10 +248,10 @@ async function viewDashboard(){
   $('#recent').outerHTML = `<div id="recent">${(data&&data.length)? `<table><thead><tr><th>الاسم</th><th>القسم</th><th>التاريخ</th></tr></thead><tbody>${data.map(f=>`<tr><td>${esc(f.name)}</td><td><span class="pill b">${CATS[f.category]||f.category}</span></td><td class="muted">${fmtDate(f.uploaded_at)}</td></tr>`).join('')}</tbody></table>` : '<div class="empty">لا توجد ملفات بعد</div>'}</div>`;
 }
 
-/* ========== SUBJECTS ========== */
+/* Subjects */
 async function viewSubjects(){
   const c=$('#content');
-  c.innerHTML = `<div class="topbar"><div><h2>المواد</h2><p>إدارة المواد الدراسية</p></div><button class="btn" id="addSub">➕ إضافة مادة</button></div>
+  c.innerHTML = `<div class="topbar"><div><h2>المواد</h2><p>إدارة المواد الدراسية</p></div><button class="btn" id="addSub">+ إضافة مادة</button></div>
     <div class="panel"><div id="subsBody" class="empty">جارٍ التحميل…</div></div>`;
   $('#addSub').onclick=()=>subjectModal();
   const { data, error } = await sb.from('subjects').select('*').order('order_index',{ascending:true});
@@ -281,11 +286,11 @@ function subjectModal(s){
     });
 }
 
-/* ========== FILES ========== */
+/* Files */
 let SUBJECTS_CACHE=[];
 async function viewFiles(){
   const c=$('#content');
-  c.innerHTML = `<div class="topbar"><div><h2>الملفات والكتب</h2><p>رفع وإدارة ملفات الـ PDF</p></div><button class="btn" id="addFile">⬆️ رفع ملف جديد</button></div>
+  c.innerHTML = `<div class="topbar"><div><h2>الملفات والكتب</h2><p>رفع وإدارة ملفات الـ PDF</p></div><button class="btn" id="addFile">+ رفع ملف جديد</button></div>
     <div class="panel"><div id="filesBody" class="empty">جارٍ التحميل…</div></div>`;
   const { data: subs } = await sb.from('subjects').select('id,name'); SUBJECTS_CACHE=subs||[];
   const map={}; SUBJECTS_CACHE.forEach(s=>map[s.id]=s.name);
@@ -341,7 +346,7 @@ async function delFile(id){ const f=FILES_ROWS.find(x=>x.id===id); if(!f)return;
   if(f.storage_path){ await sb.storage.from('pdfs').remove([f.storage_path]); }
   const { error } = await sb.from('files').delete().eq('id',id); if(error)return toast(error.message,'err'); toast('تم الحذف','ok'); viewFiles(); }
 
-/* ========== USERS ========== */
+/* Users */
 async function viewUsers(){
   const c=$('#content');
   c.innerHTML = `<div class="topbar"><div><h2>المستخدمون</h2><p>قائمة الطلاب المسجّلين</p></div></div>
@@ -356,10 +361,10 @@ async function viewUsers(){
   </tr>`).join('')}</tbody></table>` : '<div class="empty">لا يوجد مستخدمون بعد</div>'}</div>`;
 }
 
-/* ========== NOTIFICATIONS ========== */
+/* Notifications */
 async function viewNotifications(){
   const c=$('#content');
-  c.innerHTML = `<div class="topbar"><div><h2>الإشعارات</h2><p>إرسال إعلانات لكل المستخدمين</p></div><button class="btn" id="addNotif">➕ إشعار جديد</button></div>
+  c.innerHTML = `<div class="topbar"><div><h2>الإشعارات</h2><p>إرسال إعلانات لكل المستخدمين</p></div><button class="btn" id="addNotif">+ إشعار جديد</button></div>
     <div class="panel"><div id="notifBody" class="empty">جارٍ التحميل…</div></div>`;
   $('#addNotif').onclick=()=>notifModal();
   const { data, error } = await sb.from('notifications').select('*').order('created_at',{ascending:false});
@@ -383,14 +388,14 @@ function notifModal(){
 }
 async function delNotif(id){ if(!confirm('حذف هذا الإشعار؟'))return; const { error } = await sb.from('notifications').delete().eq('id',id); if(error)return toast(error.message,'err'); toast('تم الحذف','ok'); viewNotifications(); }
 
-/* ---------- safe event delegation (no inline JS / no interpolated data) ---------- */
+/* Safe event delegation */
 const ACTIONS = { editSub, delSub, delFile, delNotif };
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-act]'); if(!el) return;
   const fn = ACTIONS[el.dataset.act]; if(fn) fn(el.dataset.id);
 });
 
-/* ========== MODAL ENGINE ========== */
+/* Modal Engine */
 function openModal(title, bodyHtml, onSave, saveLabel){
   const bg=document.createElement('div'); bg.className='modal-bg'; bg.id='modalBg';
   bg.innerHTML=`<div class="modal"><div class="mh"><h3>${esc(title)}</h3><button class="x" id="mClose">×</button></div><div class="mb">${bodyHtml}</div><div class="mf"><button class="btn" id="mSave">${esc(saveLabel||'حفظ')}</button><button class="btn outline" id="mCancel">إلغاء</button></div></div>`;

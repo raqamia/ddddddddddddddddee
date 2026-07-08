@@ -18,8 +18,8 @@
             style="@style/Text.Black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="المحفوظات"
-            android:textColor="@color/navy"
+            android:text="@string/saved_empty_title"
+            android:textColor="@color/text_dark_primary"
             android:textSize="24sp" />
     </LinearLayout>
 
@@ -64,6 +64,7 @@
             android:layout_height="72dp"
             android:alpha="0.45"
             android:src="@drawable/ic_bookmark_outline"
+            android:contentDescription="@string/cd_empty_saved"
             app:tint="@color/text_muted" />
 
         <TextView
@@ -71,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="لا توجد ملفات في المفضلة"
+            android:text="@string/no_saved"
             android:textColor="@color/text_secondary"
             android:textSize="16sp" />
 
@@ -81,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:gravity="center"
-            android:text="اضغط على 🔖 بجانب أي ملف لحفظه هنا"
+            android:text="@string/saved_empty_hint"
             android:textColor="@color/text_muted"
             android:textSize="13sp" />
     </LinearLayout>

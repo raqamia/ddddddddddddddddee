@@ -11,10 +11,11 @@
         android:id="@+id/iv_icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="@drawable/bg_circle_navy_10"
+        android:background="@drawable/bg_circle_dark"
         android:padding="9dp"
         android:src="@drawable/ic_notifications"
-        app:tint="@color/navy"
+        android:contentDescription="@string/cd_notif_icon"
+        app:tint="@color/text_dark_primary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,7 +27,7 @@
         android:layout_marginStart="12dp"
         android:textColor="@color/text_primary"
         android:textSize="15sp"
-        android:text="عنوان الإشعار"
+            android:text="@string/placeholder_notif_title"
         app:layout_constraintStart_toEndOf="@id/iv_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/iv_icon" />
@@ -40,7 +41,7 @@
         android:layout_marginTop="6dp"
         android:textColor="@color/text_secondary"
         android:textSize="13sp"
-        android:text="نص الإشعار"
+            android:text="@string/placeholder_notif_body"
         app:layout_constraintStart_toEndOf="@id/iv_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title" />

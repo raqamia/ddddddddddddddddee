@@ -2,10 +2,12 @@
 <data-extraction-rules>
     <cloud-backup>
         <exclude domain="sharedpref" path="manara_secure_prefs.xml" />
+        <exclude domain="sharedpref" path="manara_app_prefs.xml" />
         <exclude domain="database" path="manara_database" />
     </cloud-backup>
     <device-transfer>
         <exclude domain="sharedpref" path="manara_secure_prefs.xml" />
+        <exclude domain="sharedpref" path="manara_app_prefs.xml" />
         <exclude domain="database" path="manara_database" />
     </device-transfer>
 </data-extraction-rules>

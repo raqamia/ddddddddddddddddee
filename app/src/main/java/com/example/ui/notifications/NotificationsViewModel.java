@@ -19,7 +19,7 @@ public class NotificationsViewModel extends AndroidViewModel {
     public NotificationsViewModel(@NonNull Application application) {
         super(application);
         SessionManager sessionManager = new SessionManager(application);
-        repository = new NotificationsRepository(SupabaseApiClient.getApi(sessionManager));
+        repository = new NotificationsRepository(SupabaseApiClient.getApi(sessionManager), sessionManager);
     }
 
     public LiveData<List<NotificationDto>> getNotifications() {
